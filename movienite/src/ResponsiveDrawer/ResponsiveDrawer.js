@@ -13,14 +13,14 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import EventForm from './EventForm';
+import EventForm from '../EventForm/EventForm';
 import HomeIcon from '@mui/icons-material/Home';
 import EventIcon from '@mui/icons-material/Event';
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import MovieEvent from './MovieEvent';
-import ListOfFriend from './ListOfFriend';
+import MovieEvent from '../MovieEvent/MovieEvent';
+import ListOfFriend from '../Friends/ListOfFriend';
 import './ResponsiveDrawer.css';
 const drawerWidth = 240;
 
