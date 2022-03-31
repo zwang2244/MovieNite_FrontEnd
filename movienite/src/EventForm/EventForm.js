@@ -7,6 +7,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import Paper from '@mui/material/Paper';
 import { Divider } from '@mui/material';
 import { Button } from '@mui/material';
+import SingleSearch from './SingleSearch';
+import MultiSearch from './MultiSearch';
 import './EventForm.css';
 
 export default function EventForm() {
@@ -33,17 +35,8 @@ export default function EventForm() {
           sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 750 }}
           elevation={1}
         >
-          <InputBase
-            sx={{ ml: 1, flex: 1, p: 2}}
-            placeholder="Search for a movie"
-            inputProps={{ 'aria-label': 'Search for a movie' }}
-          />
-          <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
-            <SearchIcon />
-          </IconButton>
-          
+          <SingleSearch options={["Movie 1", "Movie 2", "Movie 3", "Movie 4", "Movie 5", "Movie 6"]}/>
         </Paper>
-        <Button variant="contained">ADD</Button>
       </div>
       <Divider variant="middle" sx={{ p: '10px' }}/>
       <div className='container'>
@@ -51,18 +44,12 @@ export default function EventForm() {
           component="form"
           sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 750}}
         >
-          <InputBase
-            sx={{ ml: 1, flex: 1 , p: 2}}
-            placeholder="Invite friends"
-            inputProps={{ 'aria-label': 'Invite friends' }}
-          />
-          <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
-            <SearchIcon />
-          </IconButton>
+          
+          <MultiSearch options={['Oliver Hansen','Van Henry','April Tucker','Ralph Hubbard','Omar Alexander','Carlos Abbott','Miriam Wagner','Bradley Wilkerson','Virginia Andrews','Kelly Snyder']}/>
         </Paper>
-        <Button variant="contained">ADD</Button>
       </div>
       <Divider variant="middle" sx={{ p: '10px', m: '5px' }}/>
+      
       <div>
         {/* <Stack component="form" noValidate spacing={3}> */}
         <Paper
