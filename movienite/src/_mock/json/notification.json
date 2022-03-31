@@ -1,0 +1,21 @@
+{
+  "notifications": {
+    "read": [
+      {
+        "movie": {
+          "footage": "https://m.media-amazon.com/images/M/MV5BMWEwNjhkYzYtNjgzYy00YTY2LThjYWYtYzViMGJkZTI4Y2MyXkEyXkFqcGdeQXVyNTM0OTY1OQ@@._V1_SX300.jpg",
+          "name":"Uncharted",
+          "description": "Street-smart Nathan Drake is recruited by seasoned treasure hunter Victor \\\"Sully\\\" Sullivan to recover a fortune amassed by Ferdinand Magellan, and lost 500 years ago by the House of Moncada."
+        },
+        "sender": {
+          "time": "2022-01-01T23:28:56.782Z",
+          "name": "Alice"
+        },
+        "read": true
+      }
+    ],
+    "unread": [
+
+    ]
+  }
+}
