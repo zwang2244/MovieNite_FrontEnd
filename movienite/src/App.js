@@ -1,6 +1,5 @@
 import logo from './logo.svg';
 import './App.css';
-import ResponsiveDrawer from './ResponsiveDrawer';
 import Notification from './Layout/Notification';
 import ResponsiveDrawer, {
   Home
@@ -14,7 +13,7 @@ function App() {
         <Route path={"/"} element={<ResponsiveDrawer/>}>
           <Route index element={<Home/>}/>
           <Route path={"notification"} element={<Notification/>}/>
-          TODO Other pages from here
+          {/*TODO Other pages from here*/}
         </Route>
       </Routes>
     </div>
