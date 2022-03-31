@@ -12,12 +12,16 @@ import MultiSearch from './MultiSearch';
 import './EventForm.css';
 
 export default function EventForm() {
-  const [value, setValue] = React.useState(new Date('2014-08-18T21:11:54'));
-
+  const [movieList,setMovieList] = React.useState([]);
+  const [friendList,setFriendList] = React.useState([]);
   const handleChange = (newValue) => {
-    setValue(newValue);
+    
   };
-  
+
+  // const handleSubmit = (event) => {
+  //   console.log('A name was submitted: ' + event);
+  //   // event.preventDefault();
+  // }
   return (
     <Box
       component="form"
@@ -29,6 +33,7 @@ export default function EventForm() {
       noValidate
       autoComplete="off"
     >
+      {/* <form onSubmit={handleSubmit}> */}
       <div className='container'>
         <Paper
           component="form"
@@ -51,7 +56,6 @@ export default function EventForm() {
       <Divider variant="middle" sx={{ p: '10px', m: '5px' }}/>
       
       <div>
-        {/* <Stack component="form" noValidate spacing={3}> */}
         <Paper
           component="form"
           sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 800,
@@ -62,7 +66,6 @@ export default function EventForm() {
             id="date"
             label="Date"
             type="date"
-            // defaultValue="2017-05-24"
             sx={{ width: 220 }}
             InputLabelProps={{
               shrink: true,
@@ -72,7 +75,6 @@ export default function EventForm() {
             id="time"
             label="Time"
             type="time"
-            // defaultValue="07:30"
             InputLabelProps={{
               shrink: true,
             }}
@@ -81,7 +83,6 @@ export default function EventForm() {
             }}
             sx={{ width: 150 }}
           />
-        {/* </Stack> */}
         </Paper>
       </div>
       <Paper
@@ -90,8 +91,9 @@ export default function EventForm() {
           justifyContent: 'space-evenly' }}
           elevation={0}
         >
-        <Button sx={{width: 800}} size="large" variant="contained">Schedule</Button>
+        <Button sx={{width: 800}} size="large" variant="contained" type="submit">Schedule</Button>
       </Paper>
+      {/* </form> */}
     </Box>
   );
 }
