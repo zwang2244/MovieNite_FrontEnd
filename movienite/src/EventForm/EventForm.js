@@ -15,13 +15,7 @@ export default function EventForm() {
   const [movieList,setMovieList] = React.useState([]);
   const [friendList,setFriendList] = React.useState([]);
   const handleChange = (newValue) => {
-    
   };
-
-  // const handleSubmit = (event) => {
-  //   console.log('A name was submitted: ' + event);
-  //   // event.preventDefault();
-  // }
   return (
     <Box
       component="form"

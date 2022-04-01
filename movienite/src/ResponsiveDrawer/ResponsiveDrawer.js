@@ -13,7 +13,6 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import EventForm from '../EventForm/EventForm';
 import HomeIcon from '@mui/icons-material/Home';
 import EventIcon from '@mui/icons-material/Event';
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
@@ -25,7 +24,7 @@ import './ResponsiveDrawer.css';
 import {Badge} from '@mui/material';
 
 // @react-router
-import {Router, Route, Outlet, Navigate} from 'react-router';
+import { Outlet } from 'react-router';
 import ListItemButton from '@mui/material/ListItemButton';
 import {Link} from 'react-router-dom';
 
@@ -83,9 +82,9 @@ function ResponsiveDrawer(props) {
       </div>
   );
 
-  const container = window !== undefined
-      ? () => window().document.body
-      : undefined;
+  // const container = window !== undefined
+  //     ? () => window().document.body
+  //     : undefined;
 
   return (
       <Box sx={{display: 'flex'}}>
