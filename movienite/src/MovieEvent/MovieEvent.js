@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import {CardActionArea, CardActions } from '@mui/material';
 import EventForm from '../EventForm/EventForm';
 import movieNiteImg from './movie_night.jpg';
 export default function MovieEvent() {
