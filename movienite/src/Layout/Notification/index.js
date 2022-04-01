@@ -26,11 +26,12 @@ function Notification(props) {
   const [curIndex, setCurIndex] = useState(-1);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
+
   //Modal
   const [open, setOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
   const handleOpen = (index) => {
-    console.log(index);
+    // console.log(index);
     setModalContent(items[index]);
     setOpen(true);
   };
