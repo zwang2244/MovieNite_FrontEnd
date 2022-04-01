@@ -25,9 +25,14 @@ import './ResponsiveDrawer.css';
 import {Badge} from '@mui/material';
 
 // @react-router
-import {Router, Route, Outlet, Navigate} from 'react-router';
+import {Outlet} from 'react-router';
 import ListItemButton from '@mui/material/ListItemButton';
 import {Link} from 'react-router-dom';
+import {useState} from 'react';
+import {useSelector} from 'react-redux';
+import {
+  selectNotificationCount
+} from '../redux/feature/notification/NotificationCountSlice';
 
 const drawerWidth = 240;
 
@@ -38,7 +43,7 @@ function ResponsiveDrawer(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
+  const notificationCount = useSelector(selectNotificationCount);
   const drawer = (
       <div>
         <Toolbar/>
@@ -59,7 +64,7 @@ function ResponsiveDrawer(props) {
           <ListItem button key={'Notification'} disablePadding>
             <ListItemButton component={Link} to={'/notification'}>
               <ListItemIcon>
-                <Badge badgeContent={4} color={'primary'}>
+                <Badge badgeContent={notificationCount} color={'primary'}>
                   <CircleNotificationsIcon/>
                 </Badge>
               </ListItemIcon>
