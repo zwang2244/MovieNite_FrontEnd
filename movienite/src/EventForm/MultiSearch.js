@@ -38,15 +38,16 @@ const containsText = (text, searchText) =>
     };
   }
 export default function MultiSearch(props) {
+  const theme = useTheme();
   const allOptions = props.options;
-  const [selectedOption, setSelectedOption] = useState([]);
+  // const [selectedOption, setSelectedOption] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [personName, setPersonName] = React.useState([]);
   const displayedOptions = useMemo(
     () => allOptions.filter((option) => containsText(option, searchText)),
     [searchText]
   );
-  const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
+
   const handleChange = (event) => {
     const {
       target: { value },
@@ -55,7 +56,7 @@ export default function MultiSearch(props) {
     setPersonName(
       typeof value === 'string' ? value.split(',') : value,
     );
-    setSelectedOption(value);
+    // setSelectedOption(value);
   };
 
 

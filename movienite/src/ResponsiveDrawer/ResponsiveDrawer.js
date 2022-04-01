@@ -51,9 +51,11 @@ function ResponsiveDrawer(props) {
               </ListItemButton>
             </ListItem>
 
-          <ListItem button key={'Events'}>
-            <ListItemIcon><EventIcon/></ListItemIcon>
-            <ListItemText primary={'Events'}/>
+          <ListItem button key={'Events'} disablePadding> 
+            <ListItemButton component={Link} to={'/events'}>  
+              <ListItemIcon><EventIcon/></ListItemIcon>
+              <ListItemText primary={'Events'}/>
+            </ListItemButton>
           </ListItem>
 
           <ListItem button key={'Notification'} disablePadding>
