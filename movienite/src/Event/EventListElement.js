@@ -98,8 +98,12 @@ export default function EventListElement(props) {
                 <Button sx={{mr:3}} variant="outlined">
                     Edit
                 </Button>
-                <Button sx={{mr:3}} variant="outlined" color='error'>Delete</Button>
-                <Button variant="contained" color="success">More</Button>
+                <Button sx={{mr:3}} variant="outlined" color='error'>
+                    Delete
+                </Button>
+                <Button variant="contained" color="success">
+                    More
+                </Button>
             </Grid>
           </Grid>
           <Grid item>
