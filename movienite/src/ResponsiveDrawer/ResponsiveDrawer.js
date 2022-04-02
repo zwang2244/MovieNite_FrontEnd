@@ -57,11 +57,11 @@ function ResponsiveDrawer(props) {
           </ListItemButton>
         </ListItem>
 
-        <ListItem button key={"Events"}>
-          <ListItemIcon>
-            <EventIcon />
-          </ListItemIcon>
-          <ListItemText primary={"Events"} />
+        <ListItem button key={'Events'} disablePadding> 
+          <ListItemButton component={Link} to={'/events'}>  
+            <ListItemIcon><EventIcon/></ListItemIcon>
+            <ListItemText primary={'Events'}/>
+          </ListItemButton>
         </ListItem>
 
         <ListItem button key={"Notification"} disablePadding>
@@ -169,13 +169,5 @@ export function Home() {
 }
 
 //TODO other function
-
-ResponsiveDrawer.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
 
 export default ResponsiveDrawer;
