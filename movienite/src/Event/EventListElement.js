@@ -98,7 +98,10 @@ export default function EventListElement(props) {
                 <Button sx={{mr:3}} variant="outlined">
                     Edit
                 </Button>
-                <Button sx={{mr:3}} variant="outlined" color='error'>
+                <Button sx={{mr:3}} variant="outlined" color='error' 
+                  onClick={() => {
+                    props.onDelete(props.index);
+                  }}>
                     Delete
                 </Button>
                 <Button variant="contained" color="success">
