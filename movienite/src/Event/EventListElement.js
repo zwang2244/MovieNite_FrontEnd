@@ -11,6 +11,12 @@ import LiveTvIcon from '@mui/icons-material/LiveTv';
 import MovieFilterIcon from '@mui/icons-material/MovieFilter';
 import GroupIcon from '@mui/icons-material/Group';
 import { Button } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
 const Img = styled('img')({
   margin: 'auto',
   display: 'block',
@@ -18,7 +24,23 @@ const Img = styled('img')({
   maxHeight: '100%',
 });
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
+
 export default function EventListElement(props) {
+    const [delopen, setdelOpen] = React.useState(false);
+
+    const handleClickOpenDeleteDialog = () => {
+        setdelOpen(true);
+    };
+  
+    const handleCloseDeleteDialog = () => {
+        setdelOpen(false);
+    };
+
+    
   return (
     <Paper
       sx={{
@@ -99,11 +121,30 @@ export default function EventListElement(props) {
                     Edit
                 </Button>
                 <Button sx={{mr:3}} variant="outlined" color='error' 
-                  onClick={() => {
-                    props.onDelete(props.index);
-                  }}>
+                  onClick={handleClickOpenDeleteDialog}>
                     Delete
                 </Button>
+                <Dialog
+                    open={delopen}
+                    TransitionComponent={Transition}
+                    keepMounted
+                    onClose={handleCloseDeleteDialog}
+                    aria-describedby="alert-dialog-slide-description"
+                >
+                    <DialogTitle>{"Delete this event?"}</DialogTitle>
+                    <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                        You were going to watch {props.movie.name} with {props.invited.map((friend,index)=> <>{friend + (index===props.invited.length -1 ?'':', ')}</>)} at time {moment(props.time).format("YYYY-MM-DD HH:mm")}.
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={() => {
+                    props.onDelete(props.index);
+                    handleCloseDeleteDialog();
+                    }}>Delete</Button>
+                    <Button onClick={handleCloseDeleteDialog}>Cancel</Button>
+                    </DialogActions>
+                </Dialog>
                 <Button variant="contained" color="success">
                     More
                 </Button>
