@@ -2,29 +2,36 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import Modal from "@mui/material/Modal";
-
-import { MenuItem, Menu, Button, CardActions } from "@mui/material";
-
-import { Avatar, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
+import { MenuItem, Menu, Collapse } from "@mui/material";
+import { Avatar, ListItem, ListItemAvatar, ListItemText, IconButton } from "@mui/material";
+import ListContent from './ListContent';
 import List from "@mui/material/List";
 import notificationData from "../../_mock/json/notification.json";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import IconButton from "@mui/material/IconButton";
-import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
+import { useDispatch } from "react-redux";
+import ModalContent from './ModalContent';
+import {
+  decrement,
+  increment,
+} from "../../redux/feature/notification/NotificationCountSlice";
+
+//transition
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+import "./notifictain.css"; //transition CSS
+
+//animation
 
 function Notification(props) {
   const [items, setItems] = useState(notificationData.notifications.read);
-  const [curIndex, setCurIndex] = useState(0);
+  const [curIndex, setCurIndex] = useState(-1);
   const [anchorEl, setAnchorEl] = React.useState(null);
+
 
   //Modal
   const [open, setOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
   const handleOpen = (index) => {
-    console.log(index);
+    // console.log(index);
     setModalContent(items[index]);
     setOpen(true);
   };
@@ -34,9 +41,10 @@ function Notification(props) {
     setAnchorEl(event.currentTarget);
     setCurIndex(idx);
   };
+  //click Change Notification count
+  const dispatch = useDispatch();
 
   const handleMenuClose = () => {
-    console.log(curIndex);
     setAnchorEl(null);
   };
 
@@ -44,13 +52,28 @@ function Notification(props) {
     const array = [...items];
     array[curIndex].read = true;
     setItems(array);
+    setCurIndex(-1);
+    dispatch(decrement());
     handleMenuClose();
   };
 
-  const handleMenuCloseDelete = () => {
+  const handleMenuCloseForUnread = () => {
+    const array = [...items];
+    array[curIndex].read = false;
+    setItems(array);
+    setCurIndex(-1);
+    dispatch(increment());
+    handleMenuClose();
+  };
+
+  const handleMenuCloseDelete = (flag) => {
     const array = [...items];
     array[curIndex].delete = true;
     setItems(array);
+    if (flag) {
+      dispatch(decrement());
+    }
+    setCurIndex(-1);
     handleMenuClose();
   };
 
@@ -76,6 +99,7 @@ function Notification(props) {
     return false;
   };
 
+  //animation
   return (
     <Box
       component="main"
@@ -88,8 +112,6 @@ function Notification(props) {
         justifyContent: "space-evenly",
       }}
     >
-      {/*TODO: Modal*/}
-
       <List
         sx={{
           width: "100%",
@@ -103,89 +125,63 @@ function Notification(props) {
         <ListItem>
           <Typography>New</Typography>
         </ListItem>
-        {items.map(
-          (item, index) =>
-            !item.delete &&
-            !item.read && (
-              <Box key={index}>
-                <ListItem alignItems="flex-start">
-                  <ListItemAvatar>
-                    <Avatar alt={item.sender.name} src={item.sender.avatar} />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={item.sender.name}
-                    secondary={
-                      <>
-                        <Typography
-                          sx={{ display: "inline", pr: "5px" }}
-                          component=""
-                          variant="body1"
-                          color="text.primary"
-                          onClick={() => handleOpen(index)}
-                        >
-                          {`Movie: ${item.movie.name}`}
-                        </Typography>
-                        <br />
-                        {item.movie.description}
-                      </>
-                    }
-                  />
-                  <IconButton
-                    aria-controls={"menu"}
-                    onClick={(e) => handleOpenMenu(e, index)}
-                    aria-label="settings"
-                  >
-                    <MoreVertIcon />
-                  </IconButton>
-                  <Menu
-                    onClose={handleMenuClose}
-                    id={"menu"}
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                  >
-                    <MenuItem onClick={handleMenuCloseRead}>
-                      Mark as Read
-                    </MenuItem>
-                    <MenuItem onClick={handleMenuCloseDelete}>Delete</MenuItem>
-                  </Menu>
-                </ListItem>
-                {!isLastRead(index) && (
-                  <Divider variant="inset" component="li" />
-                )}
-              </Box>
-            )
-        )}
+
+        <TransitionGroup>
+          {items.map(
+            (item, index) =>
+              !item.delete &&
+              !item.read && (
+                // just use collapse...
+                <Collapse key={index}>
+                  <Box>
+                    <ListItem alignItems="flex-start">
+                      <ListContent item={item} index={index} handleOpen={handleOpen}/>
+
+                      <IconButton
+                          aria-controls={"menu"}
+                          onClick={(e) => handleOpenMenu(e, index)}
+                          aria-label="settings"
+                      >
+                        <MoreVertIcon />
+                      </IconButton>
+                      {/*Button should be followed by Menu*/}
+                      <Menu
+                        onClose={handleMenuClose}
+                        id={"menu"}
+                        anchorEl={anchorEl}
+                        open={index === curIndex}
+                        onClose={() => {
+                          setCurIndex(-1);
+                        }}
+                      >
+                        <MenuItem onClick={handleMenuCloseRead}>
+                          Mark as Read
+                        </MenuItem>
+                        <MenuItem onClick={() => handleMenuCloseDelete(true)}>
+                          Delete
+                        </MenuItem>
+                      </Menu>
+
+                    </ListItem>
+                    {!isLastRead(index) && (
+                      <Divider variant="inset" component="li" />
+                    )}
+                  </Box>
+                </Collapse>
+              )
+          )}
+        </TransitionGroup>
 
         <Divider></Divider>
         <ListItem sx={{ mt: 1 }}>Before That</ListItem>
-
+        <TransitionGroup>
         {items.map(
           (item, index) =>
             !item.delete &&
             item.read && (
-              <Box key={index}>
+              <Collapse key={index}>
                 <ListItem alignItems="flex-start">
-                  <ListItemAvatar>
-                    <Avatar alt={item.sender.name} src={item.sender.avatar} />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={item.sender.name}
-                    secondary={
-                      <>
-                        <Typography
-                          sx={{ display: "inline", pr: "5px" }}
-                          component=""
-                          variant="body1"
-                          color="text.primary"
-                          onClick={() => handleOpen(index)}
-                        >
-                          {`Movie: ${item.movie.name}`}
-                        </Typography>
-                        <br />
-                        {item.movie.description}
-                      </>
-                    }
-                  />
+                  <ListContent item={item} index={index} handleOpen={handleOpen}/>
                   <IconButton
                     aria-controls={"menu"}
                     onClick={(e) => handleOpenMenu(e, index)}
@@ -197,77 +193,45 @@ function Notification(props) {
                     onClose={handleMenuClose}
                     id={"menu"}
                     anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
+                    open={index === curIndex}
+                    onClose={() => {
+                      setCurIndex(-1);
+                    }}
                   >
-                    {/*TODO Debug for clicking modal which would lead to several modals showing up*/}
-                    <MenuItem onClick={handleMenuCloseRead}>
-                      Mark as Read
+                    {/*Done: TODO Debug for clicking modal which would lead to several modals showing up*/}
+                    <MenuItem onClick={handleMenuCloseForUnread}>
+                      Mark as Unread
                     </MenuItem>
-                    <MenuItem onClick={handleMenuCloseDelete}>Delete</MenuItem>
+                    <MenuItem onClick={() => handleMenuCloseDelete(false)}>
+                      Delete
+                    </MenuItem>
                   </Menu>
                 </ListItem>
                 {!isLastUnread(index) && (
                   <Divider variant="inset" component="li" />
                 )}
-              </Box>
+              </Collapse>
             )
         )}
+        </TransitionGroup>
       </List>
 
-      <>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Card
-            sx={{
-              maxWidth: 345,
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              bgcolor: "background.paper",
-              // border: "2px solid #000",
-              boxShadow: 24,
-            }}
-          >
-            <CardMedia
-              component="img"
-              height="140"
-              image={Boolean(modalContent) ? modalContent.movie.footage : ""}
-              alt={Boolean(modalContent) ? modalContent.movie.name : ""}
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {Boolean(modalContent) ? modalContent.movie.name : ""}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {Boolean(modalContent) ? modalContent.movie.description : ""}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              {/*<Button size="small">Share</Button>*/}
-              <Button size="small">Learn More</Button>
-            </CardActions>
-          </Card>
-        </Modal>
-      </>
+      <ModalContent modalContent={modalContent} open={open} handleClose={handleClose}/>
     </Box>
   );
 }
 
 export default Notification;
 
-// const style = {
-//   position: "absolute",
-//   top: "50%",
-//   left: "50%",
-//   transform: "translate(-50%, -50%)",
-//   width: 400,
-//   bgcolor: "background.paper",
-//   // border: "2px solid #000",
-//   boxShadow: 24,
-//   p: 4,
-// };
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  // border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
