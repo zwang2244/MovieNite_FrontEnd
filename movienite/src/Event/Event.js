@@ -4,10 +4,10 @@ import axios from "axios";
 
 //{"data":"[{\"location\":\"44 Portage Pass\",\"host\":6,\"eventID\":17,\"dateTime\":\"2021-01-16 00:00:00\"}]","message":"操作成功","code":1}
 export default function Event() {
-    const http = require('http');
+    // const http = require('http');
     
     async function getMovieEvents() {
-        const data  = await axios.get('http://moive-nite.azurewebsites.net/test/oneuser', {
+        const data  = await axios.get('http://localhost:8088/movieevent/hosted_event', {
             params: {
                 userId: 6
             }
