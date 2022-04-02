@@ -59,6 +59,7 @@ export default function Event() {
                             invited={event.invited} 
                             movie={event.movie}
                             time={event.time}
+                            location={event.location}
                             index={index}
                             onDelete={onDelete}/>
         )}

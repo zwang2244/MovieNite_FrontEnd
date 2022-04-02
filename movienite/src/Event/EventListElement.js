@@ -17,6 +17,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
+import { TextField } from '@mui/material';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 const Img = styled('img')({
   margin: 'auto',
   display: 'block',
@@ -30,6 +32,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 export default function EventListElement(props) {
+    //dialog for deletion
     const [delopen, setdelOpen] = React.useState(false);
 
     const handleClickOpenDeleteDialog = () => {
@@ -39,7 +42,16 @@ export default function EventListElement(props) {
     const handleCloseDeleteDialog = () => {
         setdelOpen(false);
     };
+    //dialog for edition
+    const [editopen, seteditOpen] = React.useState(false);
 
+    const handleClickOpenEditDialog = () => {
+        seteditOpen(true);
+    };
+  
+    const handleCloseEditDialog = () => {
+        seteditOpen(false);
+    };
     
   return (
     <Paper
@@ -115,11 +127,91 @@ export default function EventListElement(props) {
                             {moment(props.time).format("YYYY-MM-DD HH:mm")}
                         </Box>
                 </div>
+
+                <div className='row_container'>
+                    <LocationOnIcon/>
+                    <Typography variant="h6" component="div">
+                        At
+                    </Typography>
+                    <Box sx={{bgcolor: 'primary.main', 
+                                border: 1, 
+                                borderRadius: 10, 
+                                color: 'primary.contrastText', 
+                                borderColor: 'primary.main',
+                                width:'200px',
+                                ml:7,
+                                typography:'h6',
+                                }}>
+                            {props.location}
+                    </Box>
+                </div>
             </Grid>
             <Grid item>
-                <Button sx={{mr:3}} variant="outlined">
+                <Button sx={{mr:3}} variant="outlined" onClick={handleClickOpenEditDialog}>
                     Edit
                 </Button>
+                
+                <Dialog open={editopen} onClose={handleCloseEditDialog}>
+                    <DialogTitle>Edit your event</DialogTitle>
+                    <DialogContent>
+                    <DialogContentText>
+                        Edit your choice of a potention movie, friends, time, and location.
+                    </DialogContentText>
+                    <TextField
+                        autoFocus
+                        id="movie"
+                        label="Movie"
+                        type="movie"
+                        fullWidth
+                        variant="standard"
+                        value={props.movie.name}
+                        sx={{ mb: 2, mt:2 }}
+                    />
+                    
+                    <TextField
+                        id="friends"
+                        label="Friends"
+                        type="friend"
+                        fullWidth
+                        variant="standard"
+                        value={props.invited}
+                        sx={{ mb: 2, mt:2 }}
+                    />
+
+                    <TextField
+                        id="date"
+                        label="Date"
+                        type="date"
+                        sx={{ width: 220, mb: 2, mt:2 }}
+                        InputLabelProps={{
+                        shrink: true,
+                        }}
+                        value={moment(props.time).format("YYYY-MM-DD")}
+                    />
+                    
+                    <TextField
+                        id="time"
+                        label="Time"
+                        type="time"
+                        InputLabelProps={{
+                        shrink: true,
+                        }}
+                        inputProps={{
+                        step: 300, // 5 min
+                        }}
+                        sx={{ width: 150, mb: 2, mt:2, ml:2 }}
+                        value={moment(props.time).format("HH:mm")}
+                        renderInput={(params) => <TextField {...params} />}
+                    />
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={handleCloseEditDialog}>Cancel</Button>
+                    <Button onClick={handleCloseEditDialog}>Submit</Button>
+                    </DialogActions>
+                </Dialog>
+                
+                
+                
                 <Button sx={{mr:3}} variant="outlined" color='error' 
                   onClick={handleClickOpenDeleteDialog}>
                     Delete
