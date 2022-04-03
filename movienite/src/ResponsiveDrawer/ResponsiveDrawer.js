@@ -160,7 +160,7 @@ export function Home() {
       <MovieEvent />
       <div className="container">
         <Typography gutterBottom variant="h5">
-          Friends
+          Trending Among Your Friends
         </Typography>
         <ListOfFriend />
       </div>

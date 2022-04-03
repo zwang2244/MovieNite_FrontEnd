@@ -10,7 +10,8 @@ function renderRow(props) {
   return (
         <ListItem style={style} key={index} component="div" disablePadding>
         <ListItemButton>
-            <ListItemText primary={`Friend ${index + 1}`} />
+            <ListItemText primary={`Movie Name ${index + 1}`} />
+            <ListItemText primary={`Vote ${index + 1}`} />
         </ListItemButton>
         </ListItem>
   );
