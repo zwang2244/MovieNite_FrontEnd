@@ -3,8 +3,17 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
+import {useQuery} from 'react-query';
+import {getTrendAmongFriends} from '../api/friends';
+import {dataToArray} from '../utils/dataToArray';
+import {CircularProgress} from '@mui/material';
 
 export default function ListOfFriend() {
+  // react-query
+  const {data, isLoading} = useQuery("trendingAmongFriends", () => getTrendAmongFriends(20));
+  // if (!isLoading) {
+  //   console.log(dataToArray(data));
+  // }
   return (
     <List
       sx={{
@@ -14,16 +23,18 @@ export default function ListOfFriend() {
         position: 'relative',
         overflow: 'auto',
         maxHeight: 300,
+        height: 300,
         '& ul': { padding: 0 },
         m:2
       }}
       subheader={<li />}
     >
-      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-        <ListItem key={item}>
+      {isLoading && <CircularProgress/>}
+      {!isLoading && dataToArray(data).map((item, index) => (
+        <ListItem key={index}>
           <ListItemButton>
-            <ListItemText primary={`Movie Name ${item}`} />
-            <ListItemText primary={`Vote ${item}`} />
+            <ListItemText sx={{width: '80%'}} primary={item.title}/>
+            <ListItemText sx={{width: '20%'}} primary={item.votes} />
           </ListItemButton>
         </ListItem>
       ))}

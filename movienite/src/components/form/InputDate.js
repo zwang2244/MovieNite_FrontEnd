@@ -3,7 +3,7 @@ import { Controller } from "react-hook-form";
 import { TextField } from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 
-export const FormInputDate = ({ control, label, name }) => {
+export const InputDate = ({ control, label, name }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Controller
@@ -13,11 +13,13 @@ export const FormInputDate = ({ control, label, name }) => {
             value={field.value}
             onChange={field.onChange}
             renderInput={(params) => <TextField {...params} />}
+            inputFormat={'MM/dd/yyyy'}
+            maxDate={new Date()}
           />
         )}
         name={name}
         control={control}
-      ></Controller>
+      />
     </LocalizationProvider>
   );
 };

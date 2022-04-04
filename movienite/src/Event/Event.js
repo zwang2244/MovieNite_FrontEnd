@@ -12,6 +12,7 @@ import {getMovieTrending} from '../api/movie';
 import convertArrayToLabel, {
   convertLabelToArray,
 } from '../utils/convertArrayToLabel';
+import moment from 'moment';
 //{"data":"[{\"location\":\"44 Portage Pass\",\"host\":6,\"eventID\":17,\"dateTime\":\"2021-01-16 00:00:00\"}]","message":"操作成功","code":1}
 export default function Event() {
   const [currData, setCurrData] = useState(eventData.events.read);
@@ -39,15 +40,19 @@ export default function Event() {
 
   const onEdit = (index, data) => {
     let temp = [];
-    const { location, dataTime, invitedFriendList, movie } = data;
+    const { location, dateTime, invitedFriendList, movie } = data;
     for (let i = 0; i < currData.length; i++) {
       if (index === i) {
         temp[i] = {
           ...currData[i],
+          location: location,
         };
-        console.log(temp[i]);
+        // console.log(temp[i]);
         temp[i].movie.name = movie.label;
+        // dateTime Date()
+        temp[i].time = moment(dateTime.toString()).format("YYYY-MM-DD HH:mm");
         temp[i].invited = convertLabelToArray(invitedFriendList);
+        console.log(temp[i]);
       } else {
         temp[i] = currData[i];
       }

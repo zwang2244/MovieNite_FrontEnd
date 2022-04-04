@@ -29,7 +29,6 @@ import AutoCompleteWithMulti from "../components/form/AutoCompleteMultiSelect";
 import InputText from "../components/form/InputText";
 import { InputDateTime } from "../components/form/InputDateTime";
 import convertArrayToLabel from "../utils/convertArrayToLabel";
-import EventUpdateForm from "../EventForm/EventUpdateForm";
 import { useState } from "react";
 
 const Img = styled("img")({
@@ -90,27 +89,6 @@ export default function EventListElement(props) {
   const { handleSubmit, control, watch, setValue } = useForm({
     defaultValues: defaultValue,
   });
-
-  /*
-  * {
-        "movie": {
-          "footage": "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_SX300.jpg",
-          "name":"The Dark Knight",
-          "description": "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice."
-        },
-        "time": "2022-01-01T23:28:56.782Z",
-        "host": {
-          "name": "Alice",
-          "avatar": "/static/images/avatar/1.jpg"
-        },
-        "invited":["Beatriz"],
-        "location": "Grainger Engineering Library"
-      }
-  *
-  *
-  * */
-
-  // console.log(watch());
 
   const onSubmit = (data) => {
     console.log(data);
@@ -276,33 +254,6 @@ export default function EventListElement(props) {
                         name={"dateTime"}
                         control={control}
                       />
-
-                      <div className={"container"}>
-                        <Box
-                          component="form"
-                          sx={{
-                            p: "2px 4px",
-                            display: "flex",
-                            alignItems: "center",
-                            width: 750,
-                            justifyContent: "space-evenly",
-                          }}
-                          elevation={0}
-                        >
-                          <Button
-                            sx={{ width: "100%" }}
-                            size="large"
-                            variant="contained"
-                            type="submit"
-                          >
-                            Schedule
-                          </Button>
-                        </Box>
-                      </div>
-
-                      <Box component={"form"}>
-                        <Button type={"submit"}>Submit</Button>
-                      </Box>
                     </Stack>
                   </DialogContent>
                   <DialogActions>
@@ -311,7 +262,6 @@ export default function EventListElement(props) {
                       <Button type={"submit"}>Submit</Button>
                     </Box>
                   </DialogActions>
-                  <Button type={"submit"}>Submit</Button>
                 </FormControl>
               </Dialog>
 
