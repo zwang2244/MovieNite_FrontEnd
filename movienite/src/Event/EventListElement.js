@@ -1,69 +1,134 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import ButtonBase from '@mui/material/ButtonBase';
-import Box from '@mui/material/Box';
-import './EventListElement.css';
-import moment from 'moment';
-import LiveTvIcon from '@mui/icons-material/LiveTv';
-import MovieFilterIcon from '@mui/icons-material/MovieFilter';
-import GroupIcon from '@mui/icons-material/Group';
-import { Button } from '@mui/material';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Slide from '@mui/material/Slide';
-import { TextField } from '@mui/material';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-const Img = styled('img')({
-  margin: 'auto',
-  display: 'block',
-  maxWidth: '100%',
-  maxHeight: '100%',
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import ButtonBase from "@mui/material/ButtonBase";
+import Box from "@mui/material/Box";
+import "./EventListElement.css";
+import moment from "moment";
+import LiveTvIcon from "@mui/icons-material/LiveTv";
+import MovieFilterIcon from "@mui/icons-material/MovieFilter";
+import GroupIcon from "@mui/icons-material/Group";
+import { Button, Divider, FormControl, Stack } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Slide from "@mui/material/Slide";
+import { TextField } from "@mui/material";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import MovieSearchAutoComplete from "../components/form/MovieSearchAutoComplete";
+import { useForm } from "react-hook-form";
+import EventForm, {
+  FriendLists,
+  MovieSearchOptions,
+} from "../EventForm/EventForm";
+import AutoCompleteWithMulti from "../components/form/AutoCompleteMultiSelect";
+import InputText from "../components/form/InputText";
+import { InputDateTime } from "../components/form/InputDateTime";
+import convertArrayToLabel from "../utils/convertArrayToLabel";
+import EventUpdateForm from "../EventForm/EventUpdateForm";
+import { useState } from "react";
+
+const Img = styled("img")({
+  margin: "auto",
+  display: "block",
+  maxWidth: "100%",
+  maxHeight: "100%",
 });
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide direction="up" ref={ref} {...props} />;
 });
 
-
 export default function EventListElement(props) {
-    //dialog for deletion
-    const [delopen, setdelOpen] = React.useState(false);
+  //dialog for deletion
+  const [delopen, setdelOpen] = React.useState(false);
 
-    const handleClickOpenDeleteDialog = () => {
-        setdelOpen(true);
-    };
-  
-    const handleCloseDeleteDialog = () => {
-        setdelOpen(false);
-    };
-    //dialog for edition
-    const [editopen, seteditOpen] = React.useState(false);
+  const handleClickOpenDeleteDialog = () => {
+    setdelOpen(true);
+  };
 
-    const handleClickOpenEditDialog = () => {
-        seteditOpen(true);
-    };
-  
-    const handleCloseEditDialog = () => {
-        seteditOpen(false);
-    };
-    
+  const handleCloseDeleteDialog = () => {
+    setdelOpen(false);
+  };
+  //dialog for edition
+  const [editopen, seteditOpen] = React.useState(false);
+
+  const handleClickOpenEditDialog = () => {
+    seteditOpen(true);
+  };
+
+  const handleCloseEditDialog = () => {
+    seteditOpen(false);
+  };
+  // const defaultValue = {
+  //   location: props.location,
+  //   dateTime: props.time,
+  //   invitedFriendList: convertArrayToLabel(props.invited),
+  //   movie: {
+  //     label: props.movie.name,
+  //   },
+  // };
+
+  const [defaultValue, setDefaultValue] = useState({
+    location: props.location,
+    dateTime: props.time,
+    invitedFriendList: convertArrayToLabel(props.invited),
+    movie: {
+      label: props.movie.name,
+    },
+  });
+
+  // const {location, dateTime, movie, invitedFriendList} = defaultValue;
+
+  // console.log('____________');
+  // console.log(defaultValue);
+
+  const { handleSubmit, control, watch, setValue } = useForm({
+    defaultValues: defaultValue,
+  });
+
+  /*
+  * {
+        "movie": {
+          "footage": "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_SX300.jpg",
+          "name":"The Dark Knight",
+          "description": "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice."
+        },
+        "time": "2022-01-01T23:28:56.782Z",
+        "host": {
+          "name": "Alice",
+          "avatar": "/static/images/avatar/1.jpg"
+        },
+        "invited":["Beatriz"],
+        "location": "Grainger Engineering Library"
+      }
+  *
+  *
+  * */
+
+  // console.log(watch());
+
+  const onSubmit = (data) => {
+    console.log(data);
+    props.onEdit(props.index, data);
+    seteditOpen(false); // close
+    // setDefaultValue(data);
+  };
   return (
     <Paper
       sx={{
         p: 2,
-        ml: 'auto',
-        mr: 'auto',
+        ml: "auto",
+        mr: "auto",
         mt: 2,
         mb: 2,
         maxWidth: 800,
         backgroundColor: (theme) =>
-          theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+          theme.palette.mode === "dark" ? "#1A2027" : "#fff",
       }}
     >
       <Grid container spacing={2}>
@@ -75,179 +140,232 @@ export default function EventListElement(props) {
         <Grid item xs={12} sm container>
           <Grid item xs container direction="column" spacing={2}>
             <Grid item xs>
-                <div className='row_container'>
-                <LiveTvIcon/>
+              <div className="row_container">
+                <LiveTvIcon />
                 <Typography variant="h6" component="div">
-                    Watch
+                  Watch
                 </Typography>
-                <Box sx={{ bgcolor: 'primary.main', 
-                            border: 1, 
-                            borderRadius: 10, 
-                            color: 'primary.contrastText', 
-                            borderColor: 'primary.main',
-                            width:'200px',
-                            ml:2,
-                            typography:'h6'
-                            }}>
-                        {props.movie.name}
-                    </Box>
-                </div>    
-              <div className='row_container'>
-                <GroupIcon/>
+                <Box
+                  sx={{
+                    bgcolor: "primary.main",
+                    border: 1,
+                    borderRadius: 10,
+                    color: "primary.contrastText",
+                    borderColor: "primary.main",
+                    width: "200px",
+                    ml: 2,
+                    typography: "h6",
+                  }}
+                >
+                  {props.movie.name}
+                </Box>
+              </div>
+              <div className="row_container">
+                <GroupIcon />
                 <Typography variant="h6" component="div">
-                    With
+                  With
                 </Typography>
-                <Box sx={{bgcolor: 'primary.main', 
-                            border: 1, 
-                            borderRadius: 10, 
-                            color: 'primary.contrastText', 
-                            borderColor: 'primary.main',
-                            width:'200px',
-                            ml:4,
-                            typography:'h6',
-                            }}>
-                        {props.invited.map((friend,index)=> <>{friend + (index===props.invited.length -1 ?'':', ')}</>)}
+                <Box
+                  sx={{
+                    bgcolor: "primary.main",
+                    border: 1,
+                    borderRadius: 10,
+                    color: "primary.contrastText",
+                    borderColor: "primary.main",
+                    width: "200px",
+                    ml: 4,
+                    typography: "h6",
+                  }}
+                >
+                  {props.invited.map((friend, index) => (
+                    <Box display={"inline"} key={index}>
+                      {friend +
+                        (index === props.invited.length - 1 ? "" : ", ")}
                     </Box>
-                </div>
+                  ))}
+                </Box>
+              </div>
 
-                <div className='row_container'>
-                    <MovieFilterIcon/>
-                    <Typography variant="h6" component="div">
-                        At
-                    </Typography>
-                    <Box sx={{bgcolor: 'primary.main', 
-                                border: 1, 
-                                borderRadius: 10, 
-                                color: 'primary.contrastText', 
-                                borderColor: 'primary.main',
-                                width:'200px',
-                                ml:7,
-                                typography:'h6',
-                                }}>
-                            {moment(props.time).format("YYYY-MM-DD HH:mm")}
-                        </Box>
-                </div>
+              <div className="row_container">
+                <MovieFilterIcon />
+                <Typography variant="h6" component="div">
+                  At
+                </Typography>
+                <Box
+                  sx={{
+                    bgcolor: "primary.main",
+                    border: 1,
+                    borderRadius: 10,
+                    color: "primary.contrastText",
+                    borderColor: "primary.main",
+                    width: "200px",
+                    ml: 7,
+                    typography: "h6",
+                  }}
+                >
+                  {moment(props.time).format("YYYY-MM-DD HH:mm")}
+                </Box>
+              </div>
 
-                <div className='row_container'>
-                    <LocationOnIcon/>
-                    <Typography variant="h6" component="div">
-                        At
-                    </Typography>
-                    <Box sx={{bgcolor: 'primary.main', 
-                                border: 1, 
-                                borderRadius: 10, 
-                                color: 'primary.contrastText', 
-                                borderColor: 'primary.main',
-                                width:'200px',
-                                ml:7,
-                                typography:'h6',
-                                }}>
-                            {props.location}
-                    </Box>
-                </div>
+              <div className="row_container">
+                <LocationOnIcon />
+                <Typography variant="h6" component="div">
+                  At
+                </Typography>
+                <Box
+                  sx={{
+                    bgcolor: "primary.main",
+                    border: 1,
+                    borderRadius: 10,
+                    color: "primary.contrastText",
+                    borderColor: "primary.main",
+                    width: "200px",
+                    ml: 7,
+                    typography: "h6",
+                  }}
+                >
+                  {props.location}
+                </Box>
+              </div>
             </Grid>
             <Grid item>
-                <Button sx={{mr:3}} variant="outlined" onClick={handleClickOpenEditDialog}>
-                    Edit
-                </Button>
-                
-                <Dialog open={editopen} onClose={handleCloseEditDialog}>
-                    <DialogTitle>Edit your event</DialogTitle>
-                    <DialogContent>
-                    <DialogContentText>
-                        Edit your choice of a potention movie, friends, time, and location.
-                    </DialogContentText>
-                    <TextField
-                        autoFocus
-                        id="movie"
-                        label="Movie"
-                        type="movie"
-                        fullWidth
-                        variant="standard"
-                        value={props.movie.name}
-                        sx={{ mb: 2, mt:2 }}
-                    />
-                    
-                    <TextField
-                        id="friends"
-                        label="Friends"
-                        type="friend"
-                        fullWidth
-                        variant="standard"
-                        value={props.invited}
-                        sx={{ mb: 2, mt:2 }}
-                    />
+              <Button
+                sx={{ mr: 3 }}
+                variant="outlined"
+                onClick={handleClickOpenEditDialog}
+              >
+                Edit
+              </Button>
 
-                    <TextField
-                        id="date"
-                        label="Date"
-                        type="date"
-                        sx={{ width: 220, mb: 2, mt:2 }}
-                        InputLabelProps={{
-                        shrink: true,
-                        }}
-                        value={moment(props.time).format("YYYY-MM-DD")}
-                    />
-                    
-                    <TextField
-                        id="time"
-                        label="Time"
-                        type="time"
-                        InputLabelProps={{
-                        shrink: true,
-                        }}
-                        inputProps={{
-                        step: 300, // 5 min
-                        }}
-                        sx={{ width: 150, mb: 2, mt:2, ml:2 }}
-                        value={moment(props.time).format("HH:mm")}
-                        renderInput={(params) => <TextField {...params} />}
-                    />
-                    </DialogContent>
-                    <DialogActions>
+              <Dialog open={editopen} onClose={handleCloseEditDialog}>
+                <FormControl onSubmit={handleSubmit(onSubmit)}>
+                  {/*Need to be handleSubmit(onSubmit) so that avoid refreshing page*/}
+                  <DialogTitle>Edit your event</DialogTitle>
+                  <DialogContent>
+                    <Stack spacing={3}>
+                      <DialogContentText>
+                        Edit your choice of a potention movie, friends, time,
+                        and location.
+                      </DialogContentText>
+                      {/*Movie */}
+                      <MovieSearchAutoComplete
+                        control={control}
+                        name={"movie"}
+                        items={MovieSearchOptions}
+                        label={"Movie"}
+                        placeholder={"Enter Movie"}
+                      />
+                      {/*Input*/}
+                      <InputText
+                        label={"Location"}
+                        name={"location"}
+                        control={control}
+                      />
+                      {/*Friends*/}
+                      <AutoCompleteWithMulti
+                        control={control}
+                        name={"invitedFriendList"}
+                        label={"Friend"}
+                        items={FriendLists}
+                        placeholder={"Invite your friends"}
+                      />
+
+                      {/*Time*/}
+                      <InputDateTime
+                        label={"DateTime"}
+                        name={"dateTime"}
+                        control={control}
+                      />
+
+                      <div className={"container"}>
+                        <Box
+                          component="form"
+                          sx={{
+                            p: "2px 4px",
+                            display: "flex",
+                            alignItems: "center",
+                            width: 750,
+                            justifyContent: "space-evenly",
+                          }}
+                          elevation={0}
+                        >
+                          <Button
+                            sx={{ width: "100%" }}
+                            size="large"
+                            variant="contained"
+                            type="submit"
+                          >
+                            Schedule
+                          </Button>
+                        </Box>
+                      </div>
+
+                      <Box component={"form"}>
+                        <Button type={"submit"}>Submit</Button>
+                      </Box>
+                    </Stack>
+                  </DialogContent>
+                  <DialogActions>
                     <Button onClick={handleCloseEditDialog}>Cancel</Button>
-                    <Button onClick={handleCloseEditDialog}>Submit</Button>
-                    </DialogActions>
-                </Dialog>
-                
-                
-                
-                <Button sx={{mr:3}} variant="outlined" color='error' 
-                  onClick={handleClickOpenDeleteDialog}>
+                    <Box component={"form"}>
+                      <Button type={"submit"}>Submit</Button>
+                    </Box>
+                  </DialogActions>
+                  <Button type={"submit"}>Submit</Button>
+                </FormControl>
+              </Dialog>
+
+              <Button
+                sx={{ mr: 3 }}
+                variant="outlined"
+                color="error"
+                onClick={handleClickOpenDeleteDialog}
+              >
+                Delete
+              </Button>
+              <Dialog
+                open={delopen}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={handleCloseDeleteDialog}
+                aria-describedby="alert-dialog-slide-description"
+              >
+                <DialogTitle>{"Delete this event?"}</DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-slide-description">
+                    You were going to watch {props.movie.name} with{" "}
+                    {props.invited.map((friend, index) => (
+                      <Box component={"span"} key={index}>
+                        {friend +
+                          (index === props.invited.length - 1 ? "" : ", ")}
+                      </Box>
+                    ))}{" "}
+                    at time {moment(props.time).format("YYYY-MM-DD HH:mm")}.
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    onClick={() => {
+                      props.onDelete(props.index);
+                      handleCloseDeleteDialog();
+                    }}
+                  >
                     Delete
-                </Button>
-                <Dialog
-                    open={delopen}
-                    TransitionComponent={Transition}
-                    keepMounted
-                    onClose={handleCloseDeleteDialog}
-                    aria-describedby="alert-dialog-slide-description"
-                >
-                    <DialogTitle>{"Delete this event?"}</DialogTitle>
-                    <DialogContent>
-                    <DialogContentText id="alert-dialog-slide-description">
-                        You were going to watch {props.movie.name} with {props.invited.map((friend,index)=> <>{friend + (index===props.invited.length -1 ?'':', ')}</>)} at time {moment(props.time).format("YYYY-MM-DD HH:mm")}.
-                    </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                    <Button onClick={() => {
-                    props.onDelete(props.index);
-                    handleCloseDeleteDialog();
-                    }}>Delete</Button>
-                    <Button onClick={handleCloseDeleteDialog}>Cancel</Button>
-                    </DialogActions>
-                </Dialog>
-                <Button variant="contained" color="success">
-                    More
-                </Button>
+                  </Button>
+                  <Button onClick={handleCloseDeleteDialog}>Cancel</Button>
+                </DialogActions>
+              </Dialog>
+              <Button variant="contained" color="success">
+                More
+              </Button>
             </Grid>
           </Grid>
           <Grid item>
-              <Typography variant="body2" color="text.secondary">
-                EventID:
-                <br/>
-                1030114
-              </Typography>
+            <Typography variant="body2" color="text.secondary">
+              EventID:
+              <br />
+              1030114
+            </Typography>
           </Grid>
         </Grid>
       </Grid>

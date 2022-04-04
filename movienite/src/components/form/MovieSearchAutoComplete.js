@@ -7,10 +7,14 @@ import styled from '@emotion/styled';
 
 export default function MovieSearchAutoComplete({control, name, label, items, placeholder}) {
   return (
+      // defaultValue should be {label: 'name'}
       <Controller
           render={
             (props) => (
                 <Autocomplete
+                    value={props.field.value}
+                    isOptionEqualToValue={(option, value) => option.label === value.label}
+                    defaultValue={props.field.value}
                     fullWidth
                     freeSolo
                     renderInput={
