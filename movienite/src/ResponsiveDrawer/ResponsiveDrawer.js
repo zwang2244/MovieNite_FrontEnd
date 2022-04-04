@@ -21,8 +21,10 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import MovieEvent from "../MovieEvent/MovieEvent";
 import ListOfFriend from "../Friends/ListOfFriend";
+import { TextField } from "@mui/material";
 import "./ResponsiveDrawer.css";
 import { Badge } from "@mui/material";
+import HighScoreForm from "../HighScoreForm/HighScoreForm";
 
 // @react-router
 import { Outlet, useLocation } from "react-router";
@@ -158,12 +160,28 @@ export function Home() {
       }}
     >
       <MovieEvent />
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          justifyContent: "space-evenly",
+          pt: 4,
+        }}
+      >
       <div className="container">
         <Typography gutterBottom variant="h5">
           Trending Among Your Friends
         </Typography>
         <ListOfFriend />
       </div>
+      <div className="container">
+        <Typography gutterBottom variant="h5">
+          Movies of a Genre with High Scores
+        </Typography>
+        <HighScoreForm/>
+      </div>
+      </Box>
     </Box>
   );
 }
