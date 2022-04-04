@@ -1,5 +1,4 @@
 import * as React from "react";
-import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,7 +12,6 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import EventForm from "../EventForm/EventForm";
 import HomeIcon from "@mui/icons-material/Home";
 import EventIcon from "@mui/icons-material/Event";
 import CircleNotificationsIcon from "@mui/icons-material/CircleNotifications";
@@ -21,7 +19,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import MovieEvent from "../MovieEvent/MovieEvent";
 import ListOfFriend from "../Friends/ListOfFriend";
-import { TextField } from "@mui/material";
+import { Stack, TextField } from "@mui/material";
 import "./ResponsiveDrawer.css";
 import { Badge } from "@mui/material";
 import HighScoreForm from "../HighScoreForm/HighScoreForm";
@@ -32,7 +30,8 @@ import ListItemButton from "@mui/material/ListItemButton";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectNotificationCount } from "../redux/feature/notification/NotificationCountSlice";
-import {useForm} from 'react-hook-form';
+import { useForm } from "react-hook-form";
+import Paper from "@mui/material/Paper";
 
 const drawerWidth = 240;
 
@@ -60,10 +59,12 @@ function ResponsiveDrawer(props) {
           </ListItemButton>
         </ListItem>
 
-        <ListItem button key={'Events'} disablePadding>
-          <ListItemButton component={Link} to={'/events'}>
-            <ListItemIcon><EventIcon/></ListItemIcon>
-            <ListItemText primary={'Events'}/>
+        <ListItem button key={"Events"} disablePadding>
+          <ListItemButton component={Link} to={"/events"}>
+            <ListItemIcon>
+              <EventIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Events"} />
           </ListItemButton>
         </ListItem>
 
@@ -119,7 +120,9 @@ function ResponsiveDrawer(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            { pathname.length > 1 ? pathname.charAt(1).toUpperCase() + pathname.slice(2) : 'Home'}
+            {pathname.length > 1
+              ? pathname.charAt(1).toUpperCase() + pathname.slice(2)
+              : "Home"}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -161,28 +164,24 @@ export function Home() {
       }}
     >
       <MovieEvent />
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "column",
-          justifyContent: "space-evenly",
-          pt: 4,
-        }}
-      >
-      <div className="container">
-        <Typography gutterBottom variant="h5">
-          Trending Among Your Friends
-        </Typography>
-        <ListOfFriend />
-      </div>
-      <div className="container">
-        <Typography gutterBottom variant="h5">
-          Movies of a Genre with High Scores
-        </Typography>
-        <HighScoreForm/>
-      </div>
-      </Box>
+      <Stack spacing={6}>
+        <Paper>
+          <div className="container">
+            <Typography gutterBottom variant="h5">
+              Trending Among Your Friends
+            </Typography>
+            <ListOfFriend />
+          </div>
+        </Paper>
+        <Paper>
+          <div className="container">
+            <Typography gutterBottom variant="h5">
+              Movies of a Genre with High Scores
+            </Typography>
+            <HighScoreForm />
+          </div>
+        </Paper>
+      </Stack>
     </Box>
   );
 }

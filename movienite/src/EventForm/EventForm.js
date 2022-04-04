@@ -1,14 +1,7 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
 import Paper from '@mui/material/Paper';
 import {Divider, FormControl} from '@mui/material';
 import { Button } from '@mui/material';
-import SingleSearch from './SingleSearch';
-import MultiSearch from './MultiSearch';
 import './EventForm.css';
 import {useForm} from 'react-hook-form';
 import MovieSearchAutoComplete
@@ -40,8 +33,7 @@ export const FriendLists = [
 const defaultValues = {
   location: "",
   dateTime: new Date(),
-  invitedFriendList: [{label: 'Oliver Hansen'},
-    {label: 'Van Henry'}],
+  invitedFriendList: [],
   movie: {label: ''}
 }
 

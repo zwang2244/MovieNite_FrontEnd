@@ -14,6 +14,7 @@ export const InputDateTime = ({control, label, name}) => {
               <DateTimePicker
                   label={label}
                   value={field.value}
+                  minDate={new Date()}
                   onChange={field.onChange}
                   renderInput={(params) => <TextField fullWidth {...params} />}
               />
