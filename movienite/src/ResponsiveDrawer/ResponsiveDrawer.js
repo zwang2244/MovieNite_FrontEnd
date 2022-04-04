@@ -30,9 +30,9 @@ import HighScoreForm from "../HighScoreForm/HighScoreForm";
 import { Outlet, useLocation } from "react-router";
 import ListItemButton from "@mui/material/ListItemButton";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { useSelector } from "react-redux";
 import { selectNotificationCount } from "../redux/feature/notification/NotificationCountSlice";
+import {useForm} from 'react-hook-form';
 
 const drawerWidth = 240;
 
@@ -44,6 +44,7 @@ function ResponsiveDrawer(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
   const notificationCount = useSelector(selectNotificationCount);
   const drawer = (
     <div>
@@ -59,8 +60,8 @@ function ResponsiveDrawer(props) {
           </ListItemButton>
         </ListItem>
 
-        <ListItem button key={'Events'} disablePadding> 
-          <ListItemButton component={Link} to={'/events'}>  
+        <ListItem button key={'Events'} disablePadding>
+          <ListItemButton component={Link} to={'/events'}>
             <ListItemIcon><EventIcon/></ListItemIcon>
             <ListItemText primary={'Events'}/>
           </ListItemButton>

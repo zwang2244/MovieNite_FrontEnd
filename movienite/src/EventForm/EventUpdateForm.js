@@ -5,7 +5,7 @@ import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Paper from '@mui/material/Paper';
-import {Divider, FormControl} from '@mui/material';
+import {Divider, FormControl, Stack} from '@mui/material';
 import { Button } from '@mui/material';
 import SingleSearch from './SingleSearch';
 import MultiSearch from './MultiSearch';
@@ -45,7 +45,7 @@ const defaultValues = {
   movie: {label: ''}
 }
 
-export default function EventForm() {
+export default function EventUpdateForm() {
   const { handleSubmit, control, watch, setValue } = useForm({defaultValues: defaultValues});
 
   const onSubmit = (data) => {
@@ -61,44 +61,20 @@ export default function EventForm() {
           noValidate
           autoComplete="off"
       >
-        <div className={'container'}>
-          <Paper
-              sx={{ p: '7px 10px', display: 'flex', alignItems: 'center', width: 750 }}
-              elevation={1}
-          >
-            <MovieSearchAutoComplete items={MovieSearchOptions} label={"Movie"} name={'movie'} control={control} placeholder={'Movie'}/>
-          </Paper>
-        </div>
-        <Divider variant="middle" sx={{ p: '10px' }}/>
 
-        <div className={'container'}>
-          <Paper
-              sx={{ p: '7px 10px', display: 'flex', alignItems: 'center', width: 750 }}
-              elevation={1}
-          >
-            <InputText label={'Location'} name={'location'} control={control}/>
-          </Paper>
-        </div>
-        <Divider variant="middle" sx={{ p: '10px' }}/>
+        <Stack spacing={3}>
+          <MovieSearchAutoComplete items={MovieSearchOptions} label={"Movie"} name={'movie'} control={control} placeholder={'Movie'}/>
 
-        <div className='container'>
-          <Paper
-              sx={{ p: '7px 10px', display: 'flex', alignItems: 'center', width: 750}}
-          >
-            <AutoCompleteWithMulti control={control} name={'invitedFriendList'} label={'Friend'} items={FriendLists} placeholder={'Invite your friends'} />
-          </Paper>
-        </div>
-        <Divider variant="middle" sx={{ p: '10px', m: '5px' }}/>
+          <InputText label={'Location'} name={'location'} control={control}/>
 
-        <div className={'container'}>
-          <Paper
-              sx={{ p: '7px 10px', display: 'flex', alignItems: 'center', width: 750,
-                justifyContent: 'space-evenly' }}
-              elevation={1}
-          >
-            <InputDateTime label={'DateTime'} name={'dateTime'} control={control} />
-          </Paper>
-        </div>
+
+          <AutoCompleteWithMulti control={control} name={'invitedFriendList'} label={'Friend'} items={FriendLists} placeholder={'Invite your friends'} />
+
+
+          <InputDateTime label={'DateTime'} name={'dateTime'} control={control} />
+        </Stack>
+
+
         <div className={'container'}>
           <Paper
               component="form"

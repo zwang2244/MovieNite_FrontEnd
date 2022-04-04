@@ -9,6 +9,8 @@ export default function AutoCompleteWithMulti({control, name, label, items, plac
           render={
         (props) => (
             <Autocomplete
+                value={props.field.value}
+                isOptionEqualToValue={(option, value) => option.label === value.label}
                 fullWidth
                 multiple
                 filterSelectedOptions
