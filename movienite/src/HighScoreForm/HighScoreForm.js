@@ -1,6 +1,6 @@
 import * as React from "react";
 import Paper from "@mui/material/Paper";
-import { Button, Stack } from "@mui/material";
+import {Button, Stack, Typography} from '@mui/material';
 import { TextField } from "@mui/material";
 import ListOfMovieGerneScore from "./ListOfMovieGerneScore";
 import Box from "@mui/material/Box";
@@ -16,7 +16,7 @@ const defaultValues = {
 };
 
 const items = convertArrayToLabel(GenreOptions);
-console.log(items);
+// console.log(items);
 
 export default function HighScoreForm() {
   const [currData, setCurrData] = React.useState([]);
@@ -42,7 +42,13 @@ export default function HighScoreForm() {
         }}
         elevation={1}
       >
+        <Typography sx={{mb: 3}} variant={'h6'}>
+          Movies of a Genre with High Scores
+        </Typography>
         <Stack spacing={3} onSubmit={handleSubmit(onSubmit)}>
+
+
+
           <AutoCompleteSelect
             label={"Genre"}
             control={control}

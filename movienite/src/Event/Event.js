@@ -1,32 +1,39 @@
 import React, { useEffect, useState } from "react";
-import EventCard from "./EventCard";
 import EventListElement from "./EventListElement";
-import axios from "axios";
 import eventData from "../_mock/json/events.json";
 import Box from "@mui/material/Box";
-import {useQuery} from 'react-query';
-import {getMovieEvents} from '../api/event';
 import {TransitionGroup} from 'react-transition-group';
-import {Collapse} from '@mui/material';
-import {getMovieTrending} from '../api/movie';
-import convertArrayToLabel, {
-  convertLabelToArray,
-} from '../utils/convertArrayToLabel';
+import {CircularProgress, Collapse} from '@mui/material';
 import moment from 'moment';
-//{"data":"[{\"location\":\"44 Portage Pass\",\"host\":6,\"eventID\":17,\"dateTime\":\"2021-01-16 00:00:00\"}]","message":"操作成功","code":1}
+import {deleteEvent, getMovieEvents} from '../api/event';
+import {useQuery} from 'react-query';
+import {dataToArray} from '../utils/dataToArray';
+import {formatDataToForm} from '../utils/formatForm';
 export default function Event() {
-  const [currData, setCurrData] = useState(eventData.events.read);
-  const userId = 6;
-  // const {data: event} = useQuery(['event', userId], () => getMovieEvents(userId));
-  // console.log(event);
-  // const {data: test} = useQuery("movies", getMovieTrending);
-  // console.log("===============");
-  // console.log(test);
-  //delete the corresponding event element
+  const [currData, setCurrData] = useState([]);
+  // const [modifiedData, setModifiedData] = useState();
+  const userId = 20;
+  // const twentyFourHoursInMs = 1000 * 60 * 60 * 24;
+  const {data: event, isLoading: eventsLoading} = useQuery(['event', userId], () => getMovieEvents(userId), {
+    // retry: false,
+  });
+
+  useEffect(() => {
+    if (event && !eventsLoading) {
+      const array = dataToArray(event)
+      const dataCopy = [...array];
+      // console.log(array);
+      // console.log("--------This is DataCopy");
+      // console.log(formatDataToForm(dataCopy));
+      // console.log(dataCopy);
+      setCurrData(formatDataToForm(dataCopy));
+    }
+  }, [event]);
+
   const onDelete = (index) => {
-    // currData.splice(index,index); splice is not working -- probably it is now a hard copy
     let temp = [];
     let count = 0;
+    deleteEvent(currData[index].eventId).then(r => console.log(r));
     for (var i = 0; i < currData.length; i++) {
       if (index === i) {
         continue;
@@ -35,24 +42,21 @@ export default function Event() {
       count++;
     }
     setCurrData(temp);
-    // console.log(temp);
   };
 
-  const onEdit = (index, data) => {
+  const onEdit = (index, dateTime, location) => {
     let temp = [];
-    const { location, dateTime, invitedFriendList, movie } = data;
+    // console.log("Check+++++++++++");
+    // console.log(dateTime);
+    // console.log(location);
     for (let i = 0; i < currData.length; i++) {
       if (index === i) {
         temp[i] = {
           ...currData[i],
           location: location,
         };
-        // console.log(temp[i]);
-        temp[i].movie.name = movie.label;
         // dateTime Date()
-        temp[i].time = moment(dateTime.toString()).format("YYYY-MM-DD HH:mm");
-        temp[i].invited = convertLabelToArray(invitedFriendList);
-        console.log(temp[i]);
+        temp[i].dateTime = moment(dateTime.toString()).format("YYYY-MM-DD HH:mm");
       } else {
         temp[i] = currData[i];
       }
@@ -70,27 +74,33 @@ export default function Event() {
         justifyContent: "space-evenly",
       }}
     >
-      <TransitionGroup>
-        {currData.map(
-            (
-                event,
-                index //index is used to locate which event block
-            ) => (
-                <Collapse key={index}>
-                  <EventListElement
-                      onEdit={onEdit}
-                      host={event.host}
-                      invited={event.invited}
-                      movie={event.movie}
-                      time={event.time}
-                      location={event.location}
-                      index={index}
-                      onDelete={onDelete}
-                  />
-                </Collapse>
-            )
-        )}
-      </TransitionGroup>
+      {
+        eventsLoading ?  <CircularProgress sx={{mt: 30}} /> : (
+            <TransitionGroup>
+              {currData.map(
+                  (
+                      event,
+                      index //index is used to locate which event block
+                  ) => (
+                      <Collapse key={index}>
+                        <EventListElement
+                            onEdit={onEdit}
+                            host={event.host}
+                            invitedFriendList={event.invitedFriendList}
+                            movie={event.movie}
+                            dateTime={event.dateTime}
+                            location={event.location}
+                            index={index}
+                            event={event.eventId}
+                            footage={event.footage}
+                            onDelete={onDelete}
+                        />
+                      </Collapse>
+                  )
+              )}
+            </TransitionGroup>
+        )
+      }
 
       {/* <EventCard evetID={"1"} friends={"Friend1, Friend2"} time={"2021-01-16 00:00:00"}/> */}
     </Box>

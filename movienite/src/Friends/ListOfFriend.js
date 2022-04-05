@@ -6,15 +6,22 @@ import ListItemButton from '@mui/material/ListItemButton';
 import {useQuery} from 'react-query';
 import {getTrendAmongFriends} from '../api/friends';
 import {dataToArray} from '../utils/dataToArray';
-import {CircularProgress} from '@mui/material';
+import {CircularProgress, Stack, Typography} from '@mui/material';
 
 export default function ListOfFriend() {
   // react-query
-  const {data, isLoading} = useQuery("trendingAmongFriends", () => getTrendAmongFriends(20));
+  const {data, isLoading} = useQuery("trendingAmongFriends", () => getTrendAmongFriends(20), {
+    staleTime: 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
   // if (!isLoading) {
   //   console.log(dataToArray(data));
   // }
   return (
+    <Stack spacing={3}>
+      <Typography sx={{mt: 3}} variant={'h6'}>
+        Trending Among Your Friends
+      </Typography>
     <List
       sx={{
         width: '100%',
@@ -29,6 +36,7 @@ export default function ListOfFriend() {
       }}
       subheader={<li />}
     >
+
       {isLoading && <CircularProgress/>}
       {!isLoading && dataToArray(data).map((item, index) => (
         <ListItem key={index}>
@@ -39,5 +47,6 @@ export default function ListOfFriend() {
         </ListItem>
       ))}
     </List>
+    </Stack>
   );
 }

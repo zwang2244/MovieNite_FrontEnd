@@ -30,6 +30,13 @@ import InputText from "../components/form/InputText";
 import { InputDateTime } from "../components/form/InputDateTime";
 import convertArrayToLabel from "../utils/convertArrayToLabel";
 import { useState } from "react";
+import useDebounce from '../hooks/useDebounce';
+import {useSearch} from '../hooks/useSearch';
+import {useQuery} from 'react-query';
+import {getAllFriends} from '../api/friends';
+import {useSnackbar} from 'notistack';
+import {createNewEvent, updateEvent} from '../api/event';
+import {formatForm} from '../utils/formatForm';
 
 const Img = styled("img")({
   margin: "auto",
@@ -63,36 +70,30 @@ export default function EventListElement(props) {
   const handleCloseEditDialog = () => {
     seteditOpen(false);
   };
-  // const defaultValue = {
-  //   location: props.location,
-  //   dateTime: props.time,
-  //   invitedFriendList: convertArrayToLabel(props.invited),
-  //   movie: {
-  //     label: props.movie.name,
-  //   },
-  // };
+
 
   const [defaultValue, setDefaultValue] = useState({
     location: props.location,
-    dateTime: props.time,
-    invitedFriendList: convertArrayToLabel(props.invited),
-    movie: {
-      label: props.movie.name,
-    },
+    dateTime: props.dateTime,
+    invitedFriendList: props.invitedFriendList,
+    movie: props.movie,
   });
-
-  // const {location, dateTime, movie, invitedFriendList} = defaultValue;
-
-  // console.log('____________');
-  // console.log(defaultValue);
 
   const { handleSubmit, control, watch, setValue } = useForm({
     defaultValues: defaultValue,
   });
 
   const onSubmit = (data) => {
+    // const response = createNewEvent(formatForm(data));
     console.log(data);
-    props.onEdit(props.index, data);
+    console.log(props.host.id);
+    const obj = new Object();
+    obj.dateTime = data.dateTime;
+    obj.eventID = props.event;
+    obj.host = props.host.id;
+    obj.location = data.location;
+    updateEvent(obj);
+    props.onEdit(props.index, obj.dateTime, obj.location);
     seteditOpen(false); // close
     // setDefaultValue(data);
   };
@@ -112,7 +113,7 @@ export default function EventListElement(props) {
       <Grid container spacing={2}>
         <Grid item>
           <ButtonBase sx={{ width: 300, height: 300 }}>
-            <Img alt="complex" src={props.movie.footage} />
+            <Img alt="complex" src={props?.footage} />
           </ButtonBase>
         </Grid>
         <Grid item xs={12} sm container>
@@ -135,7 +136,7 @@ export default function EventListElement(props) {
                     typography: "h6",
                   }}
                 >
-                  {props.movie.name}
+                  {props.movie.title}
                 </Box>
               </div>
               <div className="row_container">
@@ -155,10 +156,10 @@ export default function EventListElement(props) {
                     typography: "h6",
                   }}
                 >
-                  {props.invited.map((friend, index) => (
+                  {props.invitedFriendList.map((friend, index) => (
                     <Box display={"inline"} key={index}>
-                      {friend +
-                        (index === props.invited.length - 1 ? "" : ", ")}
+                      {friend.firstName +
+                        (index === props.invitedFriendList.length - 1 ? "" : ", ")}
                     </Box>
                   ))}
                 </Box>
@@ -181,7 +182,7 @@ export default function EventListElement(props) {
                     typography: "h6",
                   }}
                 >
-                  {moment(props.time).format("YYYY-MM-DD HH:mm")}
+                  {moment(props.dateTime).format("YYYY-MM-DD HH:mm")}
                 </Box>
               </div>
 
@@ -216,36 +217,42 @@ export default function EventListElement(props) {
               </Button>
 
               <Dialog open={editopen} onClose={handleCloseEditDialog}>
-                <FormControl onSubmit={handleSubmit(onSubmit)}>
+                <FormControl sx={{width: '480px'}} onSubmit={handleSubmit(onSubmit)}>
                   {/*Need to be handleSubmit(onSubmit) so that avoid refreshing page*/}
                   <DialogTitle>Edit your event</DialogTitle>
                   <DialogContent>
                     <Stack spacing={3}>
                       <DialogContentText>
-                        Edit your choice of a potention movie, friends, time,
-                        and location.
+                        {/*Edit your choice of a potention movie, friends, time,*/}
+                        {/*and location.*/}
+                        Edit your location or time
                       </DialogContentText>
                       {/*Movie */}
                       <MovieSearchAutoComplete
                         control={control}
                         name={"movie"}
-                        items={MovieSearchOptions}
+                        items={[]}
                         label={"Movie"}
                         placeholder={"Enter Movie"}
+                        readOnly={true}
                       />
-                      {/*Input*/}
-                      <InputText
-                        label={"Location"}
-                        name={"location"}
-                        control={control}
-                      />
+
                       {/*Friends*/}
                       <AutoCompleteWithMulti
                         control={control}
                         name={"invitedFriendList"}
                         label={"Friend"}
-                        items={FriendLists}
-                        placeholder={"Invite your friends"}
+                        readonly
+                        items={[]}
+                        readOnly={true}
+                        placeholder={"Friends you invite"}
+                      />
+
+                      {/*Input*/}
+                      <InputText
+                          label={"Location"}
+                          name={"location"}
+                          control={control}
                       />
 
                       {/*Time*/}
@@ -283,14 +290,14 @@ export default function EventListElement(props) {
                 <DialogTitle>{"Delete this event?"}</DialogTitle>
                 <DialogContent>
                   <DialogContentText id="alert-dialog-slide-description">
-                    You were going to watch {props.movie.name} with{" "}
-                    {props.invited.map((friend, index) => (
+                    You were going to watch {props.movie.title} with{" "}
+                    {props.invitedFriendList.map((friend, index) => (
                       <Box component={"span"} key={index}>
-                        {friend +
-                          (index === props.invited.length - 1 ? "" : ", ")}
+                        {friend.firstName +
+                          (index === props.invitedFriendList.length - 1 ? "" : ", ")}
                       </Box>
                     ))}{" "}
-                    at time {moment(props.time).format("YYYY-MM-DD HH:mm")}.
+                    at time {moment(props.dateTime).format("YYYY-MM-DD HH:mm")}.
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -311,11 +318,11 @@ export default function EventListElement(props) {
             </Grid>
           </Grid>
           <Grid item>
-            <Typography variant="body2" color="text.secondary">
-              EventID:
-              <br />
-              1030114
-            </Typography>
+            {/*<Typography variant="body2" color="text.secondary">*/}
+            {/*  EventID:*/}
+            {/*  <br />*/}
+            {/*  1030114*/}
+            {/*</Typography>*/}
           </Grid>
         </Grid>
       </Grid>
