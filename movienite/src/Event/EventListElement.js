@@ -37,6 +37,7 @@ import {getAllFriends} from '../api/friends';
 import {useSnackbar} from 'notistack';
 import {createNewEvent, updateEvent} from '../api/event';
 import {formatForm} from '../utils/formatForm';
+import {formatDate} from '../utils/formatDate';
 
 const Img = styled("img")({
   margin: "auto",
@@ -86,12 +87,14 @@ export default function EventListElement(props) {
   const onSubmit = (data) => {
     // const response = createNewEvent(formatForm(data));
     console.log(data);
-    console.log(props.host.id);
+    // console.log(data.dateTime);
     const obj = new Object();
-    obj.dateTime = data.dateTime;
+    obj.dateTime = formatDate(data.dateTime);
     obj.eventID = props.event;
     obj.host = props.host.id;
     obj.location = data.location;
+    // dateTime
+    console.log(obj);
     updateEvent(obj);
     props.onEdit(props.index, obj.dateTime, obj.location);
     seteditOpen(false); // close

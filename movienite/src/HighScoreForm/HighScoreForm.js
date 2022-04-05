@@ -31,6 +31,8 @@ export default function HighScoreForm() {
         res=> setCurrData(dataToArray(res))
     );
   }
+  // console.log("This is Current Data");
+  // console.log(currData);
   return (
     <div>
       <Box
@@ -47,8 +49,6 @@ export default function HighScoreForm() {
           Movies of a Genre with High Scores
         </Typography>
         <Stack spacing={3} onSubmit={handleSubmit(onSubmit)}>
-
-
 
           <AutoCompleteSelect
             label={"Genre"}

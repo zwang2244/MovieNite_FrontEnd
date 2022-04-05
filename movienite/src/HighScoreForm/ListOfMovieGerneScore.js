@@ -6,9 +6,9 @@ import ListItemButton from '@mui/material/ListItemButton';
 
 export default function ListOfMovieGerneScore(props) {
   return (
-    <List sx={{ width: '100%', 
-                maxWidth: 400, 
-                bgcolor: 'background.paper', 
+    <List sx={{ width: '100%',
+                maxWidth: 400,
+                bgcolor: 'background.paper',
                 m:2,
                 position: 'relative',
                 overflow: 'auto',
@@ -16,9 +16,9 @@ export default function ListOfMovieGerneScore(props) {
                 height: 300,
                 '& ul': { padding: 0 },
                 }}>
-      {props.currData.map((value, index) => (
+      {props.currData.length > 0 && props.currData.map((value, index) => (
         <ListItem
-          key={index+value}
+          key={index}
           disableGutters
         >
           <ListItemButton>
