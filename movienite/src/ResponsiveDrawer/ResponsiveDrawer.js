@@ -167,17 +167,11 @@ export function Home() {
       <Stack spacing={6}>
         <Paper>
           <div className="container">
-            <Typography gutterBottom variant="h5">
-              Trending Among Your Friends
-            </Typography>
             <ListOfFriend />
           </div>
         </Paper>
         <Paper>
           <div className="container">
-            <Typography gutterBottom variant="h5">
-              Movies of a Genre with High Scores
-            </Typography>
             <HighScoreForm />
           </div>
         </Paper>
