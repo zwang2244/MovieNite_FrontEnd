@@ -9,6 +9,9 @@ import { useForm } from "react-hook-form";
 import { InputDate } from "../components/form/InputDate";
 import { GenreOptions } from "../_mock/genre";
 import convertArrayToLabel from '../utils/convertArrayToLabel';
+import { getMovieOfGenreWithHighScores } from "../api/genreWithHighScores";
+import moment from "moment";
+import { dataToArray } from "../utils/dataToArray";
 
 const defaultValues = {
   genre: {},
@@ -21,14 +24,12 @@ console.log(items);
 export default function HighScoreForm() {
   const [currData, setCurrData] = React.useState([]);
   const { handleSubmit, control } = useForm({ defaultValues: defaultValues });
-  const handleClick = () => {
-    setCurrData([
-      ["Movie Name1", "Genre1", "Score1"],
-      ["Movie Name2", "Genre2", "Score2"],
-    ]); //api call data inputed here
-  };
+
   const onSubmit = (data) => {
     console.log(data);
+    getMovieOfGenreWithHighScores(data.genre.label,moment(data.date).format("YYYY-MM-DD")).then(
+        res=> setCurrData(dataToArray(res))
+    );
   }
   return (
     <div>

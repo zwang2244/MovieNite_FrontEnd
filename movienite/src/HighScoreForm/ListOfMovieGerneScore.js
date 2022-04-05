@@ -6,16 +6,25 @@ import ListItemButton from '@mui/material/ListItemButton';
 
 export default function ListOfMovieGerneScore(props) {
   return (
-    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', m:2 }}>
-      {props.currData.map((value) => (
+    <List sx={{ width: '100%', 
+                maxWidth: 400, 
+                bgcolor: 'background.paper', 
+                m:2,
+                position: 'relative',
+                overflow: 'auto',
+                maxHeight: 300,
+                height: 300,
+                '& ul': { padding: 0 },
+                }}>
+      {props.currData.map((value, index) => (
         <ListItem
-          key={value}
+          key={index+value}
           disableGutters
         >
           <ListItemButton>
-            <ListItemText primary={value[0]} />
-            <ListItemText primary={value[1]} />
-            <ListItemText primary={value[2]} />
+            <ListItemText key={index + value.title} sx={{width:'30%'}} primary={value.title} />
+            <ListItemText key={index + value.genre} sx={{width:'60%'}} primary={value.genre} />
+            <ListItemText key={index +value.score} sx={{width:'10%'}} primary={value.score} />
           </ListItemButton>
         </ListItem>
       ))}
