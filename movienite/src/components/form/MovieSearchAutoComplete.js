@@ -2,8 +2,6 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import {Controller} from 'react-hook-form';
-import {css} from '@emotion/react';
-import styled from '@emotion/styled';
 import {CircularProgress} from '@mui/material';
 
 export default function MovieSearchAutoComplete({control, name, label, items, placeholder, onChange, loading, readOnly}) {

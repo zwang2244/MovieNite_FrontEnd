@@ -1,0 +1,28 @@
+{
+  "comments": [
+    {
+      "userId": "20",
+      "userAvatar": "",
+      "userName": "Michel Michel",
+      "time": "2022-01-01T23:28:56.782Z",
+      "imdbId": "tt1877830",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean luctus ut est sed faucibus. Duis bibendum ac ex vehicula laoreet. Suspendisse congue vulputate lobortis. Pellentesque, molestie porttitor metus. Pellentesque et neque risus. Aliquam vulputate, mauris vitae tincidunt interdum, mauris mi vehicula urna, nec feugiat quam lectus vitae ex."
+    },
+    {
+      "userId": "50",
+      "userAvatar": "",
+      "userName": "Michel Alice",
+      "time": "2022-03-01T23:28:56.782Z",
+      "imdbId": "tt1877830",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean luctus ut est sed faucibus. Duis bibendum ac ex vehicula laoreet. Suspendisse congue vulputate lobortis. Pellentesque at interdum tortor. Quisque arcu quam, malesuada vel mauris et, posuere sagittis ipsum. Aliquam ultricies a ligula nec faucibus. In elit metus, efficitur lobortis nisi quis, molestie porttitor metus. Pellentesque et neque risus. Aliquam vulputate, mauris vitae tincidunt interdum, mauris mi vehicula urna, nec feugiat quam lectus vitae ex."
+    },
+    {
+      "userId": "20",
+      "userAvatar": "",
+      "userName": "Michel Bob",
+      "time": "2022-04-01T23:28:56.782Z",
+      "imdbId": "tt1877830",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean luctus ut est sed faucibus. Duis bibendum ac ex vehicula laoreet. Suspendisse congue vulputate lobortis. Pellentesque at interdum tortor. Quisque arcu quam, malesuada vel mauris et, posuere sagittis ipsum. Aliquam ultricies a ligula nec faucibus. In elit metus, efficitur lobortis nisi quis, molestie porttitor metus. Pellentesque et neque risus. Aliquam vulputate, mauris vitae tincidunt interdum, mauris mi vehicula urna, nec feugiat quam lectus vitae ex."
+    }
+  ]
+}

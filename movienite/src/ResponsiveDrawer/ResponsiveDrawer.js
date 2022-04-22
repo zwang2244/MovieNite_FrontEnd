@@ -19,7 +19,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import MovieEvent from "../MovieEvent/MovieEvent";
 import ListOfFriend from "../Friends/ListOfFriend";
-import { Stack, TextField } from "@mui/material";
+import { createTheme, Stack, TextField, ThemeProvider } from "@mui/material";
 import "./ResponsiveDrawer.css";
 import { Badge } from "@mui/material";
 import HighScoreForm from "../HighScoreForm/HighScoreForm";
@@ -32,13 +32,14 @@ import { useSelector } from "react-redux";
 import { selectNotificationCount } from "../redux/feature/notification/NotificationCountSlice";
 import { useForm } from "react-hook-form";
 import Paper from "@mui/material/Paper";
+import SearchIcon from "@mui/icons-material/Search";
 
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
   const { window } = props;
   const { pathname } = useLocation();
-  // console.log(pathname.charAt(1).toUpperCase() + pathname.slice(2));
+  // console.log(pathname);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -59,7 +60,16 @@ function ResponsiveDrawer(props) {
           </ListItemButton>
         </ListItem>
 
-        <ListItem button key={"Events"} disablePadding>
+        <ListItem key={"Search"} disablePadding>
+          <ListItemButton component={Link} to={"/search"}>
+            <ListItemIcon>
+              <SearchIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Search Movie"} />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem key={"Events"} disablePadding>
           <ListItemButton component={Link} to={"/events"}>
             <ListItemIcon>
               <EventIcon />
@@ -68,7 +78,7 @@ function ResponsiveDrawer(props) {
           </ListItemButton>
         </ListItem>
 
-        <ListItem button key={"Notification"} disablePadding>
+        <ListItem key={"Notification"} disablePadding>
           <ListItemButton component={Link} to={"/notification"}>
             <ListItemIcon>
               <Badge badgeContent={notificationCount} color={"primary"}>
@@ -79,14 +89,14 @@ function ResponsiveDrawer(props) {
           </ListItemButton>
         </ListItem>
 
-        <ListItem button key={"Favorites"}>
+        <ListItem key={"Favorites"}>
           <ListItemIcon>
             <FavoriteIcon />
           </ListItemIcon>
           <ListItemText primary={"Favorites"} />
         </ListItem>
 
-        <ListItem button key={"Profile"}>
+        <ListItem key={"Profile"}>
           <ListItemIcon>
             <AccountCircleIcon />
           </ListItemIcon>
@@ -100,14 +110,16 @@ function ResponsiveDrawer(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", flex: 1 }}>
       <CssBaseline />
       <AppBar
         position="fixed"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
+          bgcolor: "#fff",
         }}
+        elevation={0}
       >
         <Toolbar>
           <IconButton
@@ -119,13 +131,22 @@ function ResponsiveDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            {pathname.length > 1
-              ? pathname.charAt(1).toUpperCase() + pathname.slice(2)
-              : "Home"}
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ color: "#212B36" }}
+          >
+            {pathname.length < 1
+              ? "Home"
+              : pathname.startsWith("/search/")
+              ? "Movie Detail"
+              : pathname.charAt(1).toUpperCase() + pathname.slice(2)}
           </Typography>
         </Toolbar>
+        <Divider />
       </AppBar>
+
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
