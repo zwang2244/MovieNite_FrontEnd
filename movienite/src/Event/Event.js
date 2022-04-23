@@ -11,21 +11,14 @@ import {dataToArray} from '../utils/dataToArray';
 import {formatDataToForm} from '../utils/formatForm';
 export default function Event() {
   const [currData, setCurrData] = useState([]);
-  // const [modifiedData, setModifiedData] = useState();
   const userId = 20;
-  // const twentyFourHoursInMs = 1000 * 60 * 60 * 24;
   const {data: event, isLoading: eventsLoading} = useQuery(['event', userId], () => getMovieEvents(userId), {
-    // retry: false,
   });
 
   useEffect(() => {
     if (event && !eventsLoading) {
       const array = dataToArray(event)
       const dataCopy = [...array];
-      // console.log(array);
-      // console.log("--------This is DataCopy");
-      // console.log(formatDataToForm(dataCopy));
-      // console.log(dataCopy);
       setCurrData(formatDataToForm(dataCopy));
     }
   }, [event]);

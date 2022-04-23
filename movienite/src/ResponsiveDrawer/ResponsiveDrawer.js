@@ -141,6 +141,8 @@ function ResponsiveDrawer(props) {
               ? "Home"
               : pathname.startsWith("/search/")
               ? "Movie Detail"
+              : pathname.startsWith("/events/")
+              ? "Event Detail"
               : pathname.charAt(1).toUpperCase() + pathname.slice(2)}
           </Typography>
         </Toolbar>

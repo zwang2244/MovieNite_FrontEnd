@@ -36,7 +36,12 @@ export default function ListOfFriend() {
       }}
       subheader={<li />}
     >
-
+        <ListItem key={"1"}>
+          <ListItemButton>
+            <ListItemText sx={{width: '80%'}} primary={"Movie"}/>
+            <ListItemText sx={{width: '20%'}} primary={"Vote"} />
+          </ListItemButton>
+        </ListItem>
       {isLoading && <CircularProgress/>}
       {!isLoading && dataToArray(data).map((item, index) => (
         <ListItem key={index}>

@@ -10,35 +10,23 @@ import moment from "moment";
 import LiveTvIcon from "@mui/icons-material/LiveTv";
 import MovieFilterIcon from "@mui/icons-material/MovieFilter";
 import GroupIcon from "@mui/icons-material/Group";
-import { Button, Divider, FormControl, Stack } from "@mui/material";
+import {Button, FormControl, Stack} from '@mui/material';
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import { TextField } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MovieSearchAutoComplete from "../components/form/MovieSearchAutoComplete";
 import { useForm } from "react-hook-form";
-import EventForm, {
-  FriendLists,
-  MovieSearchOptions,
-} from "../EventForm/EventForm";
 import AutoCompleteWithMulti from "../components/form/AutoCompleteMultiSelect";
 import InputText from "../components/form/InputText";
 import { InputDateTime } from "../components/form/InputDateTime";
-import convertArrayToLabel from "../utils/convertArrayToLabel";
 import { useState } from "react";
-import useDebounce from '../hooks/useDebounce';
-import {useSearch} from '../hooks/useSearch';
-import {useQuery} from 'react-query';
-import {getAllFriends} from '../api/friends';
-import {useSnackbar} from 'notistack';
 import {createNewEvent, updateEvent} from '../api/event';
-import {formatForm} from '../utils/formatForm';
 import {formatDate} from '../utils/formatDate';
-
+import { Link } from 'react-router-dom';
 const Img = styled("img")({
   margin: "auto",
   display: "block",
@@ -315,7 +303,7 @@ export default function EventListElement(props) {
                   <Button onClick={handleCloseDeleteDialog}>Cancel</Button>
                 </DialogActions>
               </Dialog>
-              <Button variant="contained" color="success">
+              <Button component={Link} to={`/events/${props.event}`} variant="contained" color="success">
                 More
               </Button>
             </Grid>

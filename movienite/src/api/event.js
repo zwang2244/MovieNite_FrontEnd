@@ -18,5 +18,7 @@ export const deleteEvent = (eventId) => request.post(`/movieevent/event/delete?e
 
 export const updateEvent = (data) => request.post('/movieevent/event/update', data).then(res => res.data);
 
+export const getEventInfo = (eventId, userId) => request.get(`movieevent/movieeventDetail?eventId=${eventId}&userId=${userId}`).then(res => res.data);
+
 
 
