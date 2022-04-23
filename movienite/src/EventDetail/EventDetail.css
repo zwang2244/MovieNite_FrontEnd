@@ -1,0 +1,7 @@
+.row_container{
+    display: flex;
+    direction: row;
+    align-items: flex-start;
+    justify-content: space-around;
+    margin: 10px;
+}

@@ -3,29 +3,20 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
-import {useQuery} from 'react-query';
-import {getTrendAmongFriends} from '../api/friends';
-import {dataToArray} from '../utils/dataToArray';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import {CircularProgress, Stack, Typography} from '@mui/material';
 
-export default function ListOfFriend() {
-  // react-query
-  const {data, isLoading} = useQuery("trendingAmongFriends", () => getTrendAmongFriends(20), {
-    staleTime: 60 * 1000,
-    refetchOnWindowFocus: false,
-  });
-  // if (!isLoading) {
-  //   console.log(dataToArray(data));
-  // }
+export default function ListOfMovies() {
+  const data = [1,2,3,4,5,7,8];
+  const isLoading = false; // todo
   return (
     <Stack spacing={3}>
-      <Typography sx={{mt: 3}} variant={'h6'}>
-        Trending Among Your Friends
+      <Typography sx={{mt: 3}} variant={'h4'}>
+        Movie Vote
       </Typography>
     <List
       sx={{
-        width: '100%',
-        maxWidth: 360,
+        width: 700,
         bgcolor: 'background.paper',
         position: 'relative',
         overflow: 'auto',
@@ -38,16 +29,17 @@ export default function ListOfFriend() {
     >
         <ListItem key={"1"}>
           <ListItemButton>
-            <ListItemText sx={{width: '80%'}} primary={"Movie"}/>
-            <ListItemText sx={{width: '20%'}} primary={"Vote"} />
+            <ListItemText sx={{width: '80%'}} primary={"Movies Proposed"}/>
+            <ListItemText sx={{width: '20%'}} primary={"Num Votes"} />
           </ListItemButton>
         </ListItem>
       {isLoading && <CircularProgress/>}
-      {!isLoading && dataToArray(data).map((item, index) => (
+      {!isLoading && data.map((item, index) => (
         <ListItem key={index}>
           <ListItemButton>
-            <ListItemText sx={{width: '80%'}} primary={item.title}/>
-            <ListItemText sx={{width: '20%'}} primary={item.votes} />
+            <ListItemText sx={{width: '80%'}} primary={"MovieTitle"}/>
+            <ListItemText sx={{width: '20%'}} primary={"MovieVote"} />
+            <ThumbUpOffAltIcon/>
           </ListItemButton>
         </ListItem>
       ))}

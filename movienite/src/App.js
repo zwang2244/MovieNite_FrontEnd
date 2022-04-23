@@ -6,6 +6,7 @@ import ResponsiveDrawer, {
   Home
 } from './ResponsiveDrawer/ResponsiveDrawer';
 import {Routes, Route} from 'react-router';
+import EventDetail from './EventDetail/EventDetail'
 function App() {
   return (
     <div className="App">
@@ -15,6 +16,7 @@ function App() {
           <Route index element={<Home/>}/>
           <Route path={"notification"} element={<Notification/>}/>
           <Route path={"events"} element={<Event/>}/>
+          <Route path={"events/:id"} element={<EventDetail/>}/>
           {/*TODO Other pages from here*/}
         </Route>
       </Routes>
