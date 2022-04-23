@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {useParams} from 'react-router';
 import {Button, Box, Paper, Grid, ButtonBase, FormControl, Typography, Divider} from '@mui/material';
 import moment from "moment";
-import LiveTvIcon from "@mui/icons-material/LiveTv";
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import ListOfMovies from "./ListOfMovies";
@@ -18,7 +17,9 @@ import MovieSearchAutoComplete from "../components/form/MovieSearchAutoComplete"
 import {useQuery} from 'react-query';
 import {formatDataToForm} from '../utils/formatForm';
 import MovieDescription from "../components/movie/MovieDescription";
-import { getEventInfo } from "../api/event";
+import { getEventInfo, voteForMovie, unvoteForMovie } from "../api/event";
+
+
 const defaultValues = {
   movie: "",
 };
@@ -30,44 +31,52 @@ export default function EventDetail() {
   const [currEvent, setCurrEvent] = useState({});
   const [currParticipant, setCurrParticipant] = useState([]); // array of objects
   const [currProposedMovie, setCurrProposedMovie] = useState([]); // array of objects
-  const {data: eventInfo, isLoading: eventInfoLoading} = useQuery(['eventInfo', userId, eventId], 
-  () => getEventInfo(eventId, userId), {});
-
-  useEffect(() => {
-    if (eventInfo && !eventInfoLoading) {
-      const array = dataToArray(eventInfo)
-      // const dataCopy = [...array];
-      // setCurrData(formatDataToForm(dataCopy));
-      console.log(array);
-      console.log(array.movieInfo);
+  // const {data: eventInfo, isLoading: eventInfoLoading} = useQuery(['eventInfo', userId, eventId], 
+  // () => getEventInfo(eventId, userId), {});
+  const [refresh, setRefresh] = useState(true);
+  const getData = async() => {
+    var eventInfo = await getEventInfo(eventId, userId)
+    const array = dataToArray(eventInfo)
+      // console.log(array);
+      // console.log(array.movieInfo);
       setCurrTopMovie(array.movieInfo);
       setCurrEvent(array.event);
       setCurrParticipant([...array.participants]);
       setCurrProposedMovie([...array.movies]);
-      // console.log("===============");
-      // console.log("Current top movie for this event:");
-      // console.log(currTopMovie);
-      // console.log("Current participants for this event:");
-      // console.log(currParticipant);
-      // console.log("Current proposed movies for this event:");
-      // console.log(currProposedMovie);
-      // console.log("Current event for this event:");
-      // console.log(currEvent);
-      // console.log("===============");
-    }
-  }, [eventInfo]);
+  }
+  // useEffect(() => {
+  //   if (eventInfo && !eventInfoLoading) {
+  //     const array = dataToArray(eventInfo)
+  //     console.log(array);
+  //     console.log(array.movieInfo);
+  //     setCurrTopMovie(array.movieInfo);
+  //     setCurrEvent(array.event);
+  //     setCurrParticipant([...array.participants]);
+  //     setCurrProposedMovie([...array.movies]);
+  //   }
+  // }, [eventInfo]);
+
+  useEffect(() => {
+    getData();
+  }, [refresh]);
+
 
   const handleVote = (index) =>{
     var temp = [...currProposedMovie];
     if(temp[index].isVoted){
       temp[index].isVoted = false;
       temp[index].voteCount--;
+      unvoteForMovie(eventId,temp[index].imdbID,userId,1).then(()=>refresh? setRefresh(false):setRefresh(true));
     }else{
       temp[index].isVoted = true;
       temp[index].voteCount++;
+      voteForMovie(eventId,temp[index].imdbID,userId,1).then(()=>refresh? setRefresh(false):setRefresh(true));
     }
     setCurrProposedMovie(temp);
   }
+  useEffect(() => {
+    console.log(1);
+  }, [handleVote]);
 
   const { handleSubmit, control, watch, setValue, reset } = useForm({
     defaultValues: defaultValues,
@@ -93,6 +102,7 @@ export default function EventDetail() {
     var temp = [...currProposedMovie];
     temp.push({imdbID:imdbNumber, title:data.movie.title, voteCount:1, isVoted:true});
     setCurrProposedMovie(temp);
+    voteForMovie(eventId,imdbNumber,userId,1);
     reset();
   };
 

@@ -20,5 +20,18 @@ export const updateEvent = (data) => request.post('/movieevent/event/update', da
 
 export const getEventInfo = (eventId, userId) => request.get(`movieevent/movieeventDetail?eventId=${eventId}&userId=${userId}`).then(res => res.data);
 
+export const voteForMovie = (eventId, imdbNumber, userId, voteCount) =>  request.post(`/movieevent/vote`, {
+    "eventID": eventId,
+    "imdbNumber": imdbNumber,
+    "userID": userId,
+    "voteCount": voteCount
+}).then(res => res.data) ;
+
+export const unvoteForMovie = (eventId, imdbNumber, userId, voteCount) =>  request.post(`/movieevent/unvote`, {
+  "eventID": eventId,
+  "imdbNumber": imdbNumber,
+  "userID": userId,
+  "voteCount": voteCount
+}).then(res => res.data) ;
 
 
