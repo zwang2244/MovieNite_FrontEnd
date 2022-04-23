@@ -69,10 +69,7 @@ export default function EventForm() {
     refetchOnWindowFocus: false,
   });
   const { enqueueSnackbar } = useSnackbar();
-  // console.log(FriendsList);
-  if (!loadingFriend && FriendsList) {
-    // console.log(dataToArray(FriendsList));
-  }
+
   const onChange = (e) => {
     setSearch(e.target.value);
   };
