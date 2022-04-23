@@ -30,7 +30,7 @@ function MovieDescription({
         position: "relative",
       }}
     >
-      <Box position={"absolute"} sx={{ right: 15, top: 15 }}>
+      <Box position={"absolute"} sx={{ right: 20, top: 20 }}>
         <Box sx={{ pb: "0px" }}>
           <Typography fontFamily={"Roboto"} component={"div"}>
             <Typography fontSize={20} fontWeight={600} display={"inline"}>

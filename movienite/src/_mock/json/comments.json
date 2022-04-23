@@ -2,7 +2,7 @@
   "comments": [
     {
       "userId": "20",
-      "userAvatar": "",
+      "userAvatar": "https://i.pravatar.cc/150?u=20",
       "userName": "Michel Michel",
       "time": "2022-01-01T23:28:56.782Z",
       "imdbId": "tt1877830",
@@ -10,7 +10,7 @@
     },
     {
       "userId": "50",
-      "userAvatar": "",
+      "userAvatar": "https://i.pravatar.cc/150?u=50",
       "userName": "Michel Alice",
       "time": "2022-03-01T23:28:56.782Z",
       "imdbId": "tt1877830",
@@ -18,7 +18,7 @@
     },
     {
       "userId": "20",
-      "userAvatar": "",
+      "userAvatar": "https://i.pravatar.cc/150?u=20",
       "userName": "Michel Bob",
       "time": "2022-04-01T23:28:56.782Z",
       "imdbId": "tt1877830",

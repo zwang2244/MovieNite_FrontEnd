@@ -2,20 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8f6ada0d-2f5a-433a-bfdd-bb81537bb9da" name="Changes" comment="Changes">
-      <change afterPath="$PROJECT_DIR$/movienite/src/Layout/SearchMovie/MovieDetail.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movienite/src/Layout/SearchMovie/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movienite/src/_mock/json/comments.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movienite/src/components/movie/MovieDescription.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movienite/src/components/movie/MovieInputSearch.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movienite/src/components/movie/UserComment.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/movienite/src/utils/checkIfStringIsValid.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/movienite/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/movienite/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/movienite/src/EventForm/EventForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/movienite/src/EventForm/EventForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/movienite/src/ResponsiveDrawer/ResponsiveDrawer.js" beforeDir="false" afterPath="$PROJECT_DIR$/movienite/src/ResponsiveDrawer/ResponsiveDrawer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/movienite/src/api/movie.js" beforeDir="false" afterPath="$PROJECT_DIR$/movienite/src/api/movie.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/movienite/src/components/form/InputText.js" beforeDir="false" afterPath="$PROJECT_DIR$/movienite/src/components/form/InputText.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/movienite/src/components/form/MovieSearchAutoComplete.js" beforeDir="false" afterPath="$PROJECT_DIR$/movienite/src/components/form/MovieSearchAutoComplete.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movienite/src/Layout/SearchMovie/MovieDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/movienite/src/Layout/SearchMovie/MovieDetail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movienite/src/_mock/json/comments.json" beforeDir="false" afterPath="$PROJECT_DIR$/movienite/src/_mock/json/comments.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movienite/src/components/movie/MovieDescription.js" beforeDir="false" afterPath="$PROJECT_DIR$/movienite/src/components/movie/MovieDescription.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +54,8 @@
       <workItem from="1648517785293" duration="513000" />
       <workItem from="1650565480119" duration="21441000" />
       <workItem from="1650635622940" duration="39000" />
-      <workItem from="1650635669675" duration="14671000" />
+      <workItem from="1650635669675" duration="14884000" />
+      <workItem from="1650672382034" duration="2151000" />
     </task>
     <servers />
   </component>

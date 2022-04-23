@@ -26,6 +26,7 @@ import { TransitionGroup } from "react-transition-group";
 import { useQuery } from "react-query";
 import { getMovieEvents } from "../../api/event";
 import { getMovieById } from "../../api/movie";
+import { Rating } from "@mui/lab";
 
 const URL = "https://image.tmdb.org/t/p/original/";
 
@@ -34,12 +35,11 @@ const defaultValues = {
   comment: "",
 };
 
-const buildData = (comment) => {
+const buildData = (comment, imdbId) => {
   const userId = "30";
-  const userAvatar = "";
+  const userAvatar = "https://i.pravatar.cc/150?u=30";
   const userName = "Mike Pop";
   const time = new Date();
-  const imdbId = "";
   return {
     userId,
     userAvatar,
@@ -71,16 +71,16 @@ function MovieDetail(props) {
   if (isMovieInfoLoading) {
     return <CircularProgress />;
   }
-  console.log(JSON.parse(movieInfo.data));
+  // console.log(JSON.parse(movieInfo.data));
   const movieDetail = JSON.parse(movieInfo.data);
-  const { backdrop_path, title } = movieDetail;
+  const { backdrop_path, title, official_rating } = movieDetail;
   //{actors,backdrop_path,director, genres, official_rating,overview,poster_path,release_date,title,writer, imdbID}
   const onSubmit = (data) => {
     // TODO SnackBar
-    console.log(data);
+    // console.log(data);
     const { comment } = data;
     if (isNullOrWhitespace(comment)) {
-      console.log(comment);
+      // console.log(comment);
       return; // TODO tell users to input something
     }
     // get new data
@@ -92,7 +92,7 @@ function MovieDetail(props) {
      * Comments
      * ImdbId
      */
-    const newItem = buildData(comment);
+    const newItem = buildData(comment, imdbId);
     reset(defaultValues);
     addOneComment(newItem);
   };
@@ -180,7 +180,10 @@ function MovieDetail(props) {
                 alignItems={"center"}
               >
                 <Grid item>
-                  <Avatar alt="Remy Sharp" />
+                  <Avatar
+                    alt="Remy Sharp"
+                    src={"https://i.pravatar.cc/150?u=30"}
+                  />
                 </Grid>
                 <Grid justifyContent="left" item xs zeroMinWidth>
                   <Box
