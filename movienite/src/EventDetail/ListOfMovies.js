@@ -1,17 +1,26 @@
-import * as React from 'react';
+import React, { useEffect, useState } from "react";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import {CircularProgress, Stack, Typography} from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+export default function ListOfMovies(props) {
+  console.log(props.movies);
 
-export default function ListOfMovies() {
-  const data = [1,2,3,4,5,7,8];
+  // useEffect(() => {
+  //   setCurrData(props.movies);
+  // }, props.movies);
+
+  const vote = (index) =>{
+    console.log(index);
+  }
   const isLoading = false; // todo
   return (
     <Stack spacing={3}>
-      <Typography sx={{mt: 3}} variant={'h4'}>
+      <Typography fontSize={25} fontWeight={600} display={"inline"}>
         Movie Vote
       </Typography>
     <List
@@ -27,20 +36,20 @@ export default function ListOfMovies() {
       }}
       subheader={<li />}
     >
-        <ListItem key={"1"}>
-          <ListItemButton>
-            <ListItemText sx={{width: '80%'}} primary={"Movies Proposed"}/>
-            <ListItemText sx={{width: '20%'}} primary={"Num Votes"} />
-          </ListItemButton>
+        <ListItem key={"colname"}>
+            <ListItemText sx={{width: '90%'}} primary={"Movies Proposed"} primaryTypographyProps={{fontSize: '18px',fontWeight:600}} style={{textAlign: "left"}}/>
+            <ListItemText sx={{width: '10%'}} primary={"Votes"} primaryTypographyProps={{fontSize: '18px',fontWeight:600}} style={{textAlign: "center"}}/>
         </ListItem>
       {isLoading && <CircularProgress/>}
-      {!isLoading && data.map((item, index) => (
+      {!isLoading && props.movies.map((item, index) => (
         <ListItem key={index}>
-          <ListItemButton>
-            <ListItemText sx={{width: '80%'}} primary={"MovieTitle"}/>
-            <ListItemText sx={{width: '20%'}} primary={"MovieVote"} />
-            <ThumbUpOffAltIcon/>
-          </ListItemButton>
+          <ListItemButton sx={{width: "90%"}}>
+            <ListItemText primary={item.title} style={{textAlign: "left"}}/>
+            </ListItemButton>
+              <ListItemText sx={{width: "5%"}} primary={item.voteCount} style={{textAlign: "center"}} primaryTypographyProps={{display:"inline"}}/>
+              <IconButton aria-label="vote" onClick={() => props.handleVote(index)}>
+                {item.isVoted? <ThumbUpAltIcon/>:<ThumbUpOffAltIcon/>}
+              </IconButton>
         </ListItem>
       ))}
     </List>

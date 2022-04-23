@@ -17,6 +17,7 @@ function MovieDescription({
   title,
   writer,
   imdbID,
+  mode
 }) {
   // {...} 这种方式可以取到!
 
@@ -59,7 +60,7 @@ function MovieDescription({
           <Paper
             component={"img"}
             elevation={4}
-            height={330}
+            height={mode=="event"?450:330}
             // src={
             //   "https://image.tmdb.org/t/p/original/8RW2runSEc34IwKN2D1aPcJd2UL.jpg"
             // }
@@ -71,9 +72,12 @@ function MovieDescription({
           <Stack spacing={2} justifyContent={"center"}>
             {/*Tag*/}
             <Stack direction="row" spacing={2} sx={{ paddingBottom: 1 }}>
-              {genres.map((item) => (
+              {mode === "event"?  <Typography fontSize={25} fontWeight={600} display={"inline"}>
+                {title}
+              </Typography>:''}
+              {genres?genres.map((item) => (
                 <Chip key={item} label={item} variant="outlined" />
-              ))}
+              )):''}
             </Stack>
             {/*Description*/}
             <Box>

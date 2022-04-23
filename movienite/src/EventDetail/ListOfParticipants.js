@@ -3,14 +3,14 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
-import {CircularProgress, Stack, Typography} from '@mui/material';
+import {CircularProgress, Stack, Typography, Avatar} from '@mui/material';
 
-export default function ListOfParticipants() {
-  const data = [1,2,3,4,5,7,8];
+export default function ListOfParticipants(props) {
   const isLoading = false; // todo
+  console.log(props.participants);
   return (
     <Stack spacing={3}>
-      <Typography sx={{mt: 3}} variant={'h6'}>
+      <Typography sx={{mt: 3}} variant={'h6'} fontSize={23} fontWeight={600} >
       Participants
       </Typography>
     <List
@@ -19,7 +19,6 @@ export default function ListOfParticipants() {
         bgcolor: 'background.paper',
         position: 'relative',
         overflow: 'auto',
-        // maxHeight: 300,
         height: 500,
         '& ul': { padding: 0 },
         m:2
@@ -27,10 +26,11 @@ export default function ListOfParticipants() {
       subheader={<li />}
     >
       {isLoading && <CircularProgress/>}
-      {!isLoading && data.map((item, index) => (
+      {!isLoading && props.participants.map((item, index) => (
         <ListItem key={index}>
           <ListItemButton>
-            <ListItemText sx={{width: '100%'}} primary={"Friend"}/>
+            <Avatar alt={item.firstName + " " + item.lastName} src={item.avatar} sx={{m:1.5}}/>
+            <ListItemText sx={{width: '100%'}} primary={item.firstName + " " + item.lastName}/>
           </ListItemButton>
         </ListItem>
       ))}

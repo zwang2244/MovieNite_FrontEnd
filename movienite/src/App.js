@@ -16,7 +16,7 @@ function App() {
           <Route index element={<Home/>}/>
           <Route path={"notification"} element={<Notification/>}/>
           <Route path={"events"} element={<Event/>}/>
-          <Route path={"events/:id"} element={<EventDetail/>}/>
+          <Route path={"events/:eventId"} element={<EventDetail/>}/>
           <Route path={"search"} element={<SearchMovie />} />
           <Route path="search/:imdbId" element={<MovieDetail />} />
           {/*TODO Other pages from here*/}

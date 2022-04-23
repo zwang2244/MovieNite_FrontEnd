@@ -5,3 +5,14 @@
     justify-content: space-around;
     margin: 10px;
 }
+.movieInfo{
+    display: flex;
+}
+
+.time_location{
+    display: flex;
+    direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 50px;
+}
