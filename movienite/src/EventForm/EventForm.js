@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import { Divider, FormControl } from "@mui/material";
 import { Button } from "@mui/material";
@@ -9,7 +9,6 @@ import AutoCompleteWithMulti from "../components/form/AutoCompleteMultiSelect";
 import { InputDateTime } from "../components/form/InputDateTime";
 import InputText from "../components/form/InputText";
 import convertArrayToLabel from "../utils/convertArrayToLabel";
-import { useState } from "react";
 import useDebounce from "../hooks/useDebounce";
 import { useSearch } from "../hooks/useSearch";
 import { dataToArray } from "../utils/dataToArray";
@@ -20,7 +19,7 @@ import {formatDate} from '../utils/formatDate';
 import {formatForm, FormatForm} from '../utils/formatForm';
 import {createNewEvent} from '../api/event';
 import {useSnackbar} from 'notistack';
-
+import { getUserInfo } from "../api/user";
 
 
 
@@ -57,11 +56,13 @@ const defaultValues = {
   movie: "",
 };
 
+const userId = 20;
 export default function EventForm() {
   const { handleSubmit, control, watch, setValue, reset} = useForm({
     defaultValues: defaultValues,
   });
   const [search, setSearch] = useState("");
+  const [isMember, setIsMember] = useState(false);
   const debounceSearch = useDebounce(search, 500);
   const { data: movieList, isLoading } = useSearch(debounceSearch);
   const {data: FriendsList, isLoading: loadingFriend} = useQuery("Friends", () => getAllFriends(20), {
@@ -74,8 +75,17 @@ export default function EventForm() {
     setSearch(e.target.value);
   };
 
+  const getMembership = async() => {
+    var userData = await getUserInfo(userId);
+    const array = dataToArray(userData);
+    setIsMember(array.isMember);
+  }
+  useEffect(() => {
+    getMembership();
+  });
+
   const onSubmit = (data) => {
-    const response = createNewEvent(formatForm(data));
+    const response = createNewEvent(formatForm(data,isMember));
     console.log(data);
     response.then(data => {
       if (data.code === 1) {
