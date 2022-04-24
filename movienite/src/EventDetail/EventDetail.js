@@ -103,9 +103,6 @@ export default function EventDetail() {
     if (!imdbNumber) return;
     var vc = 1;
     if(isMember) vc = 2;
-    var temp = [...currProposedMovie];
-    temp.push({imdbID:imdbNumber, title:data.movie.title, voteCount:vc, isVoted:true});
-    setCurrProposedMovie(temp);
     voteForMovie(eventId,imdbNumber,userId,vc).then(()=>refresh? setRefresh(false):setRefresh(true));
     reset();
   };
