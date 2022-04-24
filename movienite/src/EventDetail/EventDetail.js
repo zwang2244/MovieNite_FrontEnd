@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import {useParams} from 'react-router';
-import {Button, Box, Paper, Grid, ButtonBase, FormControl, Typography, Divider} from '@mui/material';
+import {Button, Box, Paper, Grid, FormControl, Typography, Divider} from '@mui/material';
 import moment from "moment";
-import LiveTvIcon from "@mui/icons-material/LiveTv";
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import ListOfMovies from "./ListOfMovies";
 import ListOfParticipants from "./ListOfParticipants";
-import { styled } from "@mui/material/styles";
 import "./EventDetail.css"
 import { useForm } from "react-hook-form";
 import useDebounce from "../hooks/useDebounce";
@@ -16,9 +14,12 @@ import { dataToArray } from "../utils/dataToArray";
 import { useLocation, useNavigate } from "react-router";
 import MovieSearchAutoComplete from "../components/form/MovieSearchAutoComplete";
 import {useQuery} from 'react-query';
-import {formatDataToForm} from '../utils/formatForm';
 import MovieDescription from "../components/movie/MovieDescription";
-import { getEventInfo } from "../api/event";
+import { getEventInfo, voteForMovie, unvoteForMovie, addParticipant, deleteParticipant } from "../api/event";
+import { getUserInfo } from "../api/user";
+import { getAllFriends } from "../api/friends";
+import AutoCompleteWithMulti from "../components/form/AutoCompleteMultiSelect";
+
 const defaultValues = {
   movie: "",
 };
@@ -26,45 +27,57 @@ const defaultValues = {
 export default function EventDetail() {
   const userId = 20; // hardcoded
   let {eventId} = useParams();
+  const [currHost, setCurrHost] = useState(0);
   const [currTopMovie, setCurrTopMovie] = useState({});
   const [currEvent, setCurrEvent] = useState({});
   const [currParticipant, setCurrParticipant] = useState([]); // array of objects
   const [currProposedMovie, setCurrProposedMovie] = useState([]); // array of objects
-  const {data: eventInfo, isLoading: eventInfoLoading} = useQuery(['eventInfo', userId, eventId], 
-  () => getEventInfo(eventId, userId), {});
+  const [isMember, setIsMember] = useState(false);
+  const {data: FriendsList, isLoading: loadingFriend} = useQuery("Friends", () => getAllFriends(userId), {
+    staleTime: 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+  const [refresh, setRefresh] = useState(true);
+  
+  const getData = async() => {
+    var eventInfo = await getEventInfo(eventId, userId)
+    const array = dataToArray(eventInfo);
+    setCurrHost(array.event.host);
+    setCurrTopMovie(array.movieInfo);
+    setCurrEvent(array.event);
+    setCurrParticipant([...array.participants]);
+    setCurrProposedMovie([...array.movies]);
+  }
+
+  const getMembership = async() => {
+    var userData = await getUserInfo(userId);
+    const array = dataToArray(userData);
+    setIsMember(array.isMember);
+  }
 
   useEffect(() => {
-    if (eventInfo && !eventInfoLoading) {
-      const array = dataToArray(eventInfo)
-      // const dataCopy = [...array];
-      // setCurrData(formatDataToForm(dataCopy));
-      console.log(array);
-      console.log(array.movieInfo);
-      setCurrTopMovie(array.movieInfo);
-      setCurrEvent(array.event);
-      setCurrParticipant([...array.participants]);
-      setCurrProposedMovie([...array.movies]);
-      // console.log("===============");
-      // console.log("Current top movie for this event:");
-      // console.log(currTopMovie);
-      // console.log("Current participants for this event:");
-      // console.log(currParticipant);
-      // console.log("Current proposed movies for this event:");
-      // console.log(currProposedMovie);
-      // console.log("Current event for this event:");
-      // console.log(currEvent);
-      // console.log("===============");
-    }
-  }, [eventInfo]);
+    getData();
+  }, [refresh]);
+
+  useEffect(() => {
+    getMembership();
+  });
+
 
   const handleVote = (index) =>{
     var temp = [...currProposedMovie];
     if(temp[index].isVoted){
       temp[index].isVoted = false;
-      temp[index].voteCount--;
+      var vc = 1;
+      if(isMember) vc = 2;
+      temp[index].voteCount = temp[index].voteCount - vc;
+      unvoteForMovie(eventId,temp[index].imdbID,userId,vc).then(()=>refresh? setRefresh(false):setRefresh(true));
     }else{
       temp[index].isVoted = true;
-      temp[index].voteCount++;
+      var vc = 1;
+      if(isMember) vc = 2;
+      temp[index].voteCount = temp[index].voteCount + vc;
+      voteForMovie(eventId,temp[index].imdbID,userId,vc).then(()=>refresh? setRefresh(false):setRefresh(true));
     }
     setCurrProposedMovie(temp);
   }
@@ -88,21 +101,24 @@ export default function EventDetail() {
     if (data.movie === "" || data.movie === null) return;
     const imdbNumber = data.movie.imdbNumber;
     if (!imdbNumber) return;
-    console.log("========");
-    console.log(imdbNumber);
+    var vc = 1;
+    if(isMember) vc = 2;
     var temp = [...currProposedMovie];
-    temp.push({imdbID:imdbNumber, title:data.movie.title, voteCount:1, isVoted:true});
+    temp.push({imdbID:imdbNumber, title:data.movie.title, voteCount:vc, isVoted:true});
     setCurrProposedMovie(temp);
+    voteForMovie(eventId,imdbNumber,userId,vc).then(()=>refresh? setRefresh(false):setRefresh(true));
     reset();
   };
 
-  const Img = styled("img")({
-    margin: "auto",
-    display: "block",
-    maxWidth: "100%",
-    maxHeight: "100%",
-    position: "relative"
-  });
+  const onInvite = (data) => {
+    var newfriendlist = data.invitedFriendList;
+    newfriendlist.map((friend)=>{addParticipant(eventId,friend.userID).then(()=>refresh? setRefresh(false):setRefresh(true));});
+    reset();
+  }
+
+  const onKickOut = (userID) => {
+    deleteParticipant(eventId,userID).then(()=>refresh? setRefresh(false):setRefresh(true));
+  }
   
   return(
     <div className="row_container">
@@ -120,7 +136,7 @@ export default function EventDetail() {
     }}
   >
     {/* time & location */}
-    <Grid xs container direction="column" justifyContent="space-between" height={80} >
+    <Grid container direction="column" justifyContent="space-between" height={80} >
         <div className="time_location">
           <AccessTimeFilledIcon />
           <Typography variant="h6" component="div">
@@ -244,7 +260,54 @@ export default function EventDetail() {
       backgroundColor: (theme) =>
         theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     }}>
-      <ListOfParticipants participants={currParticipant}/>
+      <ListOfParticipants participants={currParticipant} isHost={currHost === userId} onKickOut={onKickOut} host={userId}/>
+      <FormControl
+        onSubmit={handleSubmit(onInvite)}
+        noValidate
+        autoComplete="off"
+      >
+        <div className={"container"}>
+          <Paper
+              sx={{
+                p: "7px 10px",
+                display: "flex",
+                alignItems: "center",
+                width: 300,
+              }}
+            >
+              <AutoCompleteWithMulti
+                control={control}
+                name={"invitedFriendList"}
+                label={"Friend"}
+                items={dataToArray(FriendsList).filter(function (el)
+                  {return !currParticipant.map((o) => o.userID).includes(el.userID)})}
+                placeholder={"Invite your friends"}
+              />
+          </Paper>
+      </div>
+      <div className={"container"}>
+        <Paper
+            component="form"
+            sx={{
+              p: "2px 4px",
+              display: "flex",
+              alignItems: "center",
+              width: 300,
+              justifyContent: "space-evenly",
+            }}
+            elevation={0}
+          >
+            <Button
+              sx={{ width: "100%" }}
+              size="large"
+              variant="contained"
+              type="submit"
+            >
+              Invite
+            </Button>
+        </Paper>
+      </div>
+      </FormControl>
   </Paper>
   </div>
   );

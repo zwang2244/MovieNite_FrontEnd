@@ -6,8 +6,9 @@ import request from '../utils/request';
 //                 (["keys", userId]     , () => getMovieEvents(userId));
 // 4.
 //https://moive-nite.azurewebsites.net/movieevent/hosted_event?userID=20
-export const getMovieEvents = (userId) => request.get('/movieevent/movieevent/info', {
+export const getMovieEvents = (userId, isHost) => request.get('/movieevent/movieevent/info', {
   params: {
+    isHost: isHost,
     userId: userId
   }
 }).then(res => res.data);
@@ -20,5 +21,20 @@ export const updateEvent = (data) => request.post('/movieevent/event/update', da
 
 export const getEventInfo = (eventId, userId) => request.get(`movieevent/movieeventDetail?eventId=${eventId}&userId=${userId}`).then(res => res.data);
 
+export const voteForMovie = (eventId, imdbNumber, userId, voteCount) =>  request.post(`/movieevent/vote`, {
+    "eventID": eventId,
+    "imdbNumber": imdbNumber,
+    "userID": userId,
+    "voteCount": voteCount
+}).then(res => res.data) ;
 
+export const unvoteForMovie = (eventId, imdbNumber, userId, voteCount) =>  request.post(`/movieevent/unvote`, {
+  "eventID": eventId,
+  "imdbNumber": imdbNumber,
+  "userID": userId,
+  "voteCount": voteCount
+}).then(res => res.data) ;
 
+export const addParticipant = (eventId, userId) => request.post(`/movieevent/participant/add?eventId=${eventId}&userId=${userId}`).then(res => res.data);
+
+export const deleteParticipant = (eventId, userId) => request.post(`/movieevent/participant/del?eventId=${eventId}&userId=${userId}`).then(res => res.data);

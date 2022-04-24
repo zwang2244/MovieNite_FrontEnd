@@ -8,15 +8,6 @@ import {CircularProgress, Stack, Typography} from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 export default function ListOfMovies(props) {
-  console.log(props.movies);
-
-  // useEffect(() => {
-  //   setCurrData(props.movies);
-  // }, props.movies);
-
-  const vote = (index) =>{
-    console.log(index);
-  }
   const isLoading = false; // todo
   return (
     <Stack spacing={3}>
