@@ -71,14 +71,28 @@ function MovieDescription({
         <Grid item xs={7.5} justifyContent={"flex-start"} sx={{ pr: 5 }}>
           <Stack spacing={2} justifyContent={"center"}>
             {/*Tag*/}
-            <Stack direction="row" spacing={2} sx={{ paddingBottom: 1 }}>
-              {mode === "event"?  <Typography fontSize={25} fontWeight={600} display={"inline"}>
+              {mode === "event"?  
+              
+              <Stack direction="row" spacing={2} sx={{ paddingBottom: 1 , width: "500px"}}>
+              <Typography fontSize={25} fontWeight={600} display={"inline"}>
                 {title}
-              </Typography>:''}
+              </Typography>
+              {/* <Stack> */}
+              <Box>
               {genres?genres.map((item) => (
                 <Chip key={item} label={item} variant="outlined" />
               )):''}
-            </Stack>
+              {/* </Stack> */}
+              </Box>
+              </Stack>
+              :
+              <Stack direction="row" spacing={2} sx={{ paddingBottom: 1 }}>
+              {genres?genres.map((item) => (
+                <Chip key={item} label={item} variant="outlined" />
+              )):''}
+              </Stack>
+              }
+
             {/*Description*/}
             <Box>
               <Typography

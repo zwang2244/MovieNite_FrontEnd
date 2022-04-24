@@ -12,7 +12,7 @@ import {formatDataToForm} from '../utils/formatForm';
 export default function Event() {
   const [currData, setCurrData] = useState([]);
   const userId = 20;
-  const {data: event, isLoading: eventsLoading} = useQuery(['event', userId], () => getMovieEvents(userId), {
+  const {data: event, isLoading: eventsLoading} = useQuery(['event', userId], () => getMovieEvents(userId, true), {
   });
 
   useEffect(() => {
