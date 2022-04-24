@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8f6ada0d-2f5a-433a-bfdd-bb81537bb9da" name="Changes" comment="Changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/movienite/src/Layout/SearchMovie/MovieDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/movienite/src/Layout/SearchMovie/MovieDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/movienite/src/_mock/json/comments.json" beforeDir="false" afterPath="$PROJECT_DIR$/movienite/src/_mock/json/comments.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/movienite/src/components/movie/MovieDescription.js" beforeDir="false" afterPath="$PROJECT_DIR$/movienite/src/components/movie/MovieDescription.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
