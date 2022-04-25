@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "axios": "^0.26.1"
+    "@hookform/resolvers": "^2.8.8",
+    "@mui/base": "^5.0.0-alpha.77",
+    "axios": "^0.26.1",
+    "yup": "^0.32.11"
   }
 }

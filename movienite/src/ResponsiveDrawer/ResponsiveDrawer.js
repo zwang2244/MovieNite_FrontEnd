@@ -19,7 +19,13 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import MovieEvent from "../MovieEvent/MovieEvent";
 import ListOfFriend from "../Friends/ListOfFriend";
-import { createTheme, Stack, TextField, ThemeProvider } from "@mui/material";
+import {
+  Button,
+  createTheme,
+  Stack,
+  TextField,
+  ThemeProvider,
+} from "@mui/material";
 import "./ResponsiveDrawer.css";
 import { Badge } from "@mui/material";
 import HighScoreForm from "../HighScoreForm/HighScoreForm";
@@ -33,10 +39,13 @@ import { selectNotificationCount } from "../redux/feature/notification/Notificat
 import { useForm } from "react-hook-form";
 import Paper from "@mui/material/Paper";
 import SearchIcon from "@mui/icons-material/Search";
+import { useAuth } from "../context/auth-context";
 
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
+  const { user, logout } = useAuth();
+  console.log(user);
   const { window } = props;
   const { pathname } = useLocation();
   // console.log(pathname);
@@ -50,6 +59,16 @@ function ResponsiveDrawer(props) {
     <div>
       <Toolbar />
       <Divider />
+
+      {/*<Box>*/}
+      {/*  {*/}
+      {/*    <>*/}
+      {/*      <div> {user?.avatar}</div>*/}
+      {/*      <div>{user?.firstName}</div>*/}
+      {/*      <div>{user?.userID}</div>*/}
+      {/*    </>*/}
+      {/*  }*/}
+      {/*</Box>*/}
       <List>
         <ListItem key={"Home"} disablePadding>
           <ListItemButton component={Link} to={"/"}>
@@ -57,6 +76,15 @@ function ResponsiveDrawer(props) {
               <HomeIcon />
             </ListItemIcon>
             <ListItemText primary={"Home"} />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem key={"Text!"} disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Testing"} />
           </ListItemButton>
         </ListItem>
 
@@ -101,6 +129,15 @@ function ResponsiveDrawer(props) {
             <AccountCircleIcon />
           </ListItemIcon>
           <ListItemText primary={"Profile"} />
+        </ListItem>
+
+        <ListItem key={"Logout"} disablePadding>
+          <ListItemButton onClick={logout}>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Logout"} />
+          </ListItemButton>
         </ListItem>
       </List>
     </div>
