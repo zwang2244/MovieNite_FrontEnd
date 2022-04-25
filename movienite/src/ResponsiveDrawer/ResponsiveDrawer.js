@@ -38,10 +38,13 @@ import { selectNotificationCount } from "../redux/feature/notification/Notificat
 import { useForm } from "react-hook-form";
 import Paper from "@mui/material/Paper";
 import SearchIcon from "@mui/icons-material/Search";
+import { useAuth } from "../context/auth-context";
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
+  const { user, logout } = useAuth();
+  console.log(user);
   const { window } = props;
   const { pathname } = useLocation();
   // console.log(pathname);
@@ -60,6 +63,16 @@ function ResponsiveDrawer(props) {
     <div>
       <Toolbar />
       <Divider />
+
+      {/*<Box>*/}
+      {/*  {*/}
+      {/*    <>*/}
+      {/*      <div> {user?.avatar}</div>*/}
+      {/*      <div>{user?.firstName}</div>*/}
+      {/*      <div>{user?.userID}</div>*/}
+      {/*    </>*/}
+      {/*  }*/}
+      {/*</Box>*/}
       <List>
         <ListItem key={"Home"} disablePadding>
           <ListItemButton component={Link} to={"/"}>
@@ -67,6 +80,15 @@ function ResponsiveDrawer(props) {
               <HomeIcon />
             </ListItemIcon>
             <ListItemText primary={"Home"} />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem key={"Text!"} disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Testing"} />
           </ListItemButton>
         </ListItem>
 
@@ -133,6 +155,15 @@ function ResponsiveDrawer(props) {
             <AccountCircleIcon />
           </ListItemIcon>
           <ListItemText primary={"Profile"} />
+        </ListItem>
+
+        <ListItem key={"Logout"} disablePadding>
+          <ListItemButton onClick={logout}>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Logout"} />
+          </ListItemButton>
         </ListItem>
       </List>
     </div>
