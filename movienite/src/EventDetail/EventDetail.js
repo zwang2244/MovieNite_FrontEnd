@@ -257,7 +257,7 @@ export default function EventDetail() {
       backgroundColor: (theme) =>
         theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     }}>
-      <ListOfParticipants participants={currParticipant} isHost={currHost === userId} onKickOut={onKickOut} host={userId}/>
+      <ListOfParticipants participants={currParticipant} isHost={currHost === userId} onKickOut={onKickOut} host={currEvent.host}/>
       <FormControl
         onSubmit={handleSubmit(onInvite)}
         noValidate

@@ -147,12 +147,13 @@ export default function EventListElement(props) {
                     typography: "h6",
                   }}
                 >
-                  {props.invitedFriendList.map((friend, index) => (
+                  {props.invitedFriendList.slice(0,4).map((friend, index) => (
                     <Box display={"inline"} key={index}>
                       {friend.firstName +
-                        (index === props.invitedFriendList.length - 1 ? "" : ", ")}
+                        (index === props.invitedFriendList.length - 1 || index === 3 ? "" : ", ")}
                     </Box>
                   ))}
+                  {props.invitedFriendList.length > 4? " ...": ""}
                 </Box>
               </div>
 
@@ -199,13 +200,14 @@ export default function EventListElement(props) {
               </div>
             </Grid>
             <Grid item>
-              <Button
+              {props.mode && props.mode ==="participated"?               
+              "":<Button
                 sx={{ mr: 3 }}
                 variant="outlined"
                 onClick={handleClickOpenEditDialog}
               >
                 Edit
-              </Button>
+              </Button>}
 
               <Dialog open={editopen} onClose={handleCloseEditDialog}>
                 <FormControl sx={{width: '480px'}} onSubmit={handleSubmit(onSubmit)}>
@@ -263,14 +265,15 @@ export default function EventListElement(props) {
                 </FormControl>
               </Dialog>
 
-              <Button
+              {props.mode && props.mode ==="participated"?       
+              "":<Button
                 sx={{ mr: 3 }}
                 variant="outlined"
                 color="error"
                 onClick={handleClickOpenDeleteDialog}
               >
                 Delete
-              </Button>
+              </Button>}
               <Dialog
                 open={delopen}
                 TransitionComponent={Transition}
