@@ -19,11 +19,16 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import MovieEvent from "../MovieEvent/MovieEvent";
 import ListOfFriend from "../Friends/ListOfFriend";
-import { createTheme, Stack, TextField, ThemeProvider } from "@mui/material";
+import { createTheme, Stack, TextField, ThemeProvider, Collapse} from "@mui/material";
 import "./ResponsiveDrawer.css";
 import { Badge } from "@mui/material";
 import HighScoreForm from "../HighScoreForm/HighScoreForm";
-
+import { StarBorder } from "@mui/icons-material";
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import EventNoteIcon from '@mui/icons-material/EventNote';
 // @react-router
 import { Outlet, useLocation } from "react-router";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -33,7 +38,7 @@ import { selectNotificationCount } from "../redux/feature/notification/Notificat
 import { useForm } from "react-hook-form";
 import Paper from "@mui/material/Paper";
 import SearchIcon from "@mui/icons-material/Search";
-
+import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
@@ -43,6 +48,11 @@ function ResponsiveDrawer(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+  const [open, setOpen] = React.useState(true);
+
+  const handleClick = () => {
+    setOpen(!open);
   };
 
   const notificationCount = useSelector(selectNotificationCount);
@@ -70,13 +80,35 @@ function ResponsiveDrawer(props) {
         </ListItem>
 
         <ListItem key={"Events"} disablePadding>
-          <ListItemButton component={Link} to={"/events"}>
+          <ListItemButton onClick={handleClick}>
             <ListItemIcon>
               <EventIcon />
             </ListItemIcon>
             <ListItemText primary={"Events"} />
+            {open ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
         </ListItem>
+
+        <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItemButton component={Link} to={"/events"} sx={{ pl: 4 }}>
+            <ListItemIcon>
+              <EventNoteIcon />
+            </ListItemIcon>
+            <ListItemText primary="Hosted" />
+          </ListItemButton>
+        </List>
+
+        <List component="div" disablePadding>
+          <ListItemButton component={Link} to={"/eventsParticipated"} sx={{ pl: 4 }}>
+            <ListItemIcon>
+              <PeopleOutlineIcon />
+            </ListItemIcon>
+            <ListItemText primary="Participated" />
+          </ListItemButton>
+        </List>
+
+      </Collapse>
 
         <ListItem key={"Notification"} disablePadding>
           <ListItemButton component={Link} to={"/notification"}>
@@ -141,6 +173,10 @@ function ResponsiveDrawer(props) {
               ? "Home"
               : pathname.startsWith("/search/")
               ? "Movie Detail"
+              : pathname === "/events"?
+              "Events Hosted"
+              : pathname === "/eventsParticipated"?
+              "Events Participated"
               : pathname.startsWith("/events/")
               ? "Event Detail"
               : pathname.charAt(1).toUpperCase() + pathname.slice(2)}
