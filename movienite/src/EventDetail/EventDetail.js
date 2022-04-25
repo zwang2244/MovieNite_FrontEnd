@@ -103,9 +103,6 @@ export default function EventDetail() {
     if (!imdbNumber) return;
     var vc = 1;
     if(isMember) vc = 2;
-    var temp = [...currProposedMovie];
-    temp.push({imdbID:imdbNumber, title:data.movie.title, voteCount:vc, isVoted:true});
-    setCurrProposedMovie(temp);
     voteForMovie(eventId,imdbNumber,userId,vc).then(()=>refresh? setRefresh(false):setRefresh(true));
     reset();
   };
@@ -260,7 +257,7 @@ export default function EventDetail() {
       backgroundColor: (theme) =>
         theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     }}>
-      <ListOfParticipants participants={currParticipant} isHost={currHost === userId} onKickOut={onKickOut} host={userId}/>
+      <ListOfParticipants participants={currParticipant} isHost={currHost === userId} onKickOut={onKickOut} host={currEvent.host}/>
       <FormControl
         onSubmit={handleSubmit(onInvite)}
         noValidate

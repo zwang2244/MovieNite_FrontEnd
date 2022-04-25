@@ -4,11 +4,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-import {CircularProgress, Stack, Typography} from '@mui/material';
+import {CircularProgress, Stack, Typography, Rating} from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 export default function ListOfMovies(props) {
   const isLoading = false; // todo
+  console.log(props.movies);
   return (
     <Stack spacing={3}>
       <Typography fontSize={25} fontWeight={600} display={"inline"}>
@@ -34,9 +35,10 @@ export default function ListOfMovies(props) {
       {isLoading && <CircularProgress/>}
       {!isLoading && props.movies.map((item, index) => (
         <ListItem key={index}>
-          <ListItemButton sx={{width: "90%"}}>
+          <Rating name="half-rating-read" defaultValue={item.avgRating} precision={1} readOnly size="small" />
+          <ListItemButton sx={{width: "90%"}}>  
             <ListItemText primary={item.title} style={{textAlign: "left"}}/>
-            </ListItemButton>
+          </ListItemButton>
               <ListItemText sx={{width: "5%"}} primary={item.voteCount} style={{textAlign: "center"}} primaryTypographyProps={{display:"inline"}}/>
               <IconButton aria-label="vote" onClick={() => props.handleVote(index)}>
                 {item.isVoted? <ThumbUpAltIcon/>:<ThumbUpOffAltIcon/>}

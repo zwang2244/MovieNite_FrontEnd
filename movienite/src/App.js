@@ -13,7 +13,7 @@ import Auth from "./Layout/Auth";
 import AuthGuard from "./Layout/Auth/AuthGuard";
 import Register from "./Layout/Auth/Register";
 import LoginPage from "./Layout/Auth/LoginPage";
-
+import EventParticipated from "./Event/EventParticipated";
 function App() {
   const { user } = useAuth();
   return (
@@ -36,6 +36,7 @@ function App() {
           <Route path={"events/:eventId"} element={<EventDetail />} />
           <Route path={"search"} element={<SearchMovie />} />
           <Route path="search/:imdbId" element={<MovieDetail />} />
+          <Route path={"eventsParticipated"} element={<EventParticipated/>}/>
           {/*TODO Other pages from here*/}
         </Route>
         <Route path={"/auth"} element={<Auth />}>
