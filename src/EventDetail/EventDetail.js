@@ -257,8 +257,9 @@ export default function EventDetail() {
       backgroundColor: (theme) =>
         theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     }}>
-      <ListOfParticipants participants={currParticipant} isHost={currHost === userId} onKickOut={onKickOut} host={currEvent.host}/>
-      <FormControl
+      <ListOfParticipants mode={"Participates"} participants={currParticipant} isHost={currHost === userId} onKickOut={onKickOut} host={currEvent.host}/>
+      {currHost === userId? 
+        (<FormControl
         onSubmit={handleSubmit(onInvite)}
         noValidate
         autoComplete="off"
@@ -304,7 +305,7 @@ export default function EventDetail() {
             </Button>
         </Paper>
       </div>
-      </FormControl>
+      </FormControl>):''}
   </Paper>
   </div>
   );

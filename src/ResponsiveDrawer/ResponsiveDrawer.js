@@ -15,19 +15,14 @@ import Typography from "@mui/material/Typography";
 import HomeIcon from "@mui/icons-material/Home";
 import EventIcon from "@mui/icons-material/Event";
 import CircleNotificationsIcon from "@mui/icons-material/CircleNotifications";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import MovieEvent from "../MovieEvent/MovieEvent";
 import ListOfFriend from "../Friends/ListOfFriend";
-import { createTheme, Stack, TextField, ThemeProvider, Collapse} from "@mui/material";
+import { Stack, Collapse} from "@mui/material";
 import "./ResponsiveDrawer.css";
 import { Badge } from "@mui/material";
 import HighScoreForm from "../HighScoreForm/HighScoreForm";
-import { StarBorder } from "@mui/icons-material";
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 // @react-router
 import { Outlet, useLocation } from "react-router";
@@ -35,11 +30,11 @@ import ListItemButton from "@mui/material/ListItemButton";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectNotificationCount } from "../redux/feature/notification/NotificationCountSlice";
-import { useForm } from "react-hook-form";
 import Paper from "@mui/material/Paper";
 import SearchIcon from "@mui/icons-material/Search";
 import { useAuth } from "../context/auth-context";
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
+import PeopleIcon from '@mui/icons-material/People';
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
@@ -47,7 +42,6 @@ function ResponsiveDrawer(props) {
   console.log(user);
   const { window } = props;
   const { pathname } = useLocation();
-  // console.log(pathname);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -63,16 +57,6 @@ function ResponsiveDrawer(props) {
     <div>
       <Toolbar />
       <Divider />
-
-      {/*<Box>*/}
-      {/*  {*/}
-      {/*    <>*/}
-      {/*      <div> {user?.avatar}</div>*/}
-      {/*      <div>{user?.firstName}</div>*/}
-      {/*      <div>{user?.userID}</div>*/}
-      {/*    </>*/}
-      {/*  }*/}
-      {/*</Box>*/}
       <List>
         <ListItem key={"Home"} disablePadding>
           <ListItemButton component={Link} to={"/"}>
@@ -80,15 +64,6 @@ function ResponsiveDrawer(props) {
               <HomeIcon />
             </ListItemIcon>
             <ListItemText primary={"Home"} />
-          </ListItemButton>
-        </ListItem>
-
-        <ListItem key={"Text!"} disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <HomeIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Testing"} />
           </ListItemButton>
         </ListItem>
 
@@ -143,18 +118,13 @@ function ResponsiveDrawer(props) {
           </ListItemButton>
         </ListItem>
 
-        <ListItem key={"Favorites"}>
-          <ListItemIcon>
-            <FavoriteIcon />
-          </ListItemIcon>
-          <ListItemText primary={"Favorites"} />
-        </ListItem>
-
-        <ListItem key={"Profile"}>
-          <ListItemIcon>
-            <AccountCircleIcon />
-          </ListItemIcon>
-          <ListItemText primary={"Profile"} />
+        <ListItem key={"Friends"} disablePadding>
+          <ListItemButton component={Link} to={"/friends"}>
+            <ListItemIcon>
+              <PeopleIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Friends"} />
+          </ListItemButton>
         </ListItem>
 
         <ListItem key={"Logout"} disablePadding>

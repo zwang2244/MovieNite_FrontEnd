@@ -22,11 +22,11 @@ export default function ListOfParticipants(props) {
   return (
     <Stack spacing={3}>
       <Typography sx={{mt: 3}} variant={'h6'} fontSize={23} fontWeight={600} >
-      Participants
+        {props.mode}
       </Typography>
     <List
       sx={{
-        width: 300,
+        width: props.mode === "Friends"?600:300,
         bgcolor: 'background.paper',
         position: 'relative',
         overflow: 'auto',
@@ -40,7 +40,7 @@ export default function ListOfParticipants(props) {
       <ListItem key={"Host"}>
           <ListItemButton>
             <Avatar alt={currHost.firstName + " " + currHost.lastName} src={currHost.avatar} sx={{m:1.5}}/>
-            <ListItemText sx={{width: '100%'}} primary={currHost.firstName + " " + currHost.lastName + " (Host)"}/>
+            <ListItemText sx={{width: '100%'}} primary={props.mode === "Friends"? currHost.firstName + " " + currHost.lastName + " (Me)" : currHost.firstName + " " + currHost.lastName + " (Host)"}/>
             
           </ListItemButton>
       </ListItem>

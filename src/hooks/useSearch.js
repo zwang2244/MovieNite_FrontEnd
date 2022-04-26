@@ -9,3 +9,12 @@ export function useSearch(keywords) {
       () => axios.get(url).then(res => res.data)
   )
 }
+
+export function useSearchFriend(keywords,userId) {
+  let url = `https://moive-nite.azurewebsites.net/user/friends/search?keyword=${keywords}&userID=${userId}`;
+
+  return useQuery(
+      ['keywords', keywords],
+      () => axios.get(url).then(res => res.data)
+  )
+}

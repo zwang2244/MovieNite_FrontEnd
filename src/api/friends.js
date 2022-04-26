@@ -8,3 +8,10 @@ export const getAllFriends = (userID) =>  api.get(`/user/friends/all`, {
   }
 }).then(res => res.data) ;
 
+export const addFriends = (userID1, userID2) => api.post(
+  `/user/friend/add?myId=${userID1}&userId=${userID2}` 
+).then(res => res.data);
+
+export const deleteFriends = (userID1, userID2) => api.post(
+  `/user/friend/del?myId=${userID1}&userId=${userID2}` 
+).then(res => res.data);
