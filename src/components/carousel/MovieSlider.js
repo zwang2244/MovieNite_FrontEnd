@@ -148,7 +148,12 @@ function SwipeableTextMobileStepper({ movieItems }) {
           </Button>
         }
       />
-      <MovieModal open={open} handleClose={handleClose} movieInfo={movieInfo} />
+      <MovieModal
+        open={open}
+        handleClose={handleClose}
+        movieInfo={movieInfo}
+        goMovie={true}
+      />
     </Box>
   );
 }

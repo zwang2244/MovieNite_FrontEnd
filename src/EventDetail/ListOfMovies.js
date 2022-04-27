@@ -93,11 +93,11 @@ export default function ListOfMovies(props) {
               </ListItem>
             ))}
         </List>
-        <ModalContent open={open} handleClose={handleClose} />
         <MovieModal
           open={open}
           handleClose={handleClose}
           movieInfo={movieInfo}
+          goMovie={true}
         />
       </Stack>
     </>

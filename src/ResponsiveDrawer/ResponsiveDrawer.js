@@ -67,10 +67,14 @@ function ResponsiveDrawer(props) {
     isLoading: isCountLoading,
     data: notificationCount,
     refetch: refetchCount,
-  } = useQuery(["userID", userID], () => getNotificationCount(userID), {
-    refetchOnWindowFocus: false,
-    retry: false,
-  });
+  } = useQuery(
+    ["getNotificationCountByUserId", userID],
+    () => getNotificationCount(userID),
+    {
+      refetchOnWindowFocus: false,
+      retry: false,
+    }
+  );
 
   if (!isCountLoading) console.log(notificationCount.data);
 
@@ -84,13 +88,13 @@ function ResponsiveDrawer(props) {
   console.log("This is pathname");
   const queryClient = useQueryClient();
   console.log(queryClient);
-  const testing = () => {
-    console.log("Tesing");
-    queryClient.refetchQueries(["userID", userID]).then((res) => {
-      console.log(res);
-      console.log("Tesing结束!!!");
-    });
-  };
+  // const testing = () => {
+  //   console.log("Tesing");
+  //   queryClient.refetchQueries(["userID", userID]).then((res) => {
+  //     console.log(res);
+  //     console.log("Tesing结束!!!");
+  //   });
+  // };
 
   // const notificationCount = useSelector(selectNotificationCount);
   const drawer = (

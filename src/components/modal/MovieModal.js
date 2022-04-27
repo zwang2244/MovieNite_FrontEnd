@@ -8,7 +8,14 @@ import { Button, CardActions } from "@mui/material";
 import Box from "@mui/material/Box";
 import MovieDescription from "../movie/MovieDescription";
 
-const MovieModal = ({ open, handleClose, movieInfo }) => {
+const MovieModal = ({
+  open,
+  handleClose,
+  movieInfo,
+  goMovie,
+  goEvent,
+  eventId,
+}) => {
   const modalContent = null;
   // const {} = movieInfo;
   return (
@@ -32,7 +39,12 @@ const MovieModal = ({ open, handleClose, movieInfo }) => {
             boxShadow: 24,
           }}
         >
-          <MovieDescription {...movieInfo} goMovie />
+          <MovieDescription
+            {...movieInfo}
+            goMovie={goMovie}
+            goEvent={goEvent}
+            eventId={eventId}
+          />
           {/*<Box*/}
           {/*  sx={{ width: "600px", height: "500px", backgroundColor: "#eee" }}*/}
           {/*>*/}

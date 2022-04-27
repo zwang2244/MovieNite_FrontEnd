@@ -68,7 +68,12 @@ export default function ListOfMovieGerneScore(props) {
             </ListItem>
           ))}
       </List>
-      <MovieModal open={open} handleClose={handleClose} movieInfo={movieInfo} />
+      <MovieModal
+        open={open}
+        handleClose={handleClose}
+        movieInfo={movieInfo}
+        goMovie={true}
+      />
     </>
   );
 }

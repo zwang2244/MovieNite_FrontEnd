@@ -10,7 +10,7 @@ import moment from "moment";
 import LiveTvIcon from "@mui/icons-material/LiveTv";
 import MovieFilterIcon from "@mui/icons-material/MovieFilter";
 import GroupIcon from "@mui/icons-material/Group";
-import {Button, FormControl, Stack} from '@mui/material';
+import { Button, Divider, FormControl, Stack } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -24,9 +24,11 @@ import AutoCompleteWithMulti from "../components/form/AutoCompleteMultiSelect";
 import InputText from "../components/form/InputText";
 import { InputDateTime } from "../components/form/InputDateTime";
 import { useState } from "react";
-import {createNewEvent, updateEvent} from '../api/event';
-import {formatDate} from '../utils/formatDate';
-import { Link } from 'react-router-dom';
+import { createNewEvent, updateEvent } from "../api/event";
+import { formatDate } from "../utils/formatDate";
+import { Link } from "react-router-dom";
+import AuthButton from "../components/auth-form/auth-button";
+import ClickButton from "../components/button/ClickButton";
 const Img = styled("img")({
   margin: "auto",
   display: "block",
@@ -60,7 +62,6 @@ export default function EventListElement(props) {
     seteditOpen(false);
   };
 
-
   const [defaultValue, setDefaultValue] = useState({
     location: props.location,
     dateTime: props.dateTime,
@@ -91,16 +92,145 @@ export default function EventListElement(props) {
   return (
     <Paper
       sx={{
-        p: 2,
         ml: "auto",
         mr: "auto",
         mt: 2,
         mb: 2,
         maxWidth: 800,
-        backgroundColor: (theme) =>
-          theme.palette.mode === "dark" ? "#1A2027" : "#fff",
       }}
+      elevation={1}
     >
+      <Typography
+        sx={{ paddingBottom: 2, paddingTop: 2, paddingLeft: 6 }}
+        fontSize={18}
+        fontWeight={700}
+        component={"div"}
+      >
+        Hooko
+      </Typography>
+      <Divider />
+      <Stack
+        sx={{
+          paddingLeft: 6,
+          paddingRight: 6,
+          paddingTop: 4,
+          paddingBottom: 4,
+        }}
+        direction={"row"}
+        justifyContent={"flex-start"}
+      >
+        <img width={210} height={315} alt="complex" src={props?.footage} />
+        <Stack
+          sx={{ width: 1, paddingLeft: "80px", paddingTop: 2 }}
+          spacing={4}
+        >
+          <Stack spacing={5}>
+            <Stack
+              justifyContent={"flex-start"}
+              alignItems={"center"}
+              direction={"row"}
+            >
+              <GroupIcon color={"#212B36"} />
+              <Typography
+                color={"#212B36"}
+                variant="h6"
+                display={"inline"}
+                sx={{ pl: 1, width: "115px" }}
+              >
+                Time
+              </Typography>
+              <Typography
+                display={"inline"}
+                color={"#212B36"}
+                sx={{
+                  borderRadius: "8px",
+                  borderStyle: "solid",
+                  paddingTop: "5px",
+                  paddingBottom: "5px",
+                  paddingLeft: "10px",
+                  paddingRight: "10px",
+                  borderColor: "#919EAB48",
+                  width: "200px",
+                }}
+              >
+                Time
+              </Typography>
+            </Stack>
+            <Stack
+              justifyContent={"flex-start"}
+              alignItems={"center"}
+              direction={"row"}
+            >
+              <GroupIcon color={"#212B36"} />
+              <Typography
+                color={"#212B36"}
+                variant="h6"
+                display={"inline"}
+                sx={{ pl: 1, width: "115px" }}
+              >
+                Location
+              </Typography>
+              <Typography
+                display={"inline"}
+                color={"#212B36"}
+                sx={{
+                  borderRadius: "8px",
+                  borderStyle: "solid",
+                  paddingTop: "5px",
+                  paddingBottom: "5px",
+                  paddingLeft: "10px",
+                  paddingRight: "10px",
+                  borderColor: "#919EAB48",
+                  width: "200px",
+                }}
+              >
+                Location
+              </Typography>
+            </Stack>
+            <Stack
+              justifyContent={"flex-start"}
+              alignItems={"center"}
+              direction={"row"}
+            >
+              <GroupIcon color={"#212B36"} />
+              <Typography
+                color={"#212B36"}
+                variant="h6"
+                display={"inline"}
+                sx={{ pl: 1, width: "115px" }}
+              >
+                Friends
+              </Typography>
+              <Typography
+                display={"inline"}
+                color={"#212B36"}
+                sx={{
+                  borderRadius: "8px",
+                  borderStyle: "solid",
+                  paddingTop: "5px",
+                  paddingBottom: "5px",
+                  paddingLeft: "10px",
+                  paddingRight: "10px",
+                  width: "275px",
+                  borderColor: "#919EAB48",
+                }}
+              >
+                Friends
+              </Typography>
+            </Stack>
+          </Stack>
+          <Stack
+            sx={{ width: 1, paddingTop: 3.5 }}
+            direction={"row"}
+            justifyContent={"flex-end"}
+            spacing={3}
+          >
+            <ClickButton>Testing</ClickButton>
+            <ClickButton>Testing</ClickButton>
+            <ClickButton>Testing</ClickButton>
+          </Stack>
+        </Stack>
+      </Stack>
       <Grid container spacing={2}>
         <Grid item>
           <ButtonBase sx={{ width: 300, height: 300 }}>
@@ -147,13 +277,16 @@ export default function EventListElement(props) {
                     typography: "h6",
                   }}
                 >
-                  {props.invitedFriendList.slice(0,4).map((friend, index) => (
+                  {props.invitedFriendList.slice(0, 4).map((friend, index) => (
                     <Box display={"inline"} key={index}>
                       {friend.firstName +
-                        (index === props.invitedFriendList.length - 1 || index === 3 ? "" : ", ")}
+                        (index === props.invitedFriendList.length - 1 ||
+                        index === 3
+                          ? ""
+                          : ", ")}
                     </Box>
                   ))}
-                  {props.invitedFriendList.length > 4? " ...": ""}
+                  {props.invitedFriendList.length > 4 ? " ..." : ""}
                 </Box>
               </div>
 
@@ -200,17 +333,23 @@ export default function EventListElement(props) {
               </div>
             </Grid>
             <Grid item>
-              {props.mode && props.mode ==="participated"?               
-              "":<Button
-                sx={{ mr: 3 }}
-                variant="outlined"
-                onClick={handleClickOpenEditDialog}
-              >
-                Edit
-              </Button>}
+              {props.mode && props.mode === "participated" ? (
+                ""
+              ) : (
+                <Button
+                  sx={{ mr: 3 }}
+                  variant="outlined"
+                  onClick={handleClickOpenEditDialog}
+                >
+                  Edit
+                </Button>
+              )}
 
               <Dialog open={editopen} onClose={handleCloseEditDialog}>
-                <FormControl sx={{width: '480px'}} onSubmit={handleSubmit(onSubmit)}>
+                <FormControl
+                  sx={{ width: "480px" }}
+                  onSubmit={handleSubmit(onSubmit)}
+                >
                   {/*Need to be handleSubmit(onSubmit) so that avoid refreshing page*/}
                   <DialogTitle>Edit your event</DialogTitle>
                   <DialogContent>
@@ -243,9 +382,9 @@ export default function EventListElement(props) {
 
                       {/*Input*/}
                       <InputText
-                          label={"Location"}
-                          name={"location"}
-                          control={control}
+                        label={"Location"}
+                        name={"location"}
+                        control={control}
                       />
 
                       {/*Time*/}
@@ -265,15 +404,18 @@ export default function EventListElement(props) {
                 </FormControl>
               </Dialog>
 
-              {props.mode && props.mode ==="participated"?       
-              "":<Button
-                sx={{ mr: 3 }}
-                variant="outlined"
-                color="error"
-                onClick={handleClickOpenDeleteDialog}
-              >
-                Delete
-              </Button>}
+              {props.mode && props.mode === "participated" ? (
+                ""
+              ) : (
+                <Button
+                  sx={{ mr: 3 }}
+                  variant="outlined"
+                  color="error"
+                  onClick={handleClickOpenDeleteDialog}
+                >
+                  Delete
+                </Button>
+              )}
               <Dialog
                 open={delopen}
                 TransitionComponent={Transition}
@@ -288,7 +430,9 @@ export default function EventListElement(props) {
                     {props.invitedFriendList.map((friend, index) => (
                       <Box component={"span"} key={index}>
                         {friend.firstName +
-                          (index === props.invitedFriendList.length - 1 ? "" : ", ")}
+                          (index === props.invitedFriendList.length - 1
+                            ? ""
+                            : ", ")}
                       </Box>
                     ))}{" "}
                     at time {moment(props.dateTime).format("YYYY-MM-DD HH:mm")}.
@@ -306,7 +450,12 @@ export default function EventListElement(props) {
                   <Button onClick={handleCloseDeleteDialog}>Cancel</Button>
                 </DialogActions>
               </Dialog>
-              <Button component={Link} to={`/events/${props.event}`} variant="contained" color="success">
+              <Button
+                component={Link}
+                to={`/events/${props.event}`}
+                variant="contained"
+                color="success"
+              >
                 More
               </Button>
             </Grid>

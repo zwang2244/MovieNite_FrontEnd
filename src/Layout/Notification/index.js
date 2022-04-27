@@ -2,14 +2,25 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import { MenuItem, Menu, Collapse } from "@mui/material";
-import { Avatar, ListItem, ListItemAvatar, ListItemText, IconButton } from "@mui/material";
-import ListContent from './ListContent';
+import {
+  MenuItem,
+  Menu,
+  Collapse,
+  CircularProgress,
+  Button,
+} from "@mui/material";
+import {
+  Avatar,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  IconButton,
+} from "@mui/material";
+import ListContent from "./ListContent";
 import List from "@mui/material/List";
 import notificationData from "../../_mock/json/notification.json";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useDispatch } from "react-redux";
-import ModalContent from './ModalContent';
 import {
   decrement,
   increment,
@@ -17,86 +28,97 @@ import {
 
 //transition
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import "./notifictain.css"; //transition CSS
+import "./notifictain.css";
+import { useQuery, useQueryClient } from "react-query";
+import { useAuth } from "../../context/auth-context";
+import {
+  deleteNotification,
+  getNotification,
+  readToUnread,
+  unreadToRead,
+} from "../../api/notification";
+import MovieModal from "../../components/modal/MovieModal"; //transition CSS
 
 //animation
 
 function Notification(props) {
   const [items, setItems] = useState(notificationData.notifications.read);
-  const [curIndex, setCurIndex] = useState(-1);
+  const [currentId, setCurrentId] = useState(-1);
   const [anchorEl, setAnchorEl] = React.useState(null);
-
-
+  const { user } = useAuth();
+  const { userID } = user;
+  const [jumpEventId, setJumpEventId] = useState(0);
+  // console.log("Nkjdksajdklsa");
   //Modal
+
+  const {
+    data: noti,
+    isLoading: isLoadingNotifications,
+    refetch: refetchNotifications,
+  } = useQuery(
+    ["getAllNotificationByUserID", userID],
+    () => getNotification(userID),
+    {
+      retryOnMount: true,
+    }
+  );
+  const queryClient = useQueryClient();
+
   const [open, setOpen] = useState(false);
-  const [modalContent, setModalContent] = useState(null);
-  const handleOpen = (index) => {
-    // console.log(index);
-    setModalContent(items[index]);
+  const [movieInfo, setMovieInfo] = useState({});
+  const handleOpen = (movieInfo, eventId) => {
+    setJumpEventId(eventId);
+    setMovieInfo(movieInfo);
     setOpen(true);
   };
-  const handleClose = () => setOpen(false);
-  //Menu
-  const handleOpenMenu = (event, idx) => {
-    setAnchorEl(event.currentTarget);
-    setCurIndex(idx);
-  };
-  //click Change Notification count
-  const dispatch = useDispatch();
 
+  if (isLoadingNotifications) {
+    return <CircularProgress />;
+  }
+
+  const notifications = JSON.parse(noti.data);
+
+  const unReadNotifications = notifications.filter((item) => !item.isRead);
+  const readNotifications = notifications.filter((item) => item.isRead);
+
+  const refetchNotificationCount = () => {
+    queryClient.refetchQueries(["getNotificationCountByUserId", userID]);
+  };
+
+  const handleClose = () => setOpen(false);
+
+  //Menu
+  const handleOpenMenu = (event, id) => {
+    setAnchorEl(event.currentTarget);
+    setCurrentId(id);
+  };
   const handleMenuClose = () => {
+    setCurrentId(-1);
     setAnchorEl(null);
   };
 
-  const handleMenuCloseRead = () => {
-    const array = [...items];
-    array[curIndex].read = true;
-    setItems(array);
-    setCurIndex(-1);
-    dispatch(decrement());
+  const handleMenuCloseRead = (id) => {
+    unreadToRead(id).then((res) => {
+      refetchNotifications();
+      refetchNotificationCount();
+    });
     handleMenuClose();
   };
 
-  const handleMenuCloseForUnread = () => {
-    const array = [...items];
-    array[curIndex].read = false;
-    setItems(array);
-    setCurIndex(-1);
-    dispatch(increment());
+  const handleMenuCloseForUnread = (id) => {
+    readToUnread(id).then((res) => {
+      refetchNotifications();
+      refetchNotificationCount();
+    });
     handleMenuClose();
   };
 
-  const handleMenuCloseDelete = (flag) => {
-    const array = [...items];
-    array[curIndex].delete = true;
-    setItems(array);
-    if (flag) {
-      dispatch(decrement());
-    }
-    setCurIndex(-1);
+  const handleMenuCloseDelete = (id) => {
+    deleteNotification(id).then((res) => {
+      refetchNotifications();
+      refetchNotificationCount();
+    });
     handleMenuClose();
-  };
-
-  const isLastRead = (index) => {
-    for (let i = items.length - 1; i >= 0; i--) {
-      if (!items[i].delete) {
-        if (!items[i].read) {
-          return index === i;
-        }
-      }
-    }
-    return false;
-  };
-
-  const isLastUnread = (index) => {
-    for (let i = items.length - 1; i >= 0; i--) {
-      if (!items[i].delete) {
-        if (items[i].read) {
-          return index === i;
-        }
-      }
-    }
-    return false;
   };
 
   //animation
@@ -123,100 +145,103 @@ function Notification(props) {
         }}
       >
         <ListItem>
-          <Typography>New</Typography>
+          <Typography fontSize={18} fontWeight={700}>
+            New
+          </Typography>
         </ListItem>
 
         <TransitionGroup>
-          {items.map(
-            (item, index) =>
-              !item.delete &&
-              !item.read && (
-                // just use collapse...
-                <Collapse key={index}>
-                  <Box>
-                    <ListItem alignItems="flex-start">
-                      <ListContent item={item} index={index} handleOpen={handleOpen}/>
-
-                      <IconButton
-                          aria-controls={"menu"}
-                          onClick={(e) => handleOpenMenu(e, index)}
-                          aria-label="settings"
-                      >
-                        <MoreVertIcon />
-                      </IconButton>
-                      {/*Button should be followed by Menu*/}
-                      <Menu
-                        onClose={handleMenuClose}
-                        id={"menu"}
-                        anchorEl={anchorEl}
-                        open={index === curIndex}
-                        onClose={() => {
-                          setCurIndex(-1);
-                        }}
-                      >
-                        <MenuItem onClick={handleMenuCloseRead}>
-                          Mark as Read
-                        </MenuItem>
-                        <MenuItem onClick={() => handleMenuCloseDelete(true)}>
-                          Delete
-                        </MenuItem>
-                      </Menu>
-
-                    </ListItem>
-                    {!isLastRead(index) && (
-                      <Divider variant="inset" component="li" />
-                    )}
-                  </Box>
-                </Collapse>
-              )
-          )}
-        </TransitionGroup>
-
-        <Divider></Divider>
-        <ListItem sx={{ mt: 1 }}>Before That</ListItem>
-        <TransitionGroup>
-        {items.map(
-          (item, index) =>
-            !item.delete &&
-            item.read && (
-              <Collapse key={index}>
+          {unReadNotifications.map((item, index) => (
+            // just use collapse...
+            <Collapse key={item.id}>
+              <Box>
                 <ListItem alignItems="flex-start">
-                  <ListContent item={item} index={index} handleOpen={handleOpen}/>
+                  <ListContent
+                    item={item}
+                    index={index}
+                    handleOpen={handleOpen}
+                  />
+
                   <IconButton
                     aria-controls={"menu"}
-                    onClick={(e) => handleOpenMenu(e, index)}
+                    onClick={(e) => handleOpenMenu(e, item.id)}
                     aria-label="settings"
                   >
                     <MoreVertIcon />
                   </IconButton>
+                  {/*Button should be followed by Menu*/}
                   <Menu
-                    onClose={handleMenuClose}
                     id={"menu"}
+                    onClose={handleMenuClose}
                     anchorEl={anchorEl}
-                    open={index === curIndex}
-                    onClose={() => {
-                      setCurIndex(-1);
-                    }}
+                    open={item.id === currentId}
                   >
-                    {/*Done: TODO Debug for clicking modal which would lead to several modals showing up*/}
-                    <MenuItem onClick={handleMenuCloseForUnread}>
-                      Mark as Unread
+                    <MenuItem onClick={() => handleMenuCloseRead(item.id)}>
+                      Mark as Read
                     </MenuItem>
-                    <MenuItem onClick={() => handleMenuCloseDelete(false)}>
+                    <MenuItem onClick={() => handleMenuCloseDelete(item.id)}>
                       Delete
                     </MenuItem>
                   </Menu>
                 </ListItem>
-                {!isLastUnread(index) && (
+                {index + 1 < notifications.length - 1 && (
                   <Divider variant="inset" component="li" />
                 )}
-              </Collapse>
-            )
-        )}
+              </Box>
+            </Collapse>
+          ))}
+        </TransitionGroup>
+
+        <Divider></Divider>
+        <ListItem sx={{ mt: 1 }}>
+          <Typography fontSize={16}>Before That</Typography>
+        </ListItem>
+        <TransitionGroup>
+          {readNotifications.map((item, index) => (
+            <Collapse key={index}>
+              <ListItem alignItems="flex-start">
+                <ListContent
+                  item={item}
+                  index={index}
+                  handleOpen={handleOpen}
+                />
+                <IconButton
+                  aria-controls={"menu"}
+                  onClick={(e) => handleOpenMenu(e, item.id)}
+                  aria-label="settings"
+                >
+                  <MoreVertIcon />
+                </IconButton>
+                <Menu
+                  id={"menu"}
+                  onClose={handleMenuClose}
+                  anchorEl={anchorEl}
+                  open={currentId === item.id}
+                >
+                  {/*Done: TODO Debug for clicking modal which would lead to several modals showing up*/}
+                  <MenuItem onClick={() => handleMenuCloseForUnread(item.id)}>
+                    Mark as Unread
+                  </MenuItem>
+                  <MenuItem onClick={() => handleMenuCloseDelete(item.id)}>
+                    Delete
+                  </MenuItem>
+                </Menu>
+              </ListItem>
+              {index + 1 < unReadNotifications.length && (
+                <Divider variant="inset" component="li" />
+              )}
+            </Collapse>
+          ))}
         </TransitionGroup>
       </List>
-
-      <ModalContent modalContent={modalContent} open={open} handleClose={handleClose}/>
+      <MovieModal
+        movieInfo={movieInfo}
+        open={open && Object.keys(movieInfo).length !== 0 && jumpEventId !== 0}
+        handleClose={handleClose}
+        goMovie={true}
+        goEvent={true}
+        eventId={jumpEventId}
+      />
     </Box>
   );
 }
@@ -234,4 +259,3 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-
