@@ -11,10 +11,10 @@ const ListContent = ({ item, index, handleOpen }) => {
   return (
     <>
       <ListItemAvatar>
-        <Avatar alt={"TODOName"} src={item.avatar} />
+        <Avatar alt={item.firstName + " " + item.lastName} src={item.avatar} />
       </ListItemAvatar>
       <ListItemText
-        primary={"Sender"}
+        primary={item.firstName + " " + item.lastName}
         secondary={
           <>
             <Box
@@ -25,6 +25,11 @@ const ListContent = ({ item, index, handleOpen }) => {
                 pr: "5px",
                 color: "black",
                 fontSize: "1rem",
+                // borderColor: "#ccc",
+                // borderStyle: "solid",
+                // borderWidth: "1px",
+                // borderRadius: "5px",
+                // p: "3px",
               }}
               onClick={() => handleOpen(item.movieInfo, item.eventID)}
             >

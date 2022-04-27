@@ -126,12 +126,15 @@ function Notification(props) {
     <Box
       component="main"
       sx={{
+        backgroundColor: "#f0f2f5",
+        minHeight: "100vh",
+        maxHeight: "auto",
         display: "flex",
-        alignItems: "center",
+        alignItems: "flex-start",
         flexDirection: "row",
         pt: 8,
         width: "100%",
-        justifyContent: "space-evenly",
+        justifyContent: "center",
       }}
     >
       <List
@@ -141,7 +144,7 @@ function Notification(props) {
           bgcolor: "background.paper",
           mt: 10,
           borderRadius: "20px",
-          boxShadow: "0 1px 2px rgba(0, 0, 0, .2)",
+          boxShadow: "0px 12px 24px -4px rgba(145, 158, 171, 0.16)",
         }}
       >
         <ListItem>

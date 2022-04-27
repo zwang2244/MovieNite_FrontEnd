@@ -65,7 +65,7 @@ function MovieDescription({
           <Paper
             component={"img"}
             elevation={4}
-            height={mode == "event" ? 450 : 330}
+            height={mode == "event" ? 430 : 330}
             // src={
             //   "https://image.tmdb.org/t/p/original/8RW2runSEc34IwKN2D1aPcJd2UL.jpg"
             // }
@@ -76,34 +76,30 @@ function MovieDescription({
         <Grid item xs={7.5} justifyContent={"flex-start"} sx={{ pr: 5 }}>
           <Stack spacing={2} justifyContent={"center"}>
             {/*Tag*/}
-            {mode === "event" ? (
+            {mode === "event" && (
               <Stack
                 direction="row"
                 spacing={2}
                 sx={{ paddingBottom: 1, width: "500px" }}
               >
-                <Typography fontSize={25} fontWeight={600} display={"inline"}>
+                <Typography
+                  fontSize={20}
+                  fontWeight={600}
+                  display={"inline"}
+                  sx={{ width: "500px" }}
+                >
                   {title}
                 </Typography>
                 {/* <Stack> */}
-                <Box>
-                  {genres
-                    ? genres.map((item) => (
-                        <Chip key={item} label={item} variant="outlined" />
-                      ))
-                    : ""}
-                  {/* </Stack> */}
-                </Box>
-              </Stack>
-            ) : (
-              <Stack direction="row" spacing={2} sx={{ paddingBottom: 1 }}>
-                {genres
-                  ? genres.map((item) => (
-                      <Chip key={item} label={item} variant="outlined" />
-                    ))
-                  : ""}
               </Stack>
             )}
+            <Stack direction="row" spacing={2} sx={{ paddingBottom: 1 }}>
+              {genres
+                ? genres.map((item) => (
+                    <Chip key={item} label={item} variant="outlined" />
+                  ))
+                : ""}
+            </Stack>
             {/*Description*/}
             <Box>
               <Typography

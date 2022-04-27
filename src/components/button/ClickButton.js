@@ -7,15 +7,20 @@ function ClickButton({
   children,
   onClick,
   color,
+  height,
+  borderColor,
 }) {
   return (
     <LoadingButton
       onClick={onClick}
       sx={{
         // backgroundColor: "#2065d1",
+        borderStyle: borderColor ? "solid" : null,
+        borderColor: borderColor,
+        borderWidth: borderColor ? "2px" : null,
         backgroundColor: backgroundColor,
         borderRadius: "8px",
-        height: "45px",
+        height: height ? height : "45px",
         textTransform: "capitalize",
         fontWeight: 700,
         boxShadow: "none",

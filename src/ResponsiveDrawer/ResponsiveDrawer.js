@@ -84,10 +84,10 @@ function ResponsiveDrawer(props) {
   const handleClick = () => {
     setOpen(!open);
   };
-  console.log(pathname);
-  console.log("This is pathname");
-  const queryClient = useQueryClient();
-  console.log(queryClient);
+  // console.log(pathname);
+  // console.log("This is pathname");
+  // const queryClient = useQueryClient();
+  // console.log(queryClient);
   // const testing = () => {
   //   console.log("Tesing");
   //   queryClient.refetchQueries(["userID", userID]).then((res) => {

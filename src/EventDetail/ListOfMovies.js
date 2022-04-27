@@ -25,17 +25,14 @@ export default function ListOfMovies(props) {
   return (
     <>
       <Stack spacing={3}>
-        <Typography fontSize={25} fontWeight={600} display={"inline"}>
-          Movie Vote
-        </Typography>
         <List
           sx={{
-            width: 700,
+            width: 760,
             bgcolor: "background.paper",
             position: "relative",
             overflow: "auto",
             maxHeight: 300,
-            height: 300,
+            minHeight: 200,
             "& ul": { padding: 0 },
             m: 2,
           }}
@@ -71,7 +68,7 @@ export default function ListOfMovies(props) {
                     // console.log(item.movieInfo);
                     handleOpen(item.movieInfo);
                   }}
-                  sx={{ width: "90%" }}
+                  sx={{ width: "90%", borderRadius: "15px" }}
                 >
                   <ListItemText
                     primary={item.title}
