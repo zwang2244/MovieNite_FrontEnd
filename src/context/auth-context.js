@@ -3,9 +3,7 @@ import * as passport from "../api/passport";
 import { useMount } from "../hooks/useMount";
 import { firstMount, logoutLocal } from "../utils/auth";
 
-const AuthContext = createContext({
-  user: null,
-});
+const AuthContext = createContext({});
 AuthContext.displayName = "AuthContext";
 export const localUserInfo = "__user_info__";
 
@@ -17,10 +15,8 @@ function AuthProvider({ children }) {
     logoutLocal().then(() => setUser(null));
   };
   useMount(() => {
-    // const Ans = window.localStorage.getItem(localUserInfo);
     firstMount().then((userInfo) => {
       setUser(JSON.parse(userInfo));
-      // console.log("AuthProvider!!!serting");
     });
   });
   // console.log("AuthProvider222!!!!");

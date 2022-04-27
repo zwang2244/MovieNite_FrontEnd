@@ -1,10 +1,12 @@
 import React from "react";
-import { Box, Chip, Stack } from "@mui/material";
+import { Box, Button, Chip, Stack } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import { Rating } from "@mui/lab";
+import { LoadingButton, Rating } from "@mui/lab";
+import ClickButton from "../button/ClickButton";
+import { useNavigate } from "react-router";
 
 function MovieDescription({
   actors,
@@ -17,10 +19,13 @@ function MovieDescription({
   title,
   writer,
   imdbID,
-  mode
+  mode,
+  goMovie,
+  goEvent,
+  eventId,
 }) {
   // {...} 这种方式可以取到!
-
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
@@ -60,7 +65,7 @@ function MovieDescription({
           <Paper
             component={"img"}
             elevation={4}
-            height={mode=="event"?450:330}
+            height={mode == "event" ? 450 : 330}
             // src={
             //   "https://image.tmdb.org/t/p/original/8RW2runSEc34IwKN2D1aPcJd2UL.jpg"
             // }
@@ -71,28 +76,34 @@ function MovieDescription({
         <Grid item xs={7.5} justifyContent={"flex-start"} sx={{ pr: 5 }}>
           <Stack spacing={2} justifyContent={"center"}>
             {/*Tag*/}
-              {mode === "event"?  
-              
-              <Stack direction="row" spacing={2} sx={{ paddingBottom: 1 , width: "500px"}}>
-              <Typography fontSize={25} fontWeight={600} display={"inline"}>
-                {title}
-              </Typography>
-              {/* <Stack> */}
-              <Box>
-              {genres?genres.map((item) => (
-                <Chip key={item} label={item} variant="outlined" />
-              )):''}
-              {/* </Stack> */}
-              </Box>
+            {mode === "event" ? (
+              <Stack
+                direction="row"
+                spacing={2}
+                sx={{ paddingBottom: 1, width: "500px" }}
+              >
+                <Typography fontSize={25} fontWeight={600} display={"inline"}>
+                  {title}
+                </Typography>
+                {/* <Stack> */}
+                <Box>
+                  {genres
+                    ? genres.map((item) => (
+                        <Chip key={item} label={item} variant="outlined" />
+                      ))
+                    : ""}
+                  {/* </Stack> */}
+                </Box>
               </Stack>
-              :
+            ) : (
               <Stack direction="row" spacing={2} sx={{ paddingBottom: 1 }}>
-              {genres?genres.map((item) => (
-                <Chip key={item} label={item} variant="outlined" />
-              )):''}
+                {genres
+                  ? genres.map((item) => (
+                      <Chip key={item} label={item} variant="outlined" />
+                    ))
+                  : ""}
               </Stack>
-              }
-
+            )}
             {/*Description*/}
             <Box>
               <Typography
@@ -155,6 +166,41 @@ function MovieDescription({
           </Stack>
         </Grid>
       </Grid>
+      {!goMovie ? null : (
+        <>
+          <Divider sx={{ mt: 2 }} />
+          <Stack
+            sx={{ position: "relative", top: "18px" }}
+            direction={"row"}
+            justifyContent={"flex-end"}
+            spacing={2.5}
+          >
+            {goEvent && (
+              <ClickButton
+                backgroundColor={"#DFE3E8"}
+                backgroundColorAfterHover={"#d7d9e0"}
+                color={"#212B36"}
+                onClick={() => {
+                  navigate(`/events/${eventId}`, { replace: false });
+                }}
+              >
+                Go Event
+              </ClickButton>
+            )}
+            {goMovie && (
+              <ClickButton
+                backgroundColor={"#212B36"}
+                backgroundColorAfterHover={"#1f3148"}
+                onClick={() => {
+                  navigate(`/search/${imdbID}`, { replace: false });
+                }}
+              >
+                Go Movie
+              </ClickButton>
+            )}
+          </Stack>
+        </>
+      )}
     </Box>
   );
 }

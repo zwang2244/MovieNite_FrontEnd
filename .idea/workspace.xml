@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c5e2f93e-ad8b-48ad-807b-002ab0498a6b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Event/EventListParticipated.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/home-image/home-image.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/button/ClickButton.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/carousel/MovieSlider.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/modal/MovieModal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Event/EventParticipated.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Event/EventParticipated.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EventDetail/EventDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventDetail/EventDetail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EventDetail/ListOfMovies.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventDetail/ListOfMovies.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EventForm/EventForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventForm/EventForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Friends/ListOfFriend.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Friends/ListOfFriend.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/HighScoreForm/HighScoreForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/HighScoreForm/HighScoreForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/HighScoreForm/ListOfMovieGerneScore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/HighScoreForm/ListOfMovieGerneScore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Layout/Auth/AuthGuard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Layout/Auth/AuthGuard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Layout/Auth/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Layout/Auth/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Layout/Auth/LoginPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Layout/Auth/LoginPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Layout/Notification/ModalContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Layout/Notification/ModalContent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MovieEvent/MovieEvent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/MovieEvent/MovieEvent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ResponsiveDrawer/ResponsiveDrawer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ResponsiveDrawer/ResponsiveDrawer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/movie/MovieDescription.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/movie/MovieDescription.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/context/auth-context.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/context/auth-context.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "prettierjs.PrettierConfiguration.Package": "/Users/jinxin/Documents/GitHub/MovieNite_FrontEnd/node_modules/prettier",
+    "ts.external.directory.path": "/Users/jinxin/Library/Application Support/JetBrains/Toolbox/apps/WebStorm/ch-0/221.5080.193/WebStorm.app/Contents/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
