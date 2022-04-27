@@ -25,6 +25,7 @@ import {
   TextField,
   ThemeProvider,
   Collapse,
+  Button,
 } from "@mui/material";
 import "./ResponsiveDrawer.css";
 import { Badge } from "@mui/material";
@@ -46,11 +47,14 @@ import Paper from "@mui/material/Paper";
 import SearchIcon from "@mui/icons-material/Search";
 import { useAuth } from "../context/auth-context";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
+import { useQuery, useQueryClient } from "react-query";
+import { getNotificationCount } from "../api/notification";
 
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
   const { user, logout } = useAuth();
+  const { userID } = user;
   // console.log(user);
   const { window } = props;
   const { pathname } = useLocation();
@@ -59,6 +63,18 @@ function ResponsiveDrawer(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+  const {
+    isLoading: isCountLoading,
+    data: notificationCount,
+    refetch: refetchCount,
+  } = useQuery(["userID", userID], () => getNotificationCount(userID), {
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
+
+  if (!isCountLoading) console.log(notificationCount.data);
+
+  // const { data } = useQuery();
   const [open, setOpen] = React.useState(true);
 
   const handleClick = () => {
@@ -66,12 +82,23 @@ function ResponsiveDrawer(props) {
   };
   console.log(pathname);
   console.log("This is pathname");
-  const notificationCount = useSelector(selectNotificationCount);
+  const queryClient = useQueryClient();
+  console.log(queryClient);
+  const testing = () => {
+    console.log("Tesing");
+    queryClient.refetchQueries(["userID", userID]).then((res) => {
+      console.log(res);
+      console.log("Tesing结束!!!");
+    });
+  };
+
+  // const notificationCount = useSelector(selectNotificationCount);
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
-
+      {/*Testing 成功!!! */}
+      {/*<Button onClick={() => testing()}>3232</Button>*/}
       <List sx={{ p: 1 }}>
         <ListItem key={"Home"} disablePadding>
           <ListItemButton
@@ -146,7 +173,15 @@ function ResponsiveDrawer(props) {
             to={"/notification"}
           >
             <ListItemIcon>
-              <Badge badgeContent={notificationCount} color={"primary"}>
+              <Badge
+                sx={{
+                  "& .MuiBadge-badge": {
+                    backgroundColor: "#38cc8b",
+                  },
+                }}
+                badgeContent={isCountLoading ? 0 : notificationCount.data}
+                color={"primary"}
+              >
                 <CircleNotificationsIcon />
               </Badge>
             </ListItemIcon>
