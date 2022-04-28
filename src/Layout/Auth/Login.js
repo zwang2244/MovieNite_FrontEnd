@@ -19,9 +19,10 @@ function Index(props) {
         console.log("Wrong Email");
       } else {
         const userInfo = res.data;
-        loginLocal(userInfo).then(() => {
-          setUser(JSON.parse(userInfo));
-        });
+        console.log(userInfo);
+        // loginLocal(userInfo).then(() => {
+        //   setUser(JSON.parse(userInfo));
+        // });
       }
     });
   };

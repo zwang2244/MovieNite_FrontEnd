@@ -27,6 +27,13 @@ import { useQuery } from "react-query";
 import { getMovieEvents } from "../../api/event";
 import { getMovieById } from "../../api/movie";
 import { Rating } from "@mui/lab";
+import { useAuth } from "../../context/auth-context";
+import {
+  addComment,
+  deleteCommentById,
+  getCommentByImdbId,
+} from "../../api/comment";
+import moment from "moment";
 
 const URL = "https://image.tmdb.org/t/p/original/";
 
@@ -35,11 +42,12 @@ const defaultValues = {
   comment: "",
 };
 
-const buildData = (comment, imdbId) => {
-  const userId = "30";
-  const userAvatar = "https://i.pravatar.cc/150?u=30";
-  const userName = "Mike Pop";
+const buildData = (comment, imdbId, userID, lastName, firstName, avatar) => {
+  const userId = userID;
+  const userAvatar = avatar;
+  const userName = firstName + " " + lastName;
   const time = new Date();
+  console.log(time);
   return {
     userId,
     userAvatar,
@@ -51,11 +59,13 @@ const buildData = (comment, imdbId) => {
 };
 
 function MovieDetail(props) {
+  const { user } = useAuth();
+  const { userID, lastName, firstName, avatar } = user;
   let params = useParams();
   // console.log("Detail==============");
   // console.log(params);
   const { imdbId } = params;
-  const [comments, setComments] = useState(commentData.comments);
+  // const [comments, setComments] = useState(commentData.comments);
 
   const { data: movieInfo, isLoading: isMovieInfoLoading } = useQuery(
     ["movieId", imdbId],
@@ -64,20 +74,36 @@ function MovieDetail(props) {
       retry: false,
     }
   );
+
+  const {
+    data: commentInfo,
+    isLoading: isCommentLoading,
+    refetch: refetchComment,
+  } = useQuery(["comment", imdbId], () => getCommentByImdbId(imdbId), {
+    retryOnMount: true,
+  });
+
   const { handleSubmit, control, watch, setValue, reset } = useForm({
     defaultValues: defaultValues,
   });
 
-  if (isMovieInfoLoading) {
+  if (isMovieInfoLoading || isCommentLoading) {
     return <CircularProgress />;
   }
+  console.log("---------");
+  console.log(commentInfo);
+  console.log(JSON.parse(commentInfo.data));
+  const comments = JSON.parse(commentInfo.data);
+  console.log(
+    new Date().toLocaleString("en-US", { timeZone: "America/Chicago" })
+  );
   // console.log(JSON.parse(movieInfo.data));
   const movieDetail = JSON.parse(movieInfo.data);
   const { backdrop_path, title, official_rating } = movieDetail;
   //{actors,backdrop_path,director, genres, official_rating,overview,poster_path,release_date,title,writer, imdbID}
   const onSubmit = (data) => {
     // TODO SnackBar
-    // console.log(data);
+    console.log(data);
     const { comment } = data;
     if (isNullOrWhitespace(comment)) {
       // console.log(comment);
@@ -92,16 +118,35 @@ function MovieDetail(props) {
      * Comments
      * ImdbId
      */
-    const newItem = buildData(comment, imdbId);
+    const newItem = buildData(
+      comment,
+      imdbId,
+      userID,
+      lastName,
+      firstName,
+      avatar
+    );
     reset(defaultValues);
-    addOneComment(newItem);
-  };
 
-  const addOneComment = (newItem) => {
-    setComments((prevState) => {
-      return [newItem, ...prevState];
+    addComment(newItem).then((res) => {
+      // console.log(res);
+      refetchComment();
     });
   };
+
+  const deleteCommentHandler = (id) => {
+    // console.log(id);
+    deleteCommentById(id).then((res) => {
+      console.log(res);
+      refetchComment();
+    });
+  };
+
+  // const addOneCommentLocal = (newItem) => {
+  //   setComments((prevState) => {
+  //     return [newItem, ...prevState];
+  //   });
+  // };
 
   return (
     <Box
@@ -180,10 +225,7 @@ function MovieDetail(props) {
                 alignItems={"center"}
               >
                 <Grid item>
-                  <Avatar
-                    alt="Remy Sharp"
-                    src={"https://i.pravatar.cc/150?u=30"}
-                  />
+                  <Avatar alt={firstName + " " + lastName} src={avatar} />
                 </Grid>
                 <Grid justifyContent="left" item xs zeroMinWidth>
                   <Box
@@ -214,7 +256,7 @@ function MovieDetail(props) {
           <TransitionGroup>
             {comments?.map((item) => (
               <Collapse key={item.userId + item.time}>
-                <UserComment {...item} />
+                <UserComment {...item} onDelete={deleteCommentHandler} />
               </Collapse>
             ))}
           </TransitionGroup>

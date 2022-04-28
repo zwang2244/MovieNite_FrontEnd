@@ -17,6 +17,7 @@ import Paper from "@mui/material/Paper";
 import MovieSearchAutoComplete from "../../components/form/MovieSearchAutoComplete";
 import { dataToArray } from "../../utils/dataToArray";
 import { useLocation, useNavigate } from "react-router";
+import AuthButton from "../../components/auth-form/auth-button";
 
 const defaultValues = {
   movie: "",
@@ -42,8 +43,8 @@ function Index(props) {
     if (data.movie === "" || data.movie === null) return;
     const imdbNumber = data.movie.imdbNumber;
     if (!imdbNumber) return;
-    console.log("========");
-    console.log(imdbNumber);
+    // console.log("========");
+    // console.log(imdbNumber);
     navigate(`${pathname}/${imdbNumber}`);
   };
   return (
@@ -74,7 +75,7 @@ function Index(props) {
               alignItems: "center",
               width: 750,
             }}
-            elevation={1}
+            elevation={0}
           >
             <MovieSearchAutoComplete
               loading={isLoading}
@@ -96,13 +97,24 @@ function Index(props) {
               p: "2px 4px",
               display: "flex",
               alignItems: "center",
-              width: 750,
+              width: 740,
               justifyContent: "space-evenly",
             }}
             elevation={0}
           >
             <Button
-              sx={{ width: "100%" }}
+              sx={{
+                width: "100%",
+                backgroundColor: "#212B36",
+                borderRadius: "12px",
+                height: "45px",
+                textTransform: "capitalize",
+                fontWeight: 700,
+                fontSize: "0.92rem",
+                "&:hover": {
+                  backgroundColor: "#1f3148",
+                },
+              }}
               size="large"
               variant="contained"
               type="submit"

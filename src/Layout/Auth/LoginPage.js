@@ -50,9 +50,11 @@ function LoginPage(props) {
         });
         // console.log("Wrong Email");
       } else {
-        const userInfo = res.data;
-        loginLocal(userInfo).then(() => {
-          setUser(JSON.parse(userInfo));
+        const { user, isMember } = JSON.parse(res.data);
+        user.isMember = isMember;
+
+        loginLocal(JSON.stringify(user)).then(() => {
+          setUser(user);
           navigate("/", { replace: true });
         });
       }
