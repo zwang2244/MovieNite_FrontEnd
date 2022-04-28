@@ -20,9 +20,12 @@ import MovieSearchAutoComplete from "../components/form/MovieSearchAutoComplete"
 import { useLocation, useNavigate } from "react-router";
 import { addFriends, deleteFriends } from "../api/friends";
 import { ViewColumn } from "@mui/icons-material";
+import { useAuth } from "../context/auth-context";
 const defaultValues = {};
 // change hardcode 20
 export default function AddDeleteFriends() {
+  const { user } = useAuth();
+  const userId = user.userID;
   const { handleSubmit, control, watch, setValue, reset } = useForm({
     defaultValues: defaultValues,
   });
@@ -31,7 +34,10 @@ export default function AddDeleteFriends() {
   let { pathname } = useLocation();
   const [search, setSearch] = useState("");
   const debounceSearch = useDebounce(search, 500);
-  const { data: peoplelist, isLoading } = useSearchFriend(debounceSearch, 20);
+  const { data: peoplelist, isLoading } = useSearchFriend(
+    debounceSearch,
+    userId
+  );
   const [refresh, setRefresh] = useState(true);
   const [FriendsList, setFriendsList] = useState([]);
   const onChange = (e) => {
@@ -40,14 +46,14 @@ export default function AddDeleteFriends() {
 
   const onSubmit = (data) => {
     console.log(data);
-    addFriends(20, data.friend.userID).then(() =>
+    addFriends(userId, data.friend.userID).then(() =>
       refresh ? setRefresh(false) : setRefresh(true)
     );
     reset();
   };
 
   const getData = async () => {
-    var temp = await getAllFriends(20);
+    var temp = await getAllFriends(userId);
     setFriendsList(dataToArray(temp));
     console.log(dataToArray(temp));
   };
@@ -58,7 +64,7 @@ export default function AddDeleteFriends() {
 
   const onKickOut = (userID) => {
     // deleteParticipant(eventId,userID).then(()=>refresh? setRefresh(false):setRefresh(true));
-    deleteFriends(20, userID).then(() =>
+    deleteFriends(userId, userID).then(() =>
       refresh ? setRefresh(false) : setRefresh(true)
     );
   };

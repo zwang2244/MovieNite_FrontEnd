@@ -1,6 +1,6 @@
 //convert data getting from frontend into the backend format
 
-import {formatDate} from './formatDate';
+import { formatDate } from "./formatDate";
 
 /**
  * {
@@ -48,7 +48,7 @@ import {formatDate} from './formatDate';
  */
 export const formatDataToForm = (data) => {
   let array = [];
-  data.map(item => {
+  data.map((item) => {
     let obj = {
       movie: {
         imdbNumber: "",
@@ -58,7 +58,7 @@ export const formatDataToForm = (data) => {
       },
       dateTime: "",
       host: {
-        id: ""
+        id: "",
       },
       invitedFriendList: [],
       location: "",
@@ -78,24 +78,22 @@ export const formatDataToForm = (data) => {
 
     obj.eventId = item.movieEvent?.eventID;
     array.push(obj);
-  })
+  });
   return array;
-}
+};
 
 export const formatForm = (data, isMember) => {
-  let obj = new Object();
+  let obj = {};
 
   obj.friends = "";
-  data.invitedFriendList.map(item => (
-      obj.friends += item.userID + ", "
-  ))
+  data.invitedFriendList.map((item) => (obj.friends += item.userID + ", "));
   obj.friends = obj.friends.substring(0, obj.friends.length - 2);
 
   obj.movie = {
-    genre:"",
+    genre: "",
     imdbNumber: "",
     title: "",
-    yearReleased: ""
+    yearReleased: "",
   };
   obj.movie.genre = data?.movie?.genre;
   obj.movie.imdbNumber = data?.movie?.imdbNumber;
@@ -109,4 +107,4 @@ export const formatForm = (data, isMember) => {
   obj.movieEvent.location = data.location;
   obj.member = isMember;
   return obj;
-}
+};

@@ -22,6 +22,7 @@ import { useSnackbar } from "notistack";
 import { getUserInfo } from "../api/user";
 import AuthButton from "../components/auth-form/auth-button";
 import { useAuth } from "../context/auth-context";
+import { useNavigate } from "react-router";
 
 export const MovieSearchOptions = convertArrayToLabel([
   "Uncharted",
@@ -61,11 +62,12 @@ export default function EventForm() {
   const { handleSubmit, control, watch, setValue, reset } = useForm({
     defaultValues: defaultValues,
   });
+  const navigate = useNavigate();
   const { user } = useAuth();
-  console.log("This is userrrrr");
-  console.log(user);
+  // console.log("This is userrrrr");
+  // console.log(user);
   const userId = user.userID;
-  console.log(userId);
+  // console.log(userId);
   const [search, setSearch] = useState("");
   const [isMember, setIsMember] = useState(false);
   const debounceSearch = useDebounce(search, 500);
@@ -80,6 +82,29 @@ export default function EventForm() {
     }
   );
   const { enqueueSnackbar } = useSnackbar();
+  const action = (key) => (
+    <React.Fragment>
+      <Button
+        sx={{ color: "#ffffff", textTransform: "capitalize" }}
+        onClick={() => {
+          navigate(`/event/${key}`, { replace: false });
+        }}
+      >
+        See event detail
+      </Button>
+    </React.Fragment>
+  );
+  const SnackBarToEvent = (eventId) => {
+    enqueueSnackbar("Add a new Event", {
+      anchorOrigin: {
+        vertical: "bottom",
+        horizontal: "left",
+      },
+      key: eventId,
+      variant: "success",
+      action,
+    });
+  };
 
   const onChange = (e) => {
     setSearch(e.target.value);
@@ -95,15 +120,18 @@ export default function EventForm() {
   });
 
   const onSubmit = (data) => {
+    // console.log(data);
     const response = createNewEvent(formatForm(data, isMember));
-    console.log(data);
+    // console.log(data);
     response.then((data) => {
       if (data.code === 1) {
-        console.log("We got this point");
+        // console.log("We got this point");
+        // eventId.
         reset(defaultValues);
         enqueueSnackbar("Add a new Event!", {
           variant: "success",
         });
+        // SnackBarToEvent()
       }
     });
   };

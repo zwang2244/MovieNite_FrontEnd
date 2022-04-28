@@ -9,7 +9,7 @@ import store from "./redux/store";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { SnackbarProvider } from "notistack";
 import AppProviders from "./context";
-
+import Grow from "@material-ui/core/Grow";
 const queryClient = new QueryClient();
 
 ReactDOM.render(
@@ -17,7 +17,11 @@ ReactDOM.render(
     <QueryClientProvider client={queryClient}>
       <AppProviders>
         <Provider store={store}>
-          <SnackbarProvider maxSnack={3}>
+          <SnackbarProvider
+            maxSnack={1}
+            autoHideDuration={2500}
+            TransitionComponent={Grow}
+          >
             <App />
           </SnackbarProvider>
         </Provider>
