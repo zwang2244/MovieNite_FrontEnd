@@ -121,16 +121,13 @@ export default function EventForm() {
 
   const onSubmit = (data) => {
     // console.log(data);
-    const response = createNewEvent(formatForm(data, isMember));
+    const response = createNewEvent(formatForm(data, isMember, userId));
     // console.log(data);
     response.then((data) => {
       if (data.code === 1) {
         // console.log("We got this point");
         // eventId.
         reset(defaultValues);
-        // enqueueSnackbar("Add a new Event!", {
-        //   variant: "success",
-        // });
         const eventId = data.data;
         SnackBarToEvent(eventId);
         // SnackBarToEvent()
