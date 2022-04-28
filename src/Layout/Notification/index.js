@@ -187,7 +187,7 @@ function Notification(props) {
                     </MenuItem>
                   </Menu>
                 </ListItem>
-                {index + 1 < notifications.length - 1 && (
+                {index + 1 < unReadNotifications.length - 1 && (
                   <Divider variant="inset" component="li" />
                 )}
               </Box>
@@ -230,7 +230,7 @@ function Notification(props) {
                   </MenuItem>
                 </Menu>
               </ListItem>
-              {index + 1 < unReadNotifications.length && (
+              {index + 1 < readNotifications.length && (
                 <Divider variant="inset" component="li" />
               )}
             </Collapse>
