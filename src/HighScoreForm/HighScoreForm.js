@@ -27,7 +27,7 @@ export default function HighScoreForm() {
   const { handleSubmit, control } = useForm({ defaultValues: defaultValues });
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     getMovieOfGenreWithHighScores(
       data.genre.label,
       moment(data.date).format("YYYY-MM-DD")

@@ -3,9 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="c5e2f93e-ad8b-48ad-807b-002ab0498a6b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EventDetail/ListOfParticipants.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventDetail/ListOfParticipants.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EventForm/EventForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventForm/EventForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/formatForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/formatForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Friends/ListOfFriend.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Friends/ListOfFriend.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/HighScoreForm/HighScoreForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/HighScoreForm/HighScoreForm.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +50,7 @@
       <updated>1651065717139</updated>
       <workItem from="1651065720878" duration="24336000" />
       <workItem from="1651155651215" duration="3570000" />
-      <workItem from="1651174906868" duration="10922000" />
+      <workItem from="1651174906868" duration="11145000" />
     </task>
     <servers />
   </component>
