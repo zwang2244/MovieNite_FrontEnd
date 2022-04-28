@@ -82,7 +82,7 @@ export const formatDataToForm = (data) => {
   return array;
 };
 
-export const formatForm = (data, isMember) => {
+export const formatForm = (data, isMember, userId) => {
   let obj = {};
 
   obj.friends = "";
@@ -103,7 +103,7 @@ export const formatForm = (data, isMember) => {
   obj.movieEvent = {};
   obj.movieEvent.dateTime = formatDate(data.dateTime);
   obj.movieEvent.eventID = 1;
-  obj.movieEvent.host = 20; //userId
+  obj.movieEvent.host = userId; //userId
   obj.movieEvent.location = data.location;
   obj.member = isMember;
   return obj;

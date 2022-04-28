@@ -8,18 +8,29 @@ import IconButton from "@mui/material/IconButton";
 import { CircularProgress, Stack, Typography, Avatar } from "@mui/material";
 import { getUserInfo } from "../api/user";
 import { dataToArray } from "../utils/dataToArray";
+import { useQuery } from "react-query";
 export default function ListOfParticipants(props) {
   const isHost = props.isHost;
+  const hostId = props.host;
   const [currHost, setCurrHost] = useState({});
   const isLoading = false; // todo
   const gethost = async () => {
     var host = await getUserInfo(props.host);
     setCurrHost(dataToArray(host).user);
   };
+  // const {
+  //   data: host,
+  //   isLoading: loadingHostId,
+  //   refetch: refetchHostId,
+  // } = useQuery(["getUserInfo", hostId], () => getUserInfo(hostId));
+  // if (loadingHostId) {
+  //   return <CircularProgress />;
+  // }
+  // console.log(host);
   useEffect(() => {
     gethost();
   }, [props.host]);
-
+  // const currHost = host.user;
   return (
     <Stack spacing={3}>
       <Typography sx={{ mt: 3, ml: 1 }} fontSize={22} fontWeight={600}>
