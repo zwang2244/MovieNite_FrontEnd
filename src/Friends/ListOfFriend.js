@@ -27,7 +27,7 @@ export default function ListOfFriend() {
   }
 
   const array = dataToArray(data);
-  console.log(array);
+  // console.log(array);
   const movieArray = [];
   for (let i = 0; i < array.length; i++) {
     movieArray.push(array[i].movieInfo);
