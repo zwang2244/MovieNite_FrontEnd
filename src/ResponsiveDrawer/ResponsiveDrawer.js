@@ -15,8 +15,6 @@ import Typography from "@mui/material/Typography";
 import HomeIcon from "@mui/icons-material/Home";
 import EventIcon from "@mui/icons-material/Event";
 import CircleNotificationsIcon from "@mui/icons-material/CircleNotifications";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import MovieEvent from "../MovieEvent/MovieEvent";
 import ListOfFriend from "../Friends/ListOfFriend";
 import {
@@ -42,10 +40,10 @@ import ListItemButton from "@mui/material/ListItemButton";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectNotificationCount } from "../redux/feature/notification/NotificationCountSlice";
-import { useForm } from "react-hook-form";
 import Paper from "@mui/material/Paper";
 import SearchIcon from "@mui/icons-material/Search";
 import { useAuth } from "../context/auth-context";
+import PeopleIcon from '@mui/icons-material/People';
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import { useQuery, useQueryClient } from "react-query";
 import { getNotificationCount } from "../api/notification";
@@ -58,7 +56,6 @@ function ResponsiveDrawer(props) {
   // console.log(user);
   const { window } = props;
   const { pathname } = useLocation();
-  // console.log(pathname);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -143,10 +140,9 @@ function ResponsiveDrawer(props) {
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItemButton
-              sx={{ borderRadius: "12px" }}
+              sx={{ borderRadius: "12px", pl: 4}}
               component={Link}
               to={"/events"}
-              sx={{ pl: 4 }}
             >
               <ListItemIcon>
                 <EventNoteIcon />
@@ -157,10 +153,9 @@ function ResponsiveDrawer(props) {
 
           <List component="div" disablePadding>
             <ListItemButton
-              sx={{ borderRadius: "12px" }}
+              sx={{ borderRadius: "12px", pl: 4 }}
               component={Link}
               to={"/eventsParticipated"}
-              sx={{ pl: 4 }}
             >
               <ListItemIcon>
                 <PeopleOutlineIcon />
@@ -192,12 +187,13 @@ function ResponsiveDrawer(props) {
             <ListItemText primary={"Notification"} />
           </ListItemButton>
         </ListItem>
-
-        <ListItem key={"Profile"}>
-          <ListItemIcon>
-            <AccountCircleIcon />
-          </ListItemIcon>
-          <ListItemText primary={"Profile"} />
+        <ListItem key={"Friends"} disablePadding>
+          <ListItemButton component={Link} to={"/friends"}>
+            <ListItemIcon>
+              <PeopleIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Friends"} />
+          </ListItemButton>
         </ListItem>
 
         <ListItem key={"Logout"} disablePadding>

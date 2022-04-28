@@ -14,13 +14,11 @@ import AuthGuard from "./Layout/Auth/AuthGuard";
 import Register from "./Layout/Auth/Register";
 import LoginPage from "./Layout/Auth/LoginPage";
 import EventParticipated from "./Event/EventParticipated";
+import AddDeleteFriends from "./Friends/AddDeleteFriends";
 function App() {
   const { user } = useAuth();
   return (
     <>
-      {/*{user ? (*/}
-      {/*<>*/}
-      {/*  <ResponsiveDrawer />*/}
       <Routes>
         <Route
           path={"/"}
@@ -37,6 +35,7 @@ function App() {
           <Route path={"search"} element={<SearchMovie />} />
           <Route path="search/:imdbId" element={<MovieDetail />} />
           <Route path={"eventsParticipated"} element={<EventParticipated/>}/>
+          <Route path={"/friends"} element={<AddDeleteFriends />} />
           {/*TODO Other pages from here*/}
         </Route>
         <Route path={"/auth"} element={<Auth />}>
@@ -44,10 +43,6 @@ function App() {
           <Route path={"register"} element={<Register />} />
         </Route>
       </Routes>
-      {/*</>*/}
-      {/*) : (*/}
-      {/*  <Login />*/}
-      {/*)}*/}
     </>
   );
 }

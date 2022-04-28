@@ -7,14 +7,12 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
 import { SnackbarProvider } from "notistack";
 import AppProviders from "./context";
 
 const queryClient = new QueryClient();
 
 ReactDOM.render(
-  // <React.StrictMode>
   <BrowserRouter>
     <QueryClientProvider client={queryClient}>
       <AppProviders>
@@ -22,12 +20,10 @@ ReactDOM.render(
           <SnackbarProvider maxSnack={3}>
             <App />
           </SnackbarProvider>
-          {/*<ReactQueryDevtools/>*/}
         </Provider>
       </AppProviders>
     </QueryClientProvider>
   </BrowserRouter>,
-  // </React.StrictMode>
   document.getElementById("root")
 );
 

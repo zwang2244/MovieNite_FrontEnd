@@ -4,7 +4,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import {Controller} from 'react-hook-form';
 import {CircularProgress} from '@mui/material';
 
-export default function MovieSearchAutoComplete({control, name, label, items, placeholder, onChange, loading, readOnly}) {
+export default function MovieSearchAutoComplete({control, name, label, items, placeholder, onChange, loading, readOnly, mode}) {
   return (
       // defaultValue should be {label: 'name'}
       <Controller
@@ -37,7 +37,7 @@ export default function MovieSearchAutoComplete({control, name, label, items, pl
                           />
                       )
                     } options={items}
-                    getOptionLabel={option => option? option.title: ""}
+                    getOptionLabel={mode === "friends"? (option => option? option.firstName + " " + option.lastName + " (" + option.emailAddr + ") ": ""):(option => option? option.title: "")}
                     onChange={(_, data) => props.field.onChange(data)}
                 />
             )

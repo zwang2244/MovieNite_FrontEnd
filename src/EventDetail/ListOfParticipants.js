@@ -22,11 +22,11 @@ export default function ListOfParticipants(props) {
   return (
     <Stack spacing={3}>
       <Typography sx={{ mt: 3 }} variant={"h6"} fontSize={23} fontWeight={600}>
-        Participants
+        {props.mode}
       </Typography>
       <List
         sx={{
-          width: 300,
+          width: props.mode === "Friends"?600:300,
           bgcolor: "background.paper",
           position: "relative",
           overflow: "auto",
