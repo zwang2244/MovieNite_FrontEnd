@@ -35,7 +35,7 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 // @react-router
-import { Outlet, useLocation } from "react-router";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router";
 import ListItemButton from "@mui/material/ListItemButton";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -43,16 +43,21 @@ import { selectNotificationCount } from "../redux/feature/notification/Notificat
 import Paper from "@mui/material/Paper";
 import SearchIcon from "@mui/icons-material/Search";
 import { useAuth } from "../context/auth-context";
-import PeopleIcon from '@mui/icons-material/People';
+import PeopleIcon from "@mui/icons-material/People";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import { useQuery, useQueryClient } from "react-query";
 import { getNotificationCount } from "../api/notification";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCrown } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { useSnackbar } from "notistack";
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 
 function ResponsiveDrawer(props) {
   const { user, logout } = useAuth();
-  const { userID } = user;
+  const { userID, firstName, lastName, isMember, avatar } = user;
   // console.log(user);
   const { window } = props;
   const { pathname } = useLocation();
@@ -64,42 +69,103 @@ function ResponsiveDrawer(props) {
     isLoading: isCountLoading,
     data: notificationCount,
     refetch: refetchCount,
-  } = useQuery(
-    ["getNotificationCountByUserId", userID],
-    () => getNotificationCount(userID),
-    {
-      refetchOnWindowFocus: false,
-      retry: false,
-    }
+  } = useQuery(["getNotificationCountByUserId", userID], () =>
+    getNotificationCount(userID)
   );
 
-  if (!isCountLoading) console.log(notificationCount.data);
-
-  // const { data } = useQuery();
   const [open, setOpen] = React.useState(true);
-
+  const navigate = useNavigate();
   const handleClick = () => {
     setOpen(!open);
   };
-  // console.log(pathname);
-  // console.log("This is pathname");
-  // const queryClient = useQueryClient();
-  // console.log(queryClient);
-  // const testing = () => {
-  //   console.log("Tesing");
-  //   queryClient.refetchQueries(["userID", userID]).then((res) => {
-  //     console.log(res);
-  //     console.log("Tesing结束!!!");
-  //   });
-  // };
+  const action = (key) => (
+    <React.Fragment>
+      <Button
+        sx={{ color: "#ffffff", textTransform: "capitalize" }}
+        onClick={() => {
+          navigate(`/event/${key}`, { replace: false });
+        }}
+      >
+        See event detail
+      </Button>
+    </React.Fragment>
+  );
+  const { enqueueSnackbar } = useSnackbar();
+  const SnackBarToEvent = (eventId) => {
+    enqueueSnackbar("GOGOGO", {
+      anchorOrigin: {
+        vertical: "bottom",
+        horizontal: "left",
+      },
+      key: eventId,
+      variant: "success",
+      action,
+    });
+  };
+  const testing = () => {
+    enqueueSnackbar("GOGOGO", {
+      anchorOrigin: {
+        vertical: "bottom",
+        horizontal: "left",
+      },
+      variant: "success",
+      action,
+    });
+  };
 
-  // const notificationCount = useSelector(selectNotificationCount);
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
-      {/*Testing 成功!!! */}
-      {/*<Button onClick={() => testing()}>3232</Button>*/}
+      {/*<Button onClick={() => testing()}>wewew</Button>*/}
+      <Stack
+        width={1}
+        sx={{ paddingTop: 4, paddingBottom: 4 }}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        <Stack
+          width={"90%"}
+          sx={{
+            backgroundColor: "#f0f2f5",
+            // borderColor: "#919EAB20",
+            // borderStyle: "solid",
+            // borderWidth: "1px",
+            // boxShadow: "0px 12px 24px -4px rgb(145 158 171 / 16%)",
+            height: "70px",
+            paddingTop: "10px",
+            paddingBottom: "10px",
+            borderRadius: "12px",
+          }}
+          alignItems={"center"}
+          justifyContent={"center"}
+          direction={"row"}
+          spacing={2}
+        >
+          <img
+            src={avatar}
+            style={{ borderRadius: "100px" }}
+            height={"48px"}
+            alt={firstName + " " + lastName}
+          />
+          <Stack>
+            <Typography fontWeight={"700"} fontSize={16} color={"#212B36"}>
+              {firstName + " " + lastName}
+            </Typography>
+            <Typography
+              fontSize={14}
+              color={"#637381"}
+              sx={{ minWidth: "70px" }}
+            >
+              {isMember ? (
+                <FontAwesomeIcon style={{ color: "#637381" }} icon={faCrown} />
+              ) : (
+                <FontAwesomeIcon style={{ color: "#637381" }} icon={faUser} />
+              )}
+            </Typography>
+          </Stack>
+        </Stack>
+      </Stack>
       <List sx={{ p: 1 }}>
         <ListItem key={"Home"} disablePadding>
           <ListItemButton
@@ -140,7 +206,7 @@ function ResponsiveDrawer(props) {
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItemButton
-              sx={{ borderRadius: "12px", pl: 4}}
+              sx={{ borderRadius: "12px", pl: 4 }}
               component={Link}
               to={"/events"}
             >
@@ -199,7 +265,7 @@ function ResponsiveDrawer(props) {
         <ListItem key={"Logout"} disablePadding>
           <ListItemButton sx={{ borderRadius: "12px" }} onClick={logout}>
             <ListItemIcon>
-              <HomeIcon />
+              <LogoutIcon />
             </ListItemIcon>
             <ListItemText primary={"Logout"} />
           </ListItemButton>

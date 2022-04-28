@@ -3,19 +3,18 @@
   <component name="ChangeListManager">
     <list default="true" id="c5e2f93e-ad8b-48ad-807b-002ab0498a6b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Event/Event.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Event/Event.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Event/EventListElement.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Event/EventListElement.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Event/EventParticipated.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Event/EventParticipated.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EventDetail/EventDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventDetail/EventDetail.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EventDetail/ListOfMovies.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventDetail/ListOfMovies.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EventDetail/ListOfParticipants.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventDetail/ListOfParticipants.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Layout/Notification/ListContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Layout/Notification/ListContent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Layout/Notification/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Layout/Notification/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Layout/SearchMovie/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Layout/SearchMovie/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EventForm/EventForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventForm/EventForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Friends/AddDeleteFriends.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Friends/AddDeleteFriends.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Layout/SearchMovie/MovieDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Layout/SearchMovie/MovieDetail.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ResponsiveDrawer/ResponsiveDrawer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ResponsiveDrawer/ResponsiveDrawer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/button/ClickButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/button/ClickButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/carousel/MovieSlider.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/carousel/MovieSlider.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/movie/MovieDescription.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/movie/MovieDescription.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/formatForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/formatForm.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,17 +39,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "nodejs_package_manager_path": "npm",
-    "prettierjs.PrettierConfiguration.Package": "/Users/jinxin/Documents/GitHub/MovieNite_FrontEnd/node_modules/prettier",
-    "ts.external.directory.path": "/Users/jinxin/Library/Application Support/JetBrains/Toolbox/apps/WebStorm/ch-0/221.5080.193/WebStorm.app/Contents/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/jinxin/Documents/GitHub/MovieNite_FrontEnd/node_modules/prettier&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/jinxin/Library/Application Support/JetBrains/Toolbox/apps/WebStorm/ch-0/221.5080.193/WebStorm.app/Contents/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -60,6 +59,8 @@
       <option name="presentableId" value="Default" />
       <updated>1651065717139</updated>
       <workItem from="1651065720878" duration="24336000" />
+      <workItem from="1651155651215" duration="3570000" />
+      <workItem from="1651174906868" duration="7870000" />
     </task>
     <servers />
   </component>

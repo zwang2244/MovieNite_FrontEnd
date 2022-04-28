@@ -85,7 +85,11 @@ export default function ListOfMovies(props) {
                   aria-label="vote"
                   onClick={() => props.handleVote(index)}
                 >
-                  {item.isVoted ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
+                  {item.isVoted ? (
+                    <ThumbUpAltIcon sx={{ color: "#212b36" }} />
+                  ) : (
+                    <ThumbUpOffAltIcon />
+                  )}
                 </IconButton>
               </ListItem>
             ))}

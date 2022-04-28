@@ -30,6 +30,7 @@ import { Link } from "react-router-dom";
 import AuthButton from "../components/auth-form/auth-button";
 import ClickButton from "../components/button/ClickButton";
 import { useNavigate } from "react-router";
+import { useSnackbar } from "notistack";
 const Img = styled("img")({
   margin: "auto",
   display: "block",
@@ -49,11 +50,20 @@ export default function EventListElement(props) {
     setdelOpen(true);
   };
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const handleCloseDeleteDialog = (data) => {
     // console.log(data.event);
     deleteEvent(data.event).then((res) => {
       if (res.code === 1) {
         setdelOpen(false);
+        enqueueSnackbar("Delete Successfully!", {
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
+          variant: "success",
+        });
         props.onDelete(1);
       }
     });
@@ -96,6 +106,13 @@ export default function EventListElement(props) {
     // console.log(obj);
     updateEvent(obj).then((res) => {
       props.onEdit(props.index, obj.dateTime, obj.location);
+      enqueueSnackbar("Edit Successfully!", {
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
+        variant: "success",
+      });
       seteditOpen(false); // close
     });
     // setDefaultValue(data);

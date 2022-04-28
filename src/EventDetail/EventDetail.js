@@ -9,6 +9,7 @@ import {
   Typography,
   Divider,
   Stack,
+  CircularProgress,
 } from "@mui/material";
 import moment from "moment";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
@@ -35,20 +36,25 @@ import { getUserInfo } from "../api/user";
 import { getAllFriends } from "../api/friends";
 import AutoCompleteWithMulti from "../components/form/AutoCompleteMultiSelect";
 import MovieFilterIcon from "@mui/icons-material/MovieFilter";
+import { useAuth } from "../context/auth-context";
+import { useSnackbar } from "notistack";
 
 const defaultValues = {
   movie: "",
+  invitedFriendList: [],
 };
 
 export default function EventDetail() {
-  const userId = 20; // hardcoded
+  const { user } = useAuth();
+  const userId = user.userID;
+  // const userId = 20; // hardcoded
   let { eventId } = useParams();
-  const [currHost, setCurrHost] = useState(0);
-  const [currTopMovie, setCurrTopMovie] = useState({});
-  const [currEvent, setCurrEvent] = useState({});
-  const [currParticipant, setCurrParticipant] = useState([]); // array of objects
-  const [currProposedMovie, setCurrProposedMovie] = useState([]); // array of objects
-  const [isMember, setIsMember] = useState(false);
+  // const [currHost, setCurrHost] = useState(0);
+  // const [currTopMovie, setCurrTopMovie] = useState({});
+  // const [currEvent, setCurrEvent] = useState({});
+  // const [currParticipant, setCurrParticipant] = useState([]); // array of objects
+  // const [currProposedMovie, setCurrProposedMovie] = useState([]); // array of objects
+  // const [isMember, setIsMember] = useState(false);
   const { data: FriendsList, isLoading: loadingFriend } = useQuery(
     "Friends",
     () => getAllFriends(userId),
@@ -57,53 +63,17 @@ export default function EventDetail() {
       refetchOnWindowFocus: false,
     }
   );
-  const [refresh, setRefresh] = useState(true);
-
-  const getData = async () => {
-    var eventInfo = await getEventInfo(eventId, userId);
-    const array = dataToArray(eventInfo);
-    setCurrHost(array.event.host);
-    setCurrTopMovie(array.movieInfo);
-    setCurrEvent(array.event);
-    setCurrParticipant([...array.participants]);
-    setCurrProposedMovie([...array.movies]);
-  };
-
-  const getMembership = async () => {
-    var userData = await getUserInfo(userId);
-    const array = dataToArray(userData);
-    setIsMember(array.isMember);
-  };
-
-  useEffect(() => {
-    getData();
-  }, [refresh]);
-
-  useEffect(() => {
-    getMembership();
-  });
-
-  const handleVote = (index) => {
-    var temp = [...currProposedMovie];
-    if (temp[index].isVoted) {
-      temp[index].isVoted = false;
-      var vc = 1;
-      if (isMember) vc = 2;
-      temp[index].voteCount = temp[index].voteCount - vc;
-      unvoteForMovie(eventId, temp[index].imdbID, userId, vc).then(() =>
-        refresh ? setRefresh(false) : setRefresh(true)
-      );
-    } else {
-      temp[index].isVoted = true;
-      var vc = 1;
-      if (isMember) vc = 2;
-      temp[index].voteCount = temp[index].voteCount + vc;
-      voteForMovie(eventId, temp[index].imdbID, userId, vc).then(() =>
-        refresh ? setRefresh(false) : setRefresh(true)
-      );
-    }
-    setCurrProposedMovie(temp);
-  };
+  const { enqueueSnackbar } = useSnackbar();
+  const {
+    data: eventInfo,
+    refetch: refetchData,
+    isLoading: isLoadingEvent,
+  } = useQuery(["eventInfo", eventId], () => getEventInfo(eventId, userId));
+  const {
+    data: memberShip,
+    refetch: refetchMember,
+    isLoading: isLoadingMember,
+  } = useQuery(["member", userId], () => getUserInfo(userId));
 
   const { handleSubmit, control, watch, setValue, reset } = useForm({
     defaultValues: defaultValues,
@@ -114,6 +84,71 @@ export default function EventDetail() {
   const [search, setSearch] = useState("");
   const debounceSearch = useDebounce(search, 500);
   const { data: movieList, isLoading } = useSearch(debounceSearch);
+  // user null,
+  if (isLoadingEvent || isLoadingMember || loadingFriend) {
+    return <CircularProgress />;
+  }
+
+  const arrayMem = dataToArray(memberShip);
+  const isMember = arrayMem.isMember;
+
+  // const getMembership = async () => {
+  //   var userData = await getUserInfo(userId);
+  //   setIsMember(array.isMember);
+  // };
+
+  // const [refresh, setRefresh] = useState(true);
+
+  // ================= after loading
+
+  const array = dataToArray(eventInfo);
+  const currHost = array.event.host;
+  const currTopMovie = array.movieInfo;
+  const currEvent = array.event;
+  const currParticipant = [...array.participants];
+  const currProposedMovie = [...array.movies];
+
+  const isHost = currHost === userId;
+  // const getData = async () => {
+  // refetch event info
+  //   let eventInfo = await getEventInfo(eventId, userId);
+  //   const array = dataToArray(eventInfo);
+  //   setCurrHost(array.event.host);
+  //   setCurrTopMovie(array.movieInfo);
+  //   setCurrEvent(array.event);
+  //   setCurrParticipant([...array.participants]);
+  //   setCurrProposedMovie([...array.movies]);
+  // };
+
+  // useEffect(() => {
+  //   getData(); // refetch event info
+  // }, [refresh]);
+  //
+  // useEffect(() => {
+  //   getMembership();
+  // });
+
+  const handleVote = (index) => {
+    var temp = [...currProposedMovie];
+    if (temp[index].isVoted) {
+      temp[index].isVoted = false;
+      var vc = 1;
+      if (isMember) vc = 2;
+      temp[index].voteCount = temp[index].voteCount - vc;
+      unvoteForMovie(eventId, temp[index].imdbID, userId, vc).then(() =>
+        refetchData()
+      );
+    } else {
+      temp[index].isVoted = true;
+      var vc = 1;
+      if (isMember) vc = 2;
+      temp[index].voteCount = temp[index].voteCount + vc;
+      voteForMovie(eventId, temp[index].imdbID, userId, vc).then(() => {
+        refetchData();
+      });
+    }
+    // setCurrProposedMovie(temp);
+  };
 
   const onChange = (e) => {
     setSearch(e.target.value);
@@ -126,26 +161,23 @@ export default function EventDetail() {
     if (!imdbNumber) return;
     var vc = 1;
     if (isMember) vc = 2;
-    voteForMovie(eventId, imdbNumber, userId, vc).then(() =>
-      refresh ? setRefresh(false) : setRefresh(true)
-    );
+    voteForMovie(eventId, imdbNumber, userId, vc).then(() => refetchData());
     reset();
   };
 
   const onInvite = (data) => {
     var newfriendlist = data.invitedFriendList;
     newfriendlist.map((friend) => {
-      addParticipant(eventId, friend.userID).then(() =>
-        refresh ? setRefresh(false) : setRefresh(true)
-      );
+      // [] 遍历一遍
+      addParticipant(eventId, friend.userID).then(() => {
+        refetchData();
+        reset();
+      });
     });
-    reset();
   };
 
   const onKickOut = (userID) => {
-    deleteParticipant(eventId, userID).then(() =>
-      refresh ? setRefresh(false) : setRefresh(true)
-    );
+    deleteParticipant(eventId, userID).then(() => refetchData());
   };
 
   return (
@@ -365,9 +397,9 @@ export default function EventDetail() {
           sx={{
             // width: 320,
             boxShadow: "0px 12px 24px -4px rgba(145, 158, 171, 0.16)",
-
             position: "relative",
-            height: 750,
+            maxHeight: "auto",
+            minHeight: 750,
             pt: 3,
             pl: 3,
             pr: 3,
@@ -381,68 +413,71 @@ export default function EventDetail() {
             onKickOut={onKickOut}
             host={currEvent.host}
           />
-          <FormControl
-            onSubmit={handleSubmit(onInvite)}
-            noValidate
-            autoComplete="off"
-          >
-            <div className={"container"}>
-              <Paper
-                elevation={0}
-                sx={{
-                  p: "0px 4px",
-                  display: "flex",
-                  alignItems: "center",
-                  width: 300,
-                }}
-              >
-                <AutoCompleteWithMulti
-                  control={control}
-                  name={"invitedFriendList"}
-                  label={"Friend"}
-                  items={dataToArray(FriendsList).filter(function (el) {
-                    return !currParticipant
-                      .map((o) => o.userID)
-                      .includes(el.userID);
-                  })}
-                  placeholder={"Invite your friends"}
-                />
-              </Paper>
-            </div>
-            <div className={"container"}>
-              <Paper
-                component="form"
-                sx={{
-                  p: "2px 4px",
-                  display: "flex",
-                  alignItems: "center",
-                  width: 300,
-                  justifyContent: "space-evenly",
-                }}
-                elevation={0}
-              >
-                <Button
+          {isHost && (
+            <FormControl
+              sx={{ paddingTop: "30px" }}
+              onSubmit={handleSubmit(onInvite)}
+              noValidate
+              autoComplete="off"
+            >
+              <div className={"container"}>
+                <Paper
+                  elevation={0}
                   sx={{
-                    width: "100%",
-                    backgroundColor: "#212B36",
-                    borderRadius: "8px",
-                    height: "45px",
-                    textTransform: "capitalize",
-                    fontWeight: 700,
-                    fontSize: "0.92rem",
-                    "&:hover": {
-                      backgroundColor: "#1f3148",
-                    },
+                    p: "0px 4px",
+                    display: "flex",
+                    alignItems: "center",
+                    width: 300,
                   }}
-                  size="large"
-                  variant="contained"
-                  type="submit"
                 >
-                  Invite
-                </Button>
-              </Paper>
-            </div>
-          </FormControl>
+                  <AutoCompleteWithMulti
+                    control={control}
+                    name={"invitedFriendList"}
+                    label={"Friend"}
+                    items={dataToArray(FriendsList).filter(function (el) {
+                      return !currParticipant
+                        .map((o) => o.userID)
+                        .includes(el.userID);
+                    })}
+                    placeholder={"Invite your friends"}
+                  />
+                </Paper>
+              </div>
+              <div className={"container"}>
+                <Paper
+                  component="form"
+                  sx={{
+                    p: "2px 4px",
+                    display: "flex",
+                    alignItems: "center",
+                    width: 300,
+                    justifyContent: "space-evenly",
+                  }}
+                  elevation={0}
+                >
+                  <Button
+                    sx={{
+                      width: "100%",
+                      backgroundColor: "#212B36",
+                      borderRadius: "8px",
+                      height: "45px",
+                      textTransform: "capitalize",
+                      fontWeight: 700,
+                      fontSize: "0.92rem",
+                      "&:hover": {
+                        backgroundColor: "#1f3148",
+                      },
+                    }}
+                    size="large"
+                    variant="contained"
+                    type="submit"
+                  >
+                    Invite
+                  </Button>
+                </Paper>
+              </div>
+            </FormControl>
+          )}
         </Paper>
       </Stack>
     </Stack>

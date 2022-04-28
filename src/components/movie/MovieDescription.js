@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button, Chip, Stack } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import { LoadingButton, Rating } from "@mui/lab";
+import { LoadingButton } from "@mui/lab";
 import ClickButton from "../button/ClickButton";
 import { useNavigate } from "react-router";
+import RatingModal from "../modal/RatingModal";
+import MovieModal from "../modal/MovieModal";
+import { Rating } from "@mui/material";
+import { useAuth } from "../../context/auth-context";
 
 function MovieDescription({
   actors,
@@ -23,15 +27,29 @@ function MovieDescription({
   goMovie,
   goEvent,
   eventId,
+  userRating,
+  rating,
 }) {
   // {...} 这种方式可以取到!
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [movieInfo, setMovieInfo] = useState({});
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => setOpen(false);
+  const [ratingValue, setRatingValue] = useState(
+    userRating ? Number(userRating) : official_rating * 10
+  );
+  const { user } = useAuth();
+  const userId = user.userID;
   return (
     <Box
       sx={{
         width: 1,
         height: "auto",
         padding: 5,
+        paddingBottom: rating ? 1 : null,
         backgroundColor: "#ffffff",
         position: "relative",
       }}
@@ -159,8 +177,55 @@ function MovieDescription({
                 ))}
               </Typography>
             </Box>
+            {rating && (
+              <Stack
+                sx={{ paddingLeft: "20px" }}
+                width={1}
+                justifyContent={"flex-end"}
+                alignItems={"flex-end"}
+              >
+                <Button
+                  onClick={() => {
+                    handleOpen();
+                  }}
+                  sx={{
+                    right: "-50px",
+                    position: "relative",
+                    backgroundColor: "#212B36",
+                    minWidth: "80px",
+                    maxWidth: "auto",
+                    paddingLeft: "15px",
+                    pr: "15px",
+                    borderRadius: "8px",
+                    height: "40px",
+                    textTransform: "capitalize",
+                    fontWeight: 700,
+                    fontSize: "0.92rem",
+                    "&:hover": {
+                      backgroundColor: "#1f3148",
+                    },
+                  }}
+                  size="small"
+                  variant="contained"
+                  type="submit"
+                >
+                  {userRating ? ` ${userRating} / 100 ` : "Rate"}
+                  {/*97 / 100*/}
+                </Button>
+              </Stack>
+            )}
           </Stack>
         </Grid>
+        <RatingModal
+          imdbId={imdbID}
+          userId={userId}
+          handleClose={handleClose}
+          open={open}
+          initialValue={ratingValue}
+          onChange={(e, value) => {
+            setRatingValue(value);
+          }}
+        />
       </Grid>
       {!goMovie ? null : (
         <>

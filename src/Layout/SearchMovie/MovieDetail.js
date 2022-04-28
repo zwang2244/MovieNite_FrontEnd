@@ -25,7 +25,7 @@ import { isNullOrWhitespace } from "../../utils/checkIfStringIsValid";
 import { TransitionGroup } from "react-transition-group";
 import { useQuery } from "react-query";
 import { getMovieEvents } from "../../api/event";
-import { getMovieById } from "../../api/movie";
+import { getMovieById, getMovieByUserIdAndMovieId } from "../../api/movie";
 import { Rating } from "@mui/lab";
 import { useAuth } from "../../context/auth-context";
 import {
@@ -34,6 +34,7 @@ import {
   getCommentByImdbId,
 } from "../../api/comment";
 import moment from "moment";
+import { useSnackbar } from "notistack";
 
 const URL = "https://image.tmdb.org/t/p/original/";
 
@@ -66,10 +67,14 @@ function MovieDetail(props) {
   // console.log(params);
   const { imdbId } = params;
   // const [comments, setComments] = useState(commentData.comments);
-
-  const { data: movieInfo, isLoading: isMovieInfoLoading } = useQuery(
-    ["movieId", imdbId],
-    () => getMovieById(imdbId),
+  // getMovieByUserIdAndMovieId
+  const {
+    data: movieInfo,
+    isLoading: isMovieInfoLoading,
+    refetch: refetchMovieInfo,
+  } = useQuery(
+    ["getMovieInfoByUserId", userID],
+    () => getMovieByUserIdAndMovieId(imdbId, userID),
     {
       retry: false,
     }
@@ -87,12 +92,15 @@ function MovieDetail(props) {
     defaultValues: defaultValues,
   });
 
+  const { enqueueSnackbar } = useSnackbar();
+
   if (isMovieInfoLoading || isCommentLoading) {
     return <CircularProgress />;
   }
-  console.log("---------");
-  console.log(commentInfo);
-  console.log(JSON.parse(commentInfo.data));
+  // console.log("---------");
+  // console.log(commentInfo);
+  // console.log(JSON.parse(movieInfo.data));
+  // console.log(JSON.parse(commentInfo.data));
   const comments = JSON.parse(commentInfo.data);
   console.log(
     new Date().toLocaleString("en-US", { timeZone: "America/Chicago" })
@@ -102,11 +110,17 @@ function MovieDetail(props) {
   const { backdrop_path, title, official_rating } = movieDetail;
   //{actors,backdrop_path,director, genres, official_rating,overview,poster_path,release_date,title,writer, imdbID}
   const onSubmit = (data) => {
-    // TODO SnackBar
     console.log(data);
     const { comment } = data;
     if (isNullOrWhitespace(comment)) {
       // console.log(comment);
+      enqueueSnackbar("Write your comment:)", {
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
+        variant: "default",
+      });
       return; // TODO tell users to input something
     }
     // get new data
@@ -130,6 +144,13 @@ function MovieDetail(props) {
 
     addComment(newItem).then((res) => {
       // console.log(res);
+      enqueueSnackbar("Add a new Comment!", {
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
+        variant: "success",
+      });
       refetchComment();
     });
   };
@@ -137,8 +158,11 @@ function MovieDetail(props) {
   const deleteCommentHandler = (id) => {
     // console.log(id);
     deleteCommentById(id).then((res) => {
-      console.log(res);
+      // console.log(res);
       refetchComment();
+      enqueueSnackbar("Delete this comment!", {
+        variant: "success",
+      });
     });
   };
 
@@ -202,7 +226,7 @@ function MovieDetail(props) {
           // p: 5,
         }}
       >
-        <MovieDescription {...movieDetail} />
+        <MovieDescription {...movieDetail} rating />
         {/*<MovieDetail />*/}
         <Divider sx={{ marginTop: 0.5 }} />
         <Box sx={{ paddingTop: 4, pl: 10, pr: 10, width: 1 }}>

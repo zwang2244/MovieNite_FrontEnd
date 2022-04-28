@@ -9,6 +9,7 @@ import { CircularProgress, Stack, Typography, Avatar } from "@mui/material";
 import { getUserInfo } from "../api/user";
 import { dataToArray } from "../utils/dataToArray";
 export default function ListOfParticipants(props) {
+  const isHost = props.isHost;
   const [currHost, setCurrHost] = useState({});
   const isLoading = false; // todo
   const gethost = async () => {
@@ -21,16 +22,17 @@ export default function ListOfParticipants(props) {
 
   return (
     <Stack spacing={3}>
-      <Typography sx={{ mt: 3 }} variant={"h6"} fontSize={23} fontWeight={600}>
-        {props.mode}
+      <Typography sx={{ mt: 3, ml: 1 }} fontSize={22} fontWeight={600}>
+        Participants
       </Typography>
+      {/*Mode for what?*/}
       <List
         sx={{
-          width: props.mode === "Friends"?600:300,
+          width: props.mode === "Friends" ? 600 : 300,
           bgcolor: "background.paper",
           position: "relative",
           overflow: "auto",
-          height: 450,
+          height: isHost ? 450 : 600,
           "& ul": { padding: 0 },
           m: 2,
         }}
@@ -38,7 +40,7 @@ export default function ListOfParticipants(props) {
       >
         {isLoading && <CircularProgress />}
         <ListItem key={"Host"}>
-          <ListItemButton>
+          <ListItemButton sx={{ borderRadius: "14px" }}>
             <Avatar
               alt={currHost.firstName + " " + currHost.lastName}
               src={currHost.avatar}
@@ -53,7 +55,7 @@ export default function ListOfParticipants(props) {
         {!isLoading &&
           props.participants.map((item, index) => (
             <ListItem key={index}>
-              <ListItemButton>
+              <ListItemButton sx={{ borderRadius: "14px" }}>
                 <Avatar
                   alt={item.firstName + " " + item.lastName}
                   src={item.avatar}

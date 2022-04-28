@@ -16,3 +16,7 @@ const getFriendList = (userId) => api.get(`${userId}`).then((res) => res.data); 
 // `/movieevent/event/delete?eventId=${eventId}`
 export const getMovieById = (imdbId) =>
   api.get(`/movie/?movieID=${imdbId}`).then((res) => res.data);
+
+//movie/?movieID=tt0371746&userId=5
+export const getMovieByUserIdAndMovieId = (imdbID, userId) =>
+  api.get(`/movie/?movieID=${imdbID}&userId=${userId}`).then((res) => res.data);
