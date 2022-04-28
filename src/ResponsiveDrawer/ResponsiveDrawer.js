@@ -17,13 +17,23 @@ import EventIcon from "@mui/icons-material/Event";
 import CircleNotificationsIcon from "@mui/icons-material/CircleNotifications";
 import MovieEvent from "../MovieEvent/MovieEvent";
 import ListOfFriend from "../Friends/ListOfFriend";
-import { Stack, Collapse} from "@mui/material";
+import {
+  createTheme,
+  Stack,
+  TextField,
+  ThemeProvider,
+  Collapse,
+  Button,
+} from "@mui/material";
 import "./ResponsiveDrawer.css";
 import { Badge } from "@mui/material";
 import HighScoreForm from "../HighScoreForm/HighScoreForm";
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import EventNoteIcon from '@mui/icons-material/EventNote';
+import { StarBorder } from "@mui/icons-material";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import EventNoteIcon from "@mui/icons-material/EventNote";
 // @react-router
 import { Outlet, useLocation } from "react-router";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -33,33 +43,70 @@ import { selectNotificationCount } from "../redux/feature/notification/Notificat
 import Paper from "@mui/material/Paper";
 import SearchIcon from "@mui/icons-material/Search";
 import { useAuth } from "../context/auth-context";
-import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import PeopleIcon from '@mui/icons-material/People';
+import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
+import { useQuery, useQueryClient } from "react-query";
+import { getNotificationCount } from "../api/notification";
+
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
   const { user, logout } = useAuth();
-  console.log(user);
+  const { userID } = user;
+  // console.log(user);
   const { window } = props;
   const { pathname } = useLocation();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+  const {
+    isLoading: isCountLoading,
+    data: notificationCount,
+    refetch: refetchCount,
+  } = useQuery(
+    ["getNotificationCountByUserId", userID],
+    () => getNotificationCount(userID),
+    {
+      refetchOnWindowFocus: false,
+      retry: false,
+    }
+  );
+
+  if (!isCountLoading) console.log(notificationCount.data);
+
+  // const { data } = useQuery();
   const [open, setOpen] = React.useState(true);
 
   const handleClick = () => {
     setOpen(!open);
   };
+  // console.log(pathname);
+  // console.log("This is pathname");
+  // const queryClient = useQueryClient();
+  // console.log(queryClient);
+  // const testing = () => {
+  //   console.log("Tesing");
+  //   queryClient.refetchQueries(["userID", userID]).then((res) => {
+  //     console.log(res);
+  //     console.log("Tesing结束!!!");
+  //   });
+  // };
 
-  const notificationCount = useSelector(selectNotificationCount);
+  // const notificationCount = useSelector(selectNotificationCount);
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
-      <List>
+      {/*Testing 成功!!! */}
+      {/*<Button onClick={() => testing()}>3232</Button>*/}
+      <List sx={{ p: 1 }}>
         <ListItem key={"Home"} disablePadding>
-          <ListItemButton component={Link} to={"/"}>
+          <ListItemButton
+            sx={{ borderRadius: "12px" }}
+            component={Link}
+            to={"/"}
+          >
             <ListItemIcon>
               <HomeIcon />
             </ListItemIcon>
@@ -68,7 +115,11 @@ function ResponsiveDrawer(props) {
         </ListItem>
 
         <ListItem key={"Search"} disablePadding>
-          <ListItemButton component={Link} to={"/search"}>
+          <ListItemButton
+            sx={{ borderRadius: "12px" }}
+            component={Link}
+            to={"/search"}
+          >
             <ListItemIcon>
               <SearchIcon />
             </ListItemIcon>
@@ -77,7 +128,7 @@ function ResponsiveDrawer(props) {
         </ListItem>
 
         <ListItem key={"Events"} disablePadding>
-          <ListItemButton onClick={handleClick}>
+          <ListItemButton sx={{ borderRadius: "12px" }} onClick={handleClick}>
             <ListItemIcon>
               <EventIcon />
             </ListItemIcon>
@@ -87,37 +138,55 @@ function ResponsiveDrawer(props) {
         </ListItem>
 
         <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton component={Link} to={"/events"} sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <EventNoteIcon />
-            </ListItemIcon>
-            <ListItemText primary="Hosted" />
-          </ListItemButton>
-        </List>
+          <List component="div" disablePadding>
+            <ListItemButton
+              sx={{ borderRadius: "12px", pl: 4}}
+              component={Link}
+              to={"/events"}
+            >
+              <ListItemIcon>
+                <EventNoteIcon />
+              </ListItemIcon>
+              <ListItemText primary="Hosted" />
+            </ListItemButton>
+          </List>
 
-        <List component="div" disablePadding>
-          <ListItemButton component={Link} to={"/eventsParticipated"} sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <PeopleOutlineIcon />
-            </ListItemIcon>
-            <ListItemText primary="Participated" />
-          </ListItemButton>
-        </List>
-
-      </Collapse>
+          <List component="div" disablePadding>
+            <ListItemButton
+              sx={{ borderRadius: "12px", pl: 4 }}
+              component={Link}
+              to={"/eventsParticipated"}
+            >
+              <ListItemIcon>
+                <PeopleOutlineIcon />
+              </ListItemIcon>
+              <ListItemText primary="Participated" />
+            </ListItemButton>
+          </List>
+        </Collapse>
 
         <ListItem key={"Notification"} disablePadding>
-          <ListItemButton component={Link} to={"/notification"}>
+          <ListItemButton
+            sx={{ borderRadius: "12px" }}
+            component={Link}
+            to={"/notification"}
+          >
             <ListItemIcon>
-              <Badge badgeContent={notificationCount} color={"primary"}>
+              <Badge
+                sx={{
+                  "& .MuiBadge-badge": {
+                    backgroundColor: "#38cc8b",
+                  },
+                }}
+                badgeContent={isCountLoading ? 0 : notificationCount.data}
+                color={"primary"}
+              >
                 <CircleNotificationsIcon />
               </Badge>
             </ListItemIcon>
             <ListItemText primary={"Notification"} />
           </ListItemButton>
         </ListItem>
-
         <ListItem key={"Friends"} disablePadding>
           <ListItemButton component={Link} to={"/friends"}>
             <ListItemIcon>
@@ -128,7 +197,7 @@ function ResponsiveDrawer(props) {
         </ListItem>
 
         <ListItem key={"Logout"} disablePadding>
-          <ListItemButton onClick={logout}>
+          <ListItemButton sx={{ borderRadius: "12px" }} onClick={logout}>
             <ListItemIcon>
               <HomeIcon />
             </ListItemIcon>
@@ -170,14 +239,14 @@ function ResponsiveDrawer(props) {
             component="div"
             sx={{ color: "#212B36" }}
           >
-            {pathname.length < 1
+            {pathname.length <= 1
               ? "Home"
               : pathname.startsWith("/search/")
               ? "Movie Detail"
-              : pathname === "/events"?
-              "Events Hosted"
-              : pathname === "/eventsParticipated"?
-              "Events Participated"
+              : pathname === "/events"
+              ? "Events Hosted"
+              : pathname === "/eventsParticipated"
+              ? "Events Participated"
               : pathname.startsWith("/events/")
               ? "Event Detail"
               : pathname.charAt(1).toUpperCase() + pathname.slice(2)}
@@ -216,25 +285,25 @@ export function Home() {
       component="main"
       sx={{
         display: "flex",
-        alignItems: "center",
+        // alignItems: "center",
         flexDirection: "row",
-        pt: 8,
-        width: "100%",
+        width: 1,
+        minWidth: 1400,
+        paddingTop: "20px",
+        height: "100vh",
+        minHeight: "900px",
+        // backgroundColor: "#f0f2f5",
         justifyContent: "space-evenly",
       }}
     >
       <MovieEvent />
-      <Stack spacing={6}>
-        <Paper>
-          <div className="container">
-            <ListOfFriend />
-          </div>
-        </Paper>
-        <Paper>
-          <div className="container">
-            <HighScoreForm />
-          </div>
-        </Paper>
+      <Stack
+        sx={{ height: "100%", padding: 10 }}
+        spacing={7}
+        justifyContent={"flex-start"}
+      >
+        <ListOfFriend />
+        <HighScoreForm />
       </Stack>
     </Box>
   );
