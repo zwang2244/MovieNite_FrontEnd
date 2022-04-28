@@ -25,7 +25,7 @@ import { isNullOrWhitespace } from "../../utils/checkIfStringIsValid";
 import { TransitionGroup } from "react-transition-group";
 import { useQuery } from "react-query";
 import { getMovieEvents } from "../../api/event";
-import { getMovieById } from "../../api/movie";
+import { getMovieById, getMovieByUserIdAndMovieId } from "../../api/movie";
 import { Rating } from "@mui/lab";
 import { useAuth } from "../../context/auth-context";
 import {
@@ -66,10 +66,14 @@ function MovieDetail(props) {
   // console.log(params);
   const { imdbId } = params;
   // const [comments, setComments] = useState(commentData.comments);
-
-  const { data: movieInfo, isLoading: isMovieInfoLoading } = useQuery(
-    ["movieId", imdbId],
-    () => getMovieById(imdbId),
+  // getMovieByUserIdAndMovieId
+  const {
+    data: movieInfo,
+    isLoading: isMovieInfoLoading,
+    refetch: refetchMovieInfo,
+  } = useQuery(
+    ["getMovieInfoByUserId", userID],
+    () => getMovieByUserIdAndMovieId(imdbId, userID),
     {
       retry: false,
     }
@@ -90,9 +94,10 @@ function MovieDetail(props) {
   if (isMovieInfoLoading || isCommentLoading) {
     return <CircularProgress />;
   }
-  console.log("---------");
-  console.log(commentInfo);
-  console.log(JSON.parse(commentInfo.data));
+  // console.log("---------");
+  // console.log(commentInfo);
+  // console.log(JSON.parse(movieInfo.data));
+  // console.log(JSON.parse(commentInfo.data));
   const comments = JSON.parse(commentInfo.data);
   console.log(
     new Date().toLocaleString("en-US", { timeZone: "America/Chicago" })
@@ -202,7 +207,7 @@ function MovieDetail(props) {
           // p: 5,
         }}
       >
-        <MovieDescription {...movieDetail} />
+        <MovieDescription {...movieDetail} rating />
         {/*<MovieDetail />*/}
         <Divider sx={{ marginTop: 0.5 }} />
         <Box sx={{ paddingTop: 4, pl: 10, pr: 10, width: 1 }}>
