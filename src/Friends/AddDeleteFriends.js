@@ -99,7 +99,7 @@ export default function AddDeleteFriends() {
           participants={FriendsList}
           isHost={true}
           onKickOut={onKickOut}
-          host={20}
+          host={userId}
         />
         <FormControl
           onSubmit={handleSubmit(onSubmit)}

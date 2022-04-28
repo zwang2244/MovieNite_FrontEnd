@@ -48,7 +48,12 @@ export default function ListOfParticipants(props) {
             />
             <ListItemText
               sx={{ width: "100%" }}
-              primary={currHost.firstName + " " + currHost.lastName + " (Host)"}
+              primary={
+                currHost.firstName +
+                " " +
+                currHost.lastName +
+                (props.mode === "Friends" ? " (Me)" : " (Host)")
+              }
             />
           </ListItemButton>
         </ListItem>
