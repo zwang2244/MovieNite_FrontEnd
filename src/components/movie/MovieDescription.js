@@ -56,7 +56,11 @@ function MovieDescription({
     >
       <Box position={"absolute"} sx={{ right: 20, top: 20 }}>
         <Box sx={{ pb: "0px" }}>
-          <Typography fontFamily={"Roboto"} component={"div"}>
+          <Typography
+            sx={{ pl: "15px" }}
+            fontFamily={"Roboto"}
+            component={"div"}
+          >
             <Typography fontSize={20} fontWeight={600} display={"inline"}>
               {official_rating}{" "}
             </Typography>
@@ -67,7 +71,7 @@ function MovieDescription({
           sx={{ color: "#212b36" }}
           size={"small"}
           name="read-only"
-          value={3.6}
+          value={official_rating / 2}
           precision={0.1}
           readOnly
         />

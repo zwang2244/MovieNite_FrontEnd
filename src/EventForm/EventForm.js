@@ -87,7 +87,7 @@ export default function EventForm() {
       <Button
         sx={{ color: "#ffffff", textTransform: "capitalize" }}
         onClick={() => {
-          navigate(`/event/${key}`, { replace: false });
+          navigate(`/events/${key}`, { replace: false });
         }}
       >
         See event detail
@@ -128,9 +128,11 @@ export default function EventForm() {
         // console.log("We got this point");
         // eventId.
         reset(defaultValues);
-        enqueueSnackbar("Add a new Event!", {
-          variant: "success",
-        });
+        // enqueueSnackbar("Add a new Event!", {
+        //   variant: "success",
+        // });
+        const eventId = data.data;
+        SnackBarToEvent(eventId);
         // SnackBarToEvent()
       }
     });
