@@ -100,6 +100,7 @@ export default function AddDeleteFriends() {
           isHost={true}
           onKickOut={onKickOut}
           host={userId}
+          delete={true}
         />
         <FormControl
           onSubmit={handleSubmit(onSubmit)}
