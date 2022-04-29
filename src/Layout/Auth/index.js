@@ -11,7 +11,7 @@ import { Outlet, useLocation } from "react-router";
 
 function Auth(props) {
   const { pathname } = useLocation();
-  console.log(pathname);
+  // console.log(pathname);
   const isLoginPage = pathname.indexOf("login") !== -1;
 
   return (

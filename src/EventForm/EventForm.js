@@ -57,7 +57,6 @@ const defaultValues = {
   movie: "",
 };
 
-const userId = 20;
 export default function EventForm() {
   const { handleSubmit, control, watch, setValue, reset } = useForm({
     defaultValues: defaultValues,
@@ -77,7 +76,6 @@ export default function EventForm() {
     () => getAllFriends(userId),
     {
       // staleTime: 60 * 1000,
-      retryOnMount: true,
       refetchOnWindowFocus: false,
     }
   );
@@ -167,32 +165,8 @@ export default function EventForm() {
             control={control}
           />
         </Stack>
-
         <AuthButton>Schedule</AuthButton>
       </Stack>
-
-      {/*<div className={"container"}>*/}
-      {/*  <Paper*/}
-      {/*    component="form"*/}
-      {/*    sx={{*/}
-      {/*      p: "2px 4px",*/}
-      {/*      display: "flex",*/}
-      {/*      alignItems: "center",*/}
-      {/*      width: 750,*/}
-      {/*      justifyContent: "space-evenly",*/}
-      {/*    }}*/}
-      {/*    elevation={0}*/}
-      {/*  >*/}
-      {/*    /!*<Button*!/*/}
-      {/*    /!*  sx={{ width: "100%" }}*!/*/}
-      {/*    /!*  size="large"*!/*/}
-      {/*    /!*  variant="contained"*!/*/}
-      {/*    /!*  type="submit"*!/*/}
-      {/*    /!*>*!/*/}
-      {/*    /!*  Schedule*!/*/}
-      {/*    /!*</Button>*!/*/}
-      {/*  </Paper>*/}
-      {/*</div>*/}
     </FormControl>
   );
 }

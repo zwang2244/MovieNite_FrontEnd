@@ -211,7 +211,6 @@ export default function EventDetail() {
         >
           {/* time & location */}
           <Stack
-            container
             direction="row"
             justifyContent="flex-start"
             height={90}

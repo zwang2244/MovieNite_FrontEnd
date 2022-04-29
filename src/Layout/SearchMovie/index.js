@@ -39,7 +39,7 @@ function Index(props) {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     if (data.movie === "" || data.movie === null) return;
     const imdbNumber = data.movie.imdbNumber;
     if (!imdbNumber) return;
