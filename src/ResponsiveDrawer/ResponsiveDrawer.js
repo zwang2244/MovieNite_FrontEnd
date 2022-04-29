@@ -68,8 +68,10 @@ function ResponsiveDrawer(props) {
     isLoading: isCountLoading,
     data: notificationCount,
     refetch: refetchCount,
-  } = useQuery(["getNotificationCountByUserId", userID], () =>
-    getNotificationCount(userID)
+  } = useQuery(
+    ["getNotificationCountByUserId", userID],
+    () => getNotificationCount(userID),
+    { refetchOnWindowFocus: true }
   );
 
   const [open, setOpen] = React.useState(true);
@@ -232,6 +234,9 @@ function ResponsiveDrawer(props) {
 
         <ListItem key={"Notification"} disablePadding>
           <ListItemButton
+            onClick={() => {
+              refetchCount();
+            }}
             sx={{ borderRadius: "12px" }}
             component={Link}
             to={"/notification"}

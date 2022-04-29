@@ -3,17 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="c5e2f93e-ad8b-48ad-807b-002ab0498a6b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Event/EventListElement.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Event/EventListElement.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EventDetail/EventDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventDetail/EventDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EventForm/EventForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventForm/EventForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EventDetail/ListOfParticipants.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventDetail/ListOfParticipants.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Friends/AddDeleteFriends.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Friends/AddDeleteFriends.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HighScoreForm/ListOfMovieGerneScore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/HighScoreForm/ListOfMovieGerneScore.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Layout/Auth/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Layout/Auth/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Layout/Auth/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Layout/Auth/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Layout/Notification/ListContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Layout/Notification/ListContent.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Layout/Notification/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Layout/Notification/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Layout/SearchMovie/MovieDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Layout/SearchMovie/MovieDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Layout/SearchMovie/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Layout/SearchMovie/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ResponsiveDrawer/ResponsiveDrawer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ResponsiveDrawer/ResponsiveDrawer.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -61,7 +54,7 @@
       <workItem from="1651065720878" duration="24336000" />
       <workItem from="1651155651215" duration="3570000" />
       <workItem from="1651174906868" duration="12244000" />
-      <workItem from="1651196573343" duration="3639000" />
+      <workItem from="1651196573343" duration="5723000" />
     </task>
     <servers />
   </component>

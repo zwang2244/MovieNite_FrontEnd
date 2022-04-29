@@ -74,8 +74,8 @@ function Notification(props) {
   if (isLoadingNotifications) {
     return <CircularProgress />;
   }
-
   const notifications = JSON.parse(noti.data);
+  // console.log(notifications);
 
   const unReadNotifications = notifications.filter((item) => !item.isRead);
   const readNotifications = notifications.filter((item) => item.isRead);

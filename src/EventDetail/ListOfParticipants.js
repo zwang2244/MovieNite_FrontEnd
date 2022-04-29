@@ -10,6 +10,7 @@ import { getUserInfo } from "../api/user";
 import { dataToArray } from "../utils/dataToArray";
 import { useQuery } from "react-query";
 export default function ListOfParticipants(props) {
+  const hasDelete = props.delete;
   const isHost = props.isHost;
   const hostId = props.host;
   const [currHost, setCurrHost] = useState({});
@@ -82,12 +83,14 @@ export default function ListOfParticipants(props) {
                   primary={item.firstName + " " + item.lastName}
                 />
               </ListItemButton>
-              <IconButton
-                aria-label="kickout"
-                onClick={() => props.onKickOut(item.userID)}
-              >
-                {props.isHost ? <PersonRemoveIcon /> : ""}
-              </IconButton>
+              {hasDelete && (
+                <IconButton
+                  aria-label="kickout"
+                  onClick={() => props.onKickOut(item.userID)}
+                >
+                  <PersonRemoveIcon />
+                </IconButton>
+              )}
             </ListItem>
           ))}
       </List>

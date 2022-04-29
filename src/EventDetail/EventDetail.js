@@ -411,6 +411,7 @@ export default function EventDetail() {
             isHost={currHost === userId}
             onKickOut={onKickOut}
             host={currEvent.host}
+            delete={false}
           />
           {isHost && (
             <FormControl
