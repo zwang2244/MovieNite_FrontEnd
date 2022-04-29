@@ -251,7 +251,7 @@ export default function EventListElement(props) {
                 }}
               >
                 {props.invitedFriendList.slice(0, 4).map((friend, index) => (
-                  <Box display={"inline"} key={index}>
+                  <Box component={"span"} display={"inline"} key={index}>
                     {friend.firstName +
                       (index === props.invitedFriendList.length - 1 ||
                       index === 3

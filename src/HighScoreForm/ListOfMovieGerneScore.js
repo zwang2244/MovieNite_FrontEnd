@@ -7,7 +7,7 @@ import MovieModal from "../components/modal/MovieModal";
 import { useState } from "react";
 
 export default function ListOfMovieGerneScore(props) {
-  console.log(props);
+  // console.log(props);
   const [open, setOpen] = useState(false);
   const [movieInfo, setMovieInfo] = useState({});
   const handleOpen = (movieInfo) => {
@@ -34,7 +34,7 @@ export default function ListOfMovieGerneScore(props) {
       >
         {props.currData.length > 0 &&
           props.currData.map((value, index) => (
-            <ListItem key={index.imdbNumber} disableGutters>
+            <ListItem key={value.imdbNumber} disableGutters>
               <ListItemButton
                 onClick={() => {
                   handleOpen(value.movieInfo);

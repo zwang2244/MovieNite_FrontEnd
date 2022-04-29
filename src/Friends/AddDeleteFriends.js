@@ -45,7 +45,7 @@ export default function AddDeleteFriends() {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     addFriends(userId, data.friend.userID).then(() =>
       refresh ? setRefresh(false) : setRefresh(true)
     );
@@ -55,7 +55,7 @@ export default function AddDeleteFriends() {
   const getData = async () => {
     var temp = await getAllFriends(userId);
     setFriendsList(dataToArray(temp));
-    console.log(dataToArray(temp));
+    // console.log(dataToArray(temp));
   };
 
   useEffect(() => {

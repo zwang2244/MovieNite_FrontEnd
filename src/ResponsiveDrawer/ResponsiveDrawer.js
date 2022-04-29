@@ -58,7 +58,6 @@ const drawerWidth = 260;
 function ResponsiveDrawer(props) {
   const { user, logout } = useAuth();
   const { userID, firstName, lastName, isMember, avatar } = user;
-  // console.log(user);
   const { window } = props;
   const { pathname } = useLocation();
   const [mobileOpen, setMobileOpen] = React.useState(false);

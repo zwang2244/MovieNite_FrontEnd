@@ -48,7 +48,7 @@ const buildData = (comment, imdbId, userID, lastName, firstName, avatar) => {
   const userAvatar = avatar;
   const userName = firstName + " " + lastName;
   const time = new Date();
-  console.log(time);
+  // console.log(time);
   return {
     userId,
     userAvatar,
@@ -102,15 +102,15 @@ function MovieDetail(props) {
   // console.log(JSON.parse(movieInfo.data));
   // console.log(JSON.parse(commentInfo.data));
   const comments = JSON.parse(commentInfo.data);
-  console.log(
-    new Date().toLocaleString("en-US", { timeZone: "America/Chicago" })
-  );
+  // console.log(
+  //   new Date().toLocaleString("en-US", { timeZone: "America/Chicago" })
+  // );
   // console.log(JSON.parse(movieInfo.data));
   const movieDetail = JSON.parse(movieInfo.data);
   const { backdrop_path, title, official_rating } = movieDetail;
   //{actors,backdrop_path,director, genres, official_rating,overview,poster_path,release_date,title,writer, imdbID}
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     const { comment } = data;
     if (isNullOrWhitespace(comment)) {
       // console.log(comment);

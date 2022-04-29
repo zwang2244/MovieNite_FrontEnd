@@ -48,7 +48,6 @@ function Notification(props) {
   const { user } = useAuth();
   const { userID } = user;
   const [jumpEventId, setJumpEventId] = useState(0);
-  // console.log("Nkjdksajdklsa");
   //Modal
 
   const {
